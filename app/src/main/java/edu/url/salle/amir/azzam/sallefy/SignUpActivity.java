@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.util.Objects;
+
 public class SignUpActivity extends AppCompatActivity {
 
     private Button mRegister;
@@ -16,6 +18,7 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+        Objects.requireNonNull(getSupportActionBar()).hide();
 
         mRegister = (Button) findViewById(R.id.register);
         mSignin = (Button) findViewById(R.id.login2);
@@ -33,11 +36,6 @@ public class SignUpActivity extends AppCompatActivity {
                 //do nothing
             }
         });
-
-
-
-
-
 
 
     }
