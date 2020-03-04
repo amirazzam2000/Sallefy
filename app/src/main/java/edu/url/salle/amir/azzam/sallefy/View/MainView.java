@@ -1,4 +1,4 @@
 package edu.url.salle.amir.azzam.sallefy.View;
 
-public class NewView {
+public class MainView {
 }
