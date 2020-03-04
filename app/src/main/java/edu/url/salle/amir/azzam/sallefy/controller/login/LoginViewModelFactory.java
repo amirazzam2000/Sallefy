@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.annotation.NonNull;
 
-import edu.url.salle.amir.azzam.sallefy.model.data.LoginDataSource;
-import edu.url.salle.amir.azzam.sallefy.model.data.LoginRepository;
+import edu.url.salle.amir.azzam.sallefy.data.LoginDataSource;
+import edu.url.salle.amir.azzam.sallefy.data.LoginRepository;
 
 /**
  * ViewModel provider factory to instantiate LoginViewModel.

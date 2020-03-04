@@ -1,4 +1,4 @@
-package edu.url.salle.amir.azzam.sallefy.model.data.model;
+package edu.url.salle.amir.azzam.sallefy.data.model;
 
 /**
  * Data class that captures user information for logged in users retrieved from LoginRepository
