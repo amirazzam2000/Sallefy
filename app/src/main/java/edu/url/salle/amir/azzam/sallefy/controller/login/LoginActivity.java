@@ -1,4 +1,4 @@
-package edu.url.salle.amir.azzam.sallefy.ui.login;
+package edu.url.salle.amir.azzam.sallefy.controller.login;
 
 import android.app.Activity;
 
@@ -23,8 +23,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import edu.url.salle.amir.azzam.sallefy.R;
-import edu.url.salle.amir.azzam.sallefy.ui.login.LoginViewModel;
-import edu.url.salle.amir.azzam.sallefy.ui.login.LoginViewModelFactory;
 
 public class LoginActivity extends AppCompatActivity {
 

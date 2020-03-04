@@ -1,4 +1,4 @@
-package edu.url.salle.amir.azzam.sallefy.ui.login;
+package edu.url.salle.amir.azzam.sallefy.controller.login;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -6,9 +6,9 @@ import androidx.lifecycle.ViewModel;
 
 import android.util.Patterns;
 
-import edu.url.salle.amir.azzam.sallefy.data.LoginRepository;
-import edu.url.salle.amir.azzam.sallefy.data.Result;
-import edu.url.salle.amir.azzam.sallefy.data.model.LoggedInUser;
+import edu.url.salle.amir.azzam.sallefy.model.data.LoginRepository;
+import edu.url.salle.amir.azzam.sallefy.model.data.Result;
+import edu.url.salle.amir.azzam.sallefy.model.data.model.LoggedInUser;
 import edu.url.salle.amir.azzam.sallefy.R;
 
 public class LoginViewModel extends ViewModel {

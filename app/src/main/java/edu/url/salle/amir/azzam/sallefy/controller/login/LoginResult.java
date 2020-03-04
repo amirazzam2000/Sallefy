@@ -1,4 +1,4 @@
-package edu.url.salle.amir.azzam.sallefy.ui.login;
+package edu.url.salle.amir.azzam.sallefy.controller.login;
 
 import androidx.annotation.Nullable;
 

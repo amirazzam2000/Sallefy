@@ -1,4 +1,4 @@
-package edu.url.salle.amir.azzam.sallefy.data;
+package edu.url.salle.amir.azzam.sallefy.model.data;
 
 /**
  * A generic class that holds a result success w/ data or an error exception.

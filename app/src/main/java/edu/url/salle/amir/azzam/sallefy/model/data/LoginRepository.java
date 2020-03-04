@@ -1,6 +1,6 @@
-package edu.url.salle.amir.azzam.sallefy.data;
+package edu.url.salle.amir.azzam.sallefy.model.data;
 
-import edu.url.salle.amir.azzam.sallefy.data.model.LoggedInUser;
+import edu.url.salle.amir.azzam.sallefy.model.data.model.LoggedInUser;
 
 /**
  * Class that requests authentication and user information from the remote data source and
