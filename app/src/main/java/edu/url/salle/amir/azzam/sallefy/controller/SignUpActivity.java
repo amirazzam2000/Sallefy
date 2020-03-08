@@ -1,18 +1,20 @@
-package edu.url.salle.amir.azzam.sallefy;
+package edu.url.salle.amir.azzam.sallefy.controller;
 
 import androidx.appcompat.app.AppCompatActivity;
+import edu.url.salle.amir.azzam.sallefy.R;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import java.util.Objects;
 
 public class SignUpActivity extends AppCompatActivity {
 
     private Button mRegister;
-    private Button mSignin;
+    private Button mSignIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,8 +22,10 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
         Objects.requireNonNull(getSupportActionBar()).hide();
 
+        Intent i = getIntent();
+
         mRegister = (Button) findViewById(R.id.register);
-        mSignin = (Button) findViewById(R.id.login2);
+        mSignIn = (Button) findViewById(R.id.already_have_account);
 
         mRegister.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -30,13 +34,20 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
-        mSignin.setOnClickListener(new View.OnClickListener(){
+        mSignIn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                //do nothing
+                moveToSignIn();
             }
         });
 
 
+    }
+
+
+
+    private void moveToSignIn() {
+        Intent i = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(i);
     }
 }
