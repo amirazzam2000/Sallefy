@@ -82,14 +82,13 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
+
     <EditText
         android:id="@+id/password"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_width="314dp"
+        android:layout_height="49dp"
 
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="196dp"
+        android:layout_marginBottom="192dp"
         android:autofillHints=""
         android:hint="@string/prompt_password"
         android:imeActionLabel="@string/action_sign_in"
@@ -98,20 +97,20 @@
         android:selectAllOnFocus="true"
         app:layout_constraintBottom_toTopOf="@+id/already_have_account"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/email"
         tools:ignore="TextFields" />
 
     <Button
         android:id="@+id/register"
-        android:layout_width="119dp"
-        android:layout_height="46dp"
+        android:layout_width="151dp"
+        android:layout_height="59dp"
         android:layout_gravity="start"
         android:layout_marginStart="48dp"
         android:layout_marginEnd="48dp"
         android:layout_marginBottom="108dp"
         android:background="@drawable/button_background"
-        android:enabled="false"
+        android:enabled="true"
         android:text="@string/action_sign_up"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -127,6 +126,7 @@
         android:layout_height="wrap_content"
         android:text="@string/already_have_acct"
         android:textColor="@android:color/holo_purple"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -145,6 +145,29 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/ic_logo" />
+
+    <ImageButton
+        android:id="@+id/imageButton2"
+        android:layout_width="43dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="24dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/image_logo"
+        app:layout_constraintBottom_toBottomOf="@+id/password"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/password"
+        app:layout_constraintTop_toTopOf="@+id/password"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/ic_remove_red_eye_black_24dp"
+        tools:ignore="MissingConstraints" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="left"
+        tools:layout_editor_absoluteX="411dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
