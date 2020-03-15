@@ -20,5 +20,4 @@ public interface UserService {
     //@POST("register")
     //Call<ResponseBody> registerUser(@Body userRegister user);
 
-
 }
