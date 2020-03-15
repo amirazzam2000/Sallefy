@@ -43,7 +43,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     }
 
     private void moveBackToLogIn() {
-        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
     }
 
 }

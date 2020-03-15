@@ -1,0 +1,12 @@
+package edu.url.salle.amir.azzam.sallefy.restapi.callback;
+
+import edu.url.salle.amir.azzam.sallefy.model.User;
+import edu.url.salle.amir.azzam.sallefy.model.UserToken;
+
+public interface UserCallback extends FailureCallback{
+    void onLoginSuccess(UserToken userToken);
+    void onLoginFailure(Throwable throwable);
+    void onRegisterSuccess();
+    void onRegisterFailure(Throwable throwable);
+    void onUserInfoReceived(User userData);
+}

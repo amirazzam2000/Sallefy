@@ -2,22 +2,23 @@ package edu.url.salle.amir.azzam.sallefy.controller;
 
 import androidx.appcompat.app.AppCompatActivity;
 import edu.url.salle.amir.azzam.sallefy.R;
+import edu.url.salle.amir.azzam.sallefy.model.User;
+import edu.url.salle.amir.azzam.sallefy.model.UserToken;
+import edu.url.salle.amir.azzam.sallefy.restapi.callback.UserCallback;
 
 import android.content.Intent;
 import android.os.Bundle;
+import edu.url.salle.amir.azzam.sallefy.restapi.manager.UserManager;
 import android.text.method.PasswordTransformationMethod;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.TextClock;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements UserCallback {
 
     private Button signIn ;
     private Button signUp;
@@ -74,33 +75,33 @@ public class MainActivity extends AppCompatActivity {
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String emailStr = email.getText().toString().trim();
+                String emailStr = email.getText().toString();
                 String passwordStr = password.getText().toString();
+                boolean ok = true;
 
-                    if(emailStr.length()>=1){
-
-                        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
-
-
-                        if (!emailStr.matches(emailPattern))
-                        {
-                            email.setError("Invalid email address");
-                         //   Toast.makeText(getApplicationContext(),"Invalid email address", Toast.LENGTH_SHORT).show();
-                        }
-                        else if (passwordStr.length() < 8){
-                            password.setError("Invalid password");
-                            //Toast.makeText(getApplicationContext(),"Invalid password", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                    else{
+                    if(emailStr.length()<1){
+                        ok = false;
                         email.setError("You can't leave the email filed empty!");
-                        //Toast.makeText(getApplicationContext(),"You can't leave the email filed empty!", Toast.LENGTH_SHORT).show();
+
                     }
+                    if (passwordStr.length() < 1){
+                        password.setError("You can't leave the password filed empty!");
+                        ok = false;
+                        //Toast.makeText(getApplicationContext(),"Invalid password", Toast.LENGTH_SHORT).show();
+                    }
+                    if(ok){
+                        doLogin(emailStr, passwordStr);
+                    }
+
             }
         });
 
 
 
+    }
+
+    private void doLogin(String username, String password) {
+        UserManager.getInstance(getApplicationContext()).loginAttempt(username, password,LoginActivity.this);
     }
 
     @Override
@@ -129,5 +130,38 @@ public class MainActivity extends AppCompatActivity {
 
         Intent i = new Intent(getApplicationContext(), SignUpActivity.class);
         startActivity(i);
+    }
+
+    @Override
+    public void onLoginSuccess(UserToken userToken) {
+        Toast.makeText(getApplicationContext(),"yes", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onLoginFailure(Throwable throwable) {
+        Toast.makeText(getApplicationContext(),"wrong email or password", Toast.LENGTH_SHORT).show();
+        email.getText().clear();
+        password.getText().clear();
+
+    }
+
+    @Override
+    public void onRegisterSuccess() {
+
+    }
+
+    @Override
+    public void onRegisterFailure(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onUserInfoReceived(User userData) {
+
+    }
+
+    @Override
+    public void onFailure(Throwable throwable) {
+
     }
 }

@@ -10,9 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.TextView;
-
-import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Objects;
 
@@ -113,7 +110,7 @@ public class SignUpActivity extends AppCompatActivity {
 
 
     private void moveToSignIn() {
-        Intent i = new Intent(getApplicationContext(), MainActivity.class);
+        Intent i = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(i);
     }
 }
