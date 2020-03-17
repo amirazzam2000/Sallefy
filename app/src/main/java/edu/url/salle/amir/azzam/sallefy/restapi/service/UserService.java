@@ -3,6 +3,7 @@ package edu.url.salle.amir.azzam.sallefy.restapi.service;
 import java.util.List;
 
 import edu.url.salle.amir.azzam.sallefy.model.User;
+import edu.url.salle.amir.azzam.sallefy.model.UserRegister;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -17,7 +18,7 @@ public interface UserService {
     @GET("users")
     Call<List<User>> getAllUsers( @Header("Authorization") String token);
 
-    //@POST("register")
-    //Call<ResponseBody> registerUser(@Body userRegister user);
+    @POST("register")
+    Call<String> registerUser(@Body UserRegister user);
 
 }

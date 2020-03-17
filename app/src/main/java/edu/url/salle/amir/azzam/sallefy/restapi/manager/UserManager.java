@@ -1,12 +1,15 @@
 package edu.url.salle.amir.azzam.sallefy.restapi.manager;
 
 import android.content.Context;
+import android.os.Build;
 import android.util.Log;
 
 import java.io.IOException;
 
+import androidx.annotation.RequiresApi;
 import edu.url.salle.amir.azzam.sallefy.model.UserLogin;
 import edu.url.salle.amir.azzam.sallefy.model.UserToken;
+import edu.url.salle.amir.azzam.sallefy.model.UserRegister;
 import edu.url.salle.amir.azzam.sallefy.restapi.callback.UserCallback;
 import edu.url.salle.amir.azzam.sallefy.restapi.service.UserService;
 import edu.url.salle.amir.azzam.sallefy.restapi.service.UserTokenService;
@@ -43,6 +46,36 @@ public class UserManager {
                 .build();
         mService = mRetrofit.create(UserService.class);
         mTokenService = mRetrofit.create(UserTokenService.class);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public synchronized void registerAttempt(String createdBy, String email, String firstName, String lastModifiedBy, String lastName, String login, String password, final UserCallback userCallback){
+        Call<String> call = mService.registerUser(new UserRegister(createdBy, email,  firstName,  lastModifiedBy,  lastName,  login,  password));
+
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                int code = response.code();
+
+                if(response.isSuccessful()){
+                    userCallback.onRegisterSuccess();
+                }
+                else{
+                    Log.d(TAG, "Error: " +code);
+                    try {
+                        userCallback.onRegisterFailure(new Throwable("Error " + code + ", " + response.errorBody().string()));
+                    }catch (IOException e){
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Log.d(TAG, "Error: " + t.getMessage());
+                userCallback.onFailure(t);
+            }
+        });
     }
 
     public synchronized void loginAttempt (String username, String password, final UserCallback userCallback){
