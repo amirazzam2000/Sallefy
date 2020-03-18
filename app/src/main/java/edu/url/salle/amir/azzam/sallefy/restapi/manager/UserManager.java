@@ -7,94 +7,73 @@ import android.util.Log;
 import java.io.IOException;
 
 import androidx.annotation.RequiresApi;
-import edu.url.salle.amir.azzam.sallefy.model.UserLogin;
 import edu.url.salle.amir.azzam.sallefy.model.UserToken;
-import edu.url.salle.amir.azzam.sallefy.model.UserRegister;
-import edu.url.salle.amir.azzam.sallefy.restapi.callback.UserCallback;
 import edu.url.salle.amir.azzam.sallefy.restapi.service.UserService;
 import edu.url.salle.amir.azzam.sallefy.restapi.service.UserTokenService;
 import edu.url.salle.amir.azzam.sallefy.utils.Constants;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import edu.url.salle.amir.azzam.sallefy.model.User;
+import edu.url.salle.amir.azzam.sallefy.model.UserLogin;
+import edu.url.salle.amir.azzam.sallefy.model.UserRegister;
+import edu.url.salle.amir.azzam.sallefy.restapi.callback.*;
+import edu.url.salle.amir.azzam.sallefy.utils.Session;
+import edu.url.salle.amir.azzam.sallefy.restapi.callback.UserCallback;
 
 public class UserManager {
 
     private static final String TAG = "UserManager";
 
-    private static UserManager sUserManger;
+    private static UserManager sUserManager;
     private Retrofit mRetrofit;
     private Context mContext;
 
     private UserService mService;
     private UserTokenService mTokenService;
 
-    public static UserManager getInstance(Context context){
-        if(sUserManger == null){
-            sUserManger = new UserManager(context);
+
+    public static UserManager getInstance(Context context) {
+        if (sUserManager == null) {
+            sUserManager = new UserManager(context);
         }
-        return sUserManger;
+        return sUserManager;
     }
 
-    private UserManager(Context context){
-        mContext = context;
+    private UserManager(Context cntxt) {
+        mContext = cntxt;
         mRetrofit = new Retrofit.Builder()
                 .baseUrl(Constants.NETWORK.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
+
         mService = mRetrofit.create(UserService.class);
         mTokenService = mRetrofit.create(UserTokenService.class);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public synchronized void registerAttempt(String createdBy, String email, String firstName, String lastModifiedBy, String lastName, String login, String password, final UserCallback userCallback){
-        Call<String> call = mService.registerUser(new UserRegister(createdBy, email,  firstName,  lastModifiedBy,  lastName,  login,  password));
 
-        call.enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                int code = response.code();
+    /********************   LOGIN    ********************/
+    public synchronized void loginAttempt (String username, String password, final UserCallback userCallback) {
 
-                if(response.isSuccessful()){
-                    userCallback.onRegisterSuccess();
-                }
-                else{
-                    Log.d(TAG, "Error: " +code);
-                    try {
-                        userCallback.onRegisterFailure(new Throwable("Error " + code + ", " + response.errorBody().string()));
-                    }catch (IOException e){
-                        e.printStackTrace();
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                Log.d(TAG, "Error: " + t.getMessage());
-                userCallback.onFailure(t);
-            }
-        });
-    }
-
-    public synchronized void loginAttempt (String username, String password, final UserCallback userCallback){
-        Call<UserToken> call = mTokenService.loginUer(new UserLogin(username, password, true));
+        Call<UserToken> call = mTokenService.loginUser(new UserLogin(username, password, true));
 
         call.enqueue(new Callback<UserToken>() {
             @Override
             public void onResponse(Call<UserToken> call, Response<UserToken> response) {
+
                 int code = response.code();
                 UserToken userToken = response.body();
 
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     userCallback.onLoginSuccess(userToken);
-                }
-                else{
-                    Log.d(TAG, "Error: " +code);
+                } else {
+                    Log.d(TAG, "Error: " + code);
                     try {
-                        userCallback.onLoginFailure(new Throwable("Error " + code + ", " + response.errorBody().string()));
-                    }catch (IOException e){
+                        userCallback.onLoginFailure(new Throwable("ERROR " + code + ", " + response.errorBody().string()));
+                    } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
@@ -107,5 +86,68 @@ public class UserManager {
             }
         });
     }
+
+
+    /********************   USER INFO    ********************/
+    public synchronized void getUserData (String login, final UserCallback userCallback) {
+        UserToken userToken = Session.getInstance(mContext).getUserToken();
+        Call<User> call = mService.getUserById(login, "Bearer " + userToken.getIdToken());
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+
+                int code = response.code();
+                if (response.isSuccessful()) {
+                    userCallback.onUserInfoReceived(response.body());
+                } else {
+                    Log.d(TAG, "Error NOT SUCCESSFUL: " + response.toString());
+                    try {
+                        userCallback.onFailure(new Throwable("ERROR " + code + ", " + response.errorBody().string()));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                Log.d(TAG, "Error: " + t.getMessage());
+                userCallback.onFailure(new Throwable("ERROR " + t.getStackTrace()));
+            }
+        });
+    }
+
+
+    /********************   REGISTRATION    ********************/
+    public synchronized void registerAttempt (String email, String username, String password, final UserCallback userCallback) {
+
+        Call<ResponseBody> call = mService.registerUser(new UserRegister(email, username, password));
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                int code = response.code();
+                if (response.isSuccessful()) {
+                    userCallback.onRegisterSuccess();
+                } else {
+                    try {
+                        userCallback.onRegisterFailure(new Throwable("ERROR " + code + ", " + response.errorBody().string()));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                userCallback.onFailure(t);
+            }
+        });
+    }
+
+
+    /********************   GETTERS / SETTERS    ********************/
+
 
 }

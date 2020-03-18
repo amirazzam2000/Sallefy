@@ -4,6 +4,7 @@ import java.util.List;
 
 import edu.url.salle.amir.azzam.sallefy.model.User;
 import edu.url.salle.amir.azzam.sallefy.model.UserRegister;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -19,6 +20,6 @@ public interface UserService {
     Call<List<User>> getAllUsers( @Header("Authorization") String token);
 
     @POST("register")
-    Call<String> registerUser(@Body UserRegister user);
+    Call<ResponseBody> registerUser(@Body UserRegister user);
 
 }

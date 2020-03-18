@@ -2,8 +2,11 @@ package edu.url.salle.amir.azzam.sallefy.restapi.callback;
 
 import edu.url.salle.amir.azzam.sallefy.model.User;
 import edu.url.salle.amir.azzam.sallefy.model.UserToken;
+import edu.url.salle.amir.azzam.sallefy.restapi.callback.FailureCallback;
+import edu.url.salle.amir.azzam.sallefy.model.User;
+import edu.url.salle.amir.azzam.sallefy.model.UserToken;
 
-public interface UserCallback extends FailureCallback{
+public interface UserCallback extends FailureCallback {
     void onLoginSuccess(UserToken userToken);
     void onLoginFailure(Throwable throwable);
     void onRegisterSuccess();

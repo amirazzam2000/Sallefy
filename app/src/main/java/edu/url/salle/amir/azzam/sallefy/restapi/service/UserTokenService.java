@@ -8,5 +8,5 @@ import retrofit2.http.POST;
 
 public interface UserTokenService {
     @POST("authenticate")
-    Call<UserToken> loginUer(@Body UserLogin login);
+    Call<UserToken> loginUser(@Body UserLogin login);
 }
