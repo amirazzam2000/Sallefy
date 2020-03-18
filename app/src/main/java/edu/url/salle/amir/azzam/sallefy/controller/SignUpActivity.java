@@ -131,7 +131,7 @@ public class SignUpActivity extends AppCompatActivity implements UserCallback {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void doLogin(String emailStr, String passwordStr, String usernameStr, String firstStr, String secondStr) {
-        UserManager.getInstance(getApplicationContext()).registerAttempt(emailStr, usernameStr, passwordStr, SignUpActivity.this);
+        UserManager.getInstance(getApplicationContext()).registerAttempt(emailStr, usernameStr, passwordStr, secondStr, firstStr, SignUpActivity.this);
     }
 
 

@@ -55,7 +55,6 @@ public class UserManager {
     }
 
 
-    /********************   LOGIN    ********************/
     public synchronized void loginAttempt (String username, String password, final UserCallback userCallback) {
 
         Call<UserToken> call = mTokenService.loginUser(new UserLogin(username, password, true));
@@ -88,7 +87,6 @@ public class UserManager {
     }
 
 
-    /********************   USER INFO    ********************/
     public synchronized void getUserData (String login, final UserCallback userCallback) {
         UserToken userToken = Session.getInstance(mContext).getUserToken();
         Call<User> call = mService.getUserById(login, "Bearer " + userToken.getIdToken());
@@ -118,10 +116,9 @@ public class UserManager {
     }
 
 
-    /********************   REGISTRATION    ********************/
-    public synchronized void registerAttempt (String email, String username, String password, final UserCallback userCallback) {
+    public synchronized void registerAttempt (String email, String username, String password, String lastName, String firstName, final UserCallback userCallback) {
 
-        Call<ResponseBody> call = mService.registerUser(new UserRegister(email, username, password));
+        Call<ResponseBody> call = mService.registerUser(new UserRegister(email, username, password, lastName , firstName));
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -146,8 +143,6 @@ public class UserManager {
         });
     }
 
-
-    /********************   GETTERS / SETTERS    ********************/
 
 
 }
