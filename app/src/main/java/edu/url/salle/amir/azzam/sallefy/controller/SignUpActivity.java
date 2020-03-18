@@ -31,6 +31,8 @@ public class SignUpActivity extends AppCompatActivity implements UserCallback {
     private ImageButton seePassword;
     private boolean shown;
     private EditText password;
+    private String usernameStr;
+    private String passwordStr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,11 +55,11 @@ public class SignUpActivity extends AppCompatActivity implements UserCallback {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v){
-                String usernameStr = username.getText().toString();
+                usernameStr = username.getText().toString();
                 String firstStr = first_name.getText().toString();
                 String secondStr = last_name.getText().toString();
                 String emailStr = email.getText().toString();
-                String passwordStr = password.getText().toString();
+                passwordStr = password.getText().toString();
                 boolean ok = true;
 
                 if(emailStr.length()>=1){
@@ -132,6 +134,7 @@ public class SignUpActivity extends AppCompatActivity implements UserCallback {
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void doLogin(String emailStr, String passwordStr, String usernameStr, String firstStr, String secondStr) {
         UserManager.getInstance(getApplicationContext()).registerAttempt(emailStr, usernameStr, passwordStr, secondStr, firstStr, SignUpActivity.this);
+
     }
 
 
@@ -142,17 +145,21 @@ public class SignUpActivity extends AppCompatActivity implements UserCallback {
 
     @Override
     public void onLoginSuccess(UserToken userToken) {
-
+        Intent i = new Intent(getApplicationContext(), HomePageActivity.class);
+        startActivity(i);
     }
 
     @Override
     public void onLoginFailure(Throwable throwable) {
-
+        Toast.makeText(getApplicationContext(),"Error", Toast.LENGTH_SHORT).show();
+        email.getText().clear();
+        password.getText().clear();
     }
 
     @Override
     public void onRegisterSuccess() {
-        Toast.makeText(getApplicationContext(),"created", Toast.LENGTH_SHORT).show();
+        UserManager.getInstance(getApplicationContext()).loginAttempt(usernameStr, passwordStr,SignUpActivity.this);
+
 
     }
 
