@@ -1,4 +1,4 @@
-package edu.url.salle.amir.azzam.sallefy.model;
+package edu.url.salle.amir.azzam.sallefy.Model;
 
 import android.os.Build;
 

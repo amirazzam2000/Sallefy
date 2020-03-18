@@ -19,7 +19,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import edu.url.salle.amir.azzam.sallefy.model.User;
 import edu.url.salle.amir.azzam.sallefy.model.UserLogin;
-import edu.url.salle.amir.azzam.sallefy.model.UserRegister;
+import edu.url.salle.amir.azzam.sallefy.Model.UserRegister;
 import edu.url.salle.amir.azzam.sallefy.restapi.callback.*;
 import edu.url.salle.amir.azzam.sallefy.utils.Session;
 import edu.url.salle.amir.azzam.sallefy.restapi.callback.UserCallback;
