@@ -20,5 +20,10 @@ public class UserToken {
     public void setIdToken(String idToken) {
         this.idToken = idToken;
     }
-
+    @Override
+    public String toString() {
+        return "UserTokenService{" +
+                "idToken='" + idToken + '\'' +
+                '}';
+    }
 }

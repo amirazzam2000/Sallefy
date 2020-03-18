@@ -20,4 +20,11 @@
     <string name="remember_password">Remember password?</string>
     <string name="username">Username</string>
     <string name="image_logo">image_logo</string>
+    <string name="title_activity_home_page">HomePageActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_search">Search</string>
+    <string name="title_library">Library</string>
+    <string name="title_user">User</string>
 </resources>

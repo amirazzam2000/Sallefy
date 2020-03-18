@@ -134,7 +134,8 @@ public class LoginActivity extends AppCompatActivity implements UserCallback {
 
     @Override
     public void onLoginSuccess(UserToken userToken) {
-        Toast.makeText(getApplicationContext(),"yes", Toast.LENGTH_SHORT).show();
+        Intent i = new Intent(getApplicationContext(), HomePageActivity.class);
+        startActivity(i);
     }
 
     @Override
