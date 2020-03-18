@@ -44,12 +44,14 @@ public class UserRegister {
 
 
 
-    public UserRegister(String email, String login, String password) {
+    public UserRegister(String email, String login, String password, String lastName, String firstName) {
         this.activated = true;
         this.email = email;
         this.login = login;
         this.password = password;
         this.id = null;
+        this.lastName = lastName;
+        this.firstName = firstName;
     }
 
     public Boolean getActivated() {
