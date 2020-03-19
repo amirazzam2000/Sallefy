@@ -38,7 +38,7 @@ public class SignUpActivity extends AppCompatActivity implements UserCallback {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-        Objects.requireNonNull(getSupportActionBar()).hide();
+        //Objects.requireNonNull(getSupportActionBar()).hide();
 
         Intent i = getIntent();
 

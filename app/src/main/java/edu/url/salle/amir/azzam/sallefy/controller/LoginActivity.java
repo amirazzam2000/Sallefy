@@ -33,7 +33,7 @@ public class LoginActivity extends AppCompatActivity implements UserCallback {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Objects.requireNonNull(getSupportActionBar()).hide();
+        //Objects.requireNonNull(getSupportActionBar()).hide();
 
         signIn = (Button) findViewById(R.id.login);
         signUp = (Button) findViewById(R.id.login2);

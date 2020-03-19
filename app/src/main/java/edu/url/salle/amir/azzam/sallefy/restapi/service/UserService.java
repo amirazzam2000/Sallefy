@@ -3,7 +3,7 @@ package edu.url.salle.amir.azzam.sallefy.restapi.service;
 import java.util.List;
 
 import edu.url.salle.amir.azzam.sallefy.model.User;
-import edu.url.salle.amir.azzam.sallefy.model.UserRegister;
+import edu.url.salle.amir.azzam.sallefy.Model.UserRegister;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
