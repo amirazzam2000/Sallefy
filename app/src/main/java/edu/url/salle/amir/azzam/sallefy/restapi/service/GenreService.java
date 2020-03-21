@@ -1,4 +1,4 @@
 package edu.url.salle.amir.azzam.sallefy.restapi.service;
 
-public interface GenreManager {
+public interface GenreService {
 }

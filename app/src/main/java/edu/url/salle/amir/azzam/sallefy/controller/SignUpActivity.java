@@ -159,14 +159,12 @@ public class SignUpActivity extends AppCompatActivity implements UserCallback {
     @Override
     public void onRegisterSuccess() {
         UserManager.getInstance(getApplicationContext()).loginAttempt(usernameStr, passwordStr,SignUpActivity.this);
-
-
     }
 
+    //TODO: change the message
     @Override
     public void onRegisterFailure(Throwable throwable) {
         Toast.makeText(getApplicationContext(),"no good luck next time", Toast.LENGTH_SHORT).show();
-
     }
 
     @Override
