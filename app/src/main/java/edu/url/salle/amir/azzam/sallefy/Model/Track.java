@@ -1,23 +1,71 @@
 package edu.url.salle.amir.azzam.sallefy.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 public class Track {
-    private int id;
-    private String name;
-    private String url;
-    private String thumbnail;
-    private Object released;
-    private int duration;
-    private Object color;
-    private User user;
+
+    @SerializedName("color")
+    private String color;
+
+    @SerializedName("duration")
+    private Integer duration;
+
+    @SerializedName("genres")
     private List<Genre> genres = null;
 
-    public int getId() {
+    @SerializedName("id")
+    private Integer id;
+
+    @SerializedName("name")
+    private String name;
+
+    @SerializedName("owner")
+    private User user;
+
+    @SerializedName("released")
+    private String released;
+
+    @SerializedName("thumbnail")
+    private String thumbnail;
+
+    @SerializedName("url")
+    private String url;
+
+    private boolean selected = false;
+
+    private boolean liked;
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public Integer getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Integer duration) {
+        this.duration = duration;
+    }
+
+    public List<Genre> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(List<Genre> genres) {
+        this.genres = genres;
+    }
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -29,12 +77,29 @@ public class Track {
         this.name = name;
     }
 
-    public String getUrl() {
-        return url;
+    public User getUser() {
+        return user;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public String getUserLogin() {
+        return user.getLogin();
+    }
+
+    public void setUserLogin(String userLogin) {
+        user = new User();
+        user.setLogin(userLogin);
+    }
+
+    public String getReleased() {
+        return released;
+    }
+
+    public void setReleased(String released) {
+        this.released = released;
     }
 
     public String getThumbnail() {
@@ -45,45 +110,27 @@ public class Track {
         this.thumbnail = thumbnail;
     }
 
-    public Object getReleased() {
-        return released;
+    public String getUrl() {
+        return url;
     }
 
-    public void setReleased(Object released) {
-        this.released = released;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
-    public int getDuration() {
-        return duration;
+    public boolean isLiked() {
+        return liked;
     }
 
-    public void setDuration(int duration) {
-        this.duration = duration;
+    public void setLiked(boolean liked) {
+        this.liked = liked;
     }
 
-    public Object getColor() {
-        return color;
+    public boolean isSelected() {
+        return selected;
     }
 
-    public void setColor(Object color) {
-        this.color = color;
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public List<Genre> getGenres() {
-        return genres;
-    }
-
-    public void setGenres(List<Genre> genres) {
-        this.genres = genres;
-    }
-
-
 }
