@@ -9,6 +9,10 @@ import edu.url.salle.amir.azzam.sallefy.restapi.callback.UserCallback;
 import android.content.Intent;
 import android.os.Bundle;
 import edu.url.salle.amir.azzam.sallefy.restapi.manager.UserManager;
+import edu.url.salle.amir.azzam.sallefy.utils.Constants;
+import edu.url.salle.amir.azzam.sallefy.utils.PreferenceUtils;
+import edu.url.salle.amir.azzam.sallefy.utils.Session;
+
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.Button;
@@ -96,7 +100,7 @@ public class LoginActivity extends AppCompatActivity implements UserCallback {
             }
         });
 
-
+        checkForSavedData();
 
     }
 
@@ -121,6 +125,17 @@ public class LoginActivity extends AppCompatActivity implements UserCallback {
         }
     }
 
+    private void checkForSavedData() {
+        if (checkExistingPreferences()) {
+            email.setText(PreferenceUtils.getUser(this));
+            password.setText(PreferenceUtils.getPassword(this));
+        }
+    }
+    private boolean checkExistingPreferences () {
+        return PreferenceUtils.getUser(this) != null
+                && PreferenceUtils.getPassword(this) != null;
+    }
+
     private void moveToForgotPassword() {
         Intent i = new Intent(getApplicationContext(), ForgotPasswordActivity.class);
         startActivity(i);
@@ -134,8 +149,16 @@ public class LoginActivity extends AppCompatActivity implements UserCallback {
 
     @Override
     public void onLoginSuccess(UserToken userToken) {
-        Intent i = new Intent(getApplicationContext(), HomePageActivity.class);
-        startActivity(i);
+        Session.getInstance(getApplicationContext())
+                .setUserToken(userToken);
+        PreferenceUtils.saveUser(this, email.getText().toString());
+        PreferenceUtils.savePassword(this, password.getText().toString());
+
+        UserManager.getInstance(this).getUserData(email.getText().toString(), this);
+
+        //Intent intent = new Intent(getApplicationContext(), HomePageActivity.class);
+        Intent intent = new Intent(getApplicationContext(), HomePageActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -158,6 +181,14 @@ public class LoginActivity extends AppCompatActivity implements UserCallback {
 
     @Override
     public void onUserInfoReceived(User userData) {
+        Session.getInstance(getApplicationContext())
+                .setUser(userData);
+        //Intent intent= new Intent();
+        System.out.println("i'm here");
+        //Intent intent = new Intent();
+        //setResult(Constants.NETWORK.LOGIN_OK,intent);
+
+        finish();
 
     }
 

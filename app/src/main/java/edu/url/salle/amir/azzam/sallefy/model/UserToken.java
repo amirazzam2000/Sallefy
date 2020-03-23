@@ -6,8 +6,8 @@ import androidx.annotation.NonNull;
 
 public class UserToken {
 
-    @SerializedName("id_Token")
-    private  String idToken;
+    @SerializedName("id_token")
+    private String idToken;
 
     public UserToken(String idToken) {
         this.idToken = idToken;
@@ -20,6 +20,7 @@ public class UserToken {
     public void setIdToken(String idToken) {
         this.idToken = idToken;
     }
+
     @Override
     public String toString() {
         return "UserTokenService{" +
