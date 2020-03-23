@@ -54,7 +54,6 @@ public class UserManager {
         mTokenService = mRetrofit.create(UserTokenService.class);
     }
 
-
     public synchronized void loginAttempt (String username, String password, final UserCallback userCallback) {
 
         Call<UserToken> call = mTokenService.loginUser(new UserLogin(username, password, true));
@@ -70,11 +69,7 @@ public class UserManager {
                     userCallback.onLoginSuccess(userToken);
                 } else {
                     Log.d(TAG, "Error: " + code);
-                    try {
-                        userCallback.onLoginFailure(new Throwable("ERROR " + code + ", " + response.errorBody().string()));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    userCallback.onLoginFailure(new Throwable("ERROR " + code + ", " + response.raw().message()));
                 }
             }
 
@@ -85,6 +80,7 @@ public class UserManager {
             }
         });
     }
+
 
 
     public synchronized void getUserData (String login, final UserCallback userCallback) {
@@ -99,11 +95,7 @@ public class UserManager {
                     userCallback.onUserInfoReceived(response.body());
                 } else {
                     Log.d(TAG, "Error NOT SUCCESSFUL: " + response.toString());
-                    try {
-                        userCallback.onFailure(new Throwable("ERROR " + code + ", " + response.errorBody().string()));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    userCallback.onFailure(new Throwable("ERROR " + code + ", " + response.raw().message()));
                 }
             }
 
@@ -114,7 +106,6 @@ public class UserManager {
             }
         });
     }
-
 
     public synchronized void registerAttempt (String email, String username, String password, String lastName, String firstName, final UserCallback userCallback) {
 

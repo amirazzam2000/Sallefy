@@ -11,6 +11,7 @@ import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
@@ -21,10 +22,6 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 import edu.url.salle.amir.azzam.sallefy.R;
 import edu.url.salle.amir.azzam.sallefy.controller.ui.HomeFragment;
 import edu.url.salle.amir.azzam.sallefy.controller.ui.LibraryFragment;
@@ -46,7 +43,7 @@ public class HomePageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home_page2);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setLogo(R.drawable.ic_logo);
+        getSupportActionBar().setLogo(R.drawable.ic_logo_dark);
         getSupportActionBar().setDisplayUseLogoEnabled(true);
 
         bottomNav = findViewById(R.id.nav_view);

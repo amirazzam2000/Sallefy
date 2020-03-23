@@ -56,11 +56,11 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.View
             }
         });
         holder.tvTitle.setText(mTracks.get(position).getName());
-        holder.tvAuthor.setText((CharSequence) mTracks.get(position).getUser());
+        holder.tvAuthor.setText(mTracks.get(position).getUserLogin());
         if (mTracks.get(position).getThumbnail() != null) {
             Glide.with(mContext)
                     .asBitmap()
-                    .placeholder(R.drawable.ic_home_black_24dp)
+                    .placeholder(R.drawable.ic_audiotrack)
                     .load(mTracks.get(position).getThumbnail())
                     .into(holder.ivPicture);
         }
@@ -71,12 +71,10 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.View
         return mTracks != null ? mTracks.size():0;
     }
 
-/*
     public void updateTrackLikeStateIcon(int position, boolean isLiked) {
         mTracks.get(position).setLiked(isLiked);
         notifyDataSetChanged();
     }
-*/
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
