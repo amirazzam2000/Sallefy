@@ -117,7 +117,7 @@ public class TrackManager {
 
         Call<Track>  call = mService.getTrackId( "Bearer " + userToken.getIdToken(), id);
 
-        new Callback<Track>() {
+        call.enqueue(new Callback<Track>() {
             @Override
             public void onResponse(Call<Track> call, Response<Track> response) {
                 int code = response.code();
@@ -140,7 +140,7 @@ public class TrackManager {
                 Log.d(TAG, "Error: " + t.getMessage());
                 trackCallback.onFailure(t);
             }
-        };
+        });
     }
 
 
@@ -150,7 +150,7 @@ public class TrackManager {
 
         Call<Track>  call = mService.deleteTrack( "Bearer " + userToken.getIdToken(), id);
 
-        new Callback<Track>() {
+        call.enqueue(new Callback<Track>() {
             @Override
             //TODO
             // there really isnt a response unless it didnt work, where you get a class (type Error) that has a message that tells you what went wrong
@@ -177,7 +177,7 @@ public class TrackManager {
                 Log.d(TAG, "Error: " + t.getMessage());
                 trackCallback.onFailure(t);
             }
-        };
+        });
     }
 
 
@@ -187,7 +187,7 @@ public class TrackManager {
 
         Call<Like>  call = mService.isLiked( "Bearer " + userToken.getIdToken(), id);
 
-        new Callback<Like>() {
+        call.enqueue(new Callback<Like>() {
             @Override
             public void onResponse(Call<Like> call, Response<Like> response) {
                 int code = response.code();
@@ -210,7 +210,7 @@ public class TrackManager {
                 Log.d(TAG, "Error: " + t.getMessage());
                 trackCallback.onFailure(t);
             }
-        };
+        });
     }
 
 
