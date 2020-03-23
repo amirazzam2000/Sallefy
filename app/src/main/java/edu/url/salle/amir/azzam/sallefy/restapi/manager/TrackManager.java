@@ -6,6 +6,7 @@ import android.util.Log;
 import java.io.IOException;
 import java.util.List;
 
+import edu.url.salle.amir.azzam.sallefy.model.Like;
 import edu.url.salle.amir.azzam.sallefy.model.Track;
 import edu.url.salle.amir.azzam.sallefy.model.UserLogin;
 import edu.url.salle.amir.azzam.sallefy.model.UserToken;
@@ -84,6 +85,32 @@ public class TrackManager {
     }
 
 
+    public synchronized void createTrack(Track track, final TrackCallback trackCallback) {
+        UserToken userToken = Session.getInstance(mContext).getUserToken();
+
+        Call<Track> call = mService.createTrack("Bearer " + userToken.getIdToken(), track);
+        call.enqueue(new Callback<Track>() {
+            @Override
+            public void onResponse(Call<Track> call, Response<Track> response) {
+                int code = response.code();
+                if (response.isSuccessful()) {
+                    trackCallback.onCreateTrack();
+                } else {
+                    Log.d(TAG, "Error Not Successful: " + code);
+                    trackCallback.onFailure(new Throwable("ERROR " + code + ", " + response.raw().message()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Track> call, Throwable t) {
+                Log.d(TAG, "Error Failure: " + t.getStackTrace());
+                trackCallback.onFailure(new Throwable("ERROR " + t.getStackTrace()));
+            }
+
+        });
+    }
+
+
     public synchronized void getTrackId(final TrackCallback trackCallback, int id) {
 
         UserToken userToken = Session.getInstance(mContext).getUserToken();
@@ -115,5 +142,114 @@ public class TrackManager {
             }
         };
     }
+
+
+    public synchronized void deleteTrack(final TrackCallback trackCallback, int id) {
+
+        UserToken userToken = Session.getInstance(mContext).getUserToken();
+
+        Call<Track>  call = mService.deleteTrack( "Bearer " + userToken.getIdToken(), id);
+
+        new Callback<Track>() {
+            @Override
+            //TODO
+            // there really isnt a response unless it didnt work, where you get a class (type Error) that has a message that tells you what went wrong
+            public void onResponse(Call<Track> call, Response<Track> response) {
+                int code = response.code();
+                //Track track = response.body();
+
+                if (response.isSuccessful()) {
+                    trackCallback.onTrackDeleted();
+                } else {
+                    Log.d(TAG, "Error: " + code);
+                    try {
+                        //TODO
+                        // I think this should be changed to something like onTrackNotFound, but this also should work since if the response is not successful we will show a message
+                        trackCallback.onNoTracks(new Throwable("ERROR " + code + ", " + response.errorBody().string()));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Track> call, Throwable t) {
+                Log.d(TAG, "Error: " + t.getMessage());
+                trackCallback.onFailure(t);
+            }
+        };
+    }
+
+
+    public synchronized void isLiked(final TrackCallback trackCallback, int id) {
+
+        UserToken userToken = Session.getInstance(mContext).getUserToken();
+
+        Call<Like>  call = mService.isLiked( "Bearer " + userToken.getIdToken(), id);
+
+        new Callback<Like>() {
+            @Override
+            public void onResponse(Call<Like> call, Response<Like> response) {
+                int code = response.code();
+                Like like = response.body();
+
+                if (response.isSuccessful()) {
+                    trackCallback.onLikeReceived(like);
+                } else {
+                    Log.d(TAG, "Error: " + code);
+                    try {
+                        trackCallback.onNoLike(new Throwable("ERROR " + code + ", " + response.errorBody().string()));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Like> call, Throwable t) {
+                Log.d(TAG, "Error: " + t.getMessage());
+                trackCallback.onFailure(t);
+            }
+        };
+    }
+
+
+
+
+    //TODO: Figure out how to do a PUT
+    /*
+    public synchronized void likeTrackById(final TrackCallback trackCallback, int id) {
+
+        UserToken userToken = Session.getInstance(mContext).getUserToken();
+
+        Call<Like>  call = mService.likeTrackById( "Bearer " + userToken.getIdToken(), id);
+
+        new Callback<Like>() {
+            @Override
+            public void onResponse(Call<Like> call, Response<Like> response) {
+                int code = response.code();
+                Like like = response.body();
+
+                if (response.isSuccessful()) {
+                    trackCallback.onLikeReceived(like);
+                } else {
+                    Log.d(TAG, "Error: " + code);
+                    try {
+                        trackCallback.onNoLike(new Throwable("ERROR " + code + ", " + response.errorBody().string()));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Like> call, Throwable t) {
+                Log.d(TAG, "Error: " + t.getMessage());
+                trackCallback.onFailure(t);
+            }
+        };
+    }
+
+     */
 
 }
