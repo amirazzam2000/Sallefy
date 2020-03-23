@@ -1,6 +1,7 @@
 package edu.url.salle.amir.azzam.sallefy.controller;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;

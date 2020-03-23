@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 public class UserToken {
 
     @SerializedName("id_Token")
-    private String idToken;
+    private  String idToken;
 
     public UserToken(String idToken) {
         this.idToken = idToken;

@@ -4,7 +4,7 @@ package edu.url.salle.amir.azzam.sallefy.utils;
 import android.content.Context;
 
 import edu.url.salle.amir.azzam.sallefy.model.User;
-import edu.url.salle.amir.azzam.sallefy.Model.UserRegister;
+import edu.url.salle.amir.azzam.sallefy.model.UserRegister;
 import edu.url.salle.amir.azzam.sallefy.model.UserToken;
 
 public class Session {

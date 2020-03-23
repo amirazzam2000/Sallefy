@@ -15,6 +15,7 @@ import edu.url.salle.amir.azzam.sallefy.restapi.service.TrackService;
 import edu.url.salle.amir.azzam.sallefy.restapi.service.UserService;
 import edu.url.salle.amir.azzam.sallefy.restapi.service.UserTokenService;
 import edu.url.salle.amir.azzam.sallefy.utils.Constants;
+import edu.url.salle.amir.azzam.sallefy.utils.Session;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -49,9 +50,11 @@ public class TrackManager {
         mService = mRetrofit.create(TrackService.class);
     }
 
-    public synchronized void getAllTracks (boolean liked, boolean played, boolean recent, int size,final TrackCallback trackCallback) {
+    public synchronized void getAllTracks (final TrackCallback trackCallback) {
 
-        Call<List<Track>>  call = mService.getAllTracks(liked,played, recent,size);
+        UserToken userToken = Session.getInstance(mContext).getUserToken();
+
+        Call<List<Track>>  call = mService.getAllTracks( "Bearer " + userToken.getIdToken() );
 
         call.enqueue(new Callback<List<Track>>() {
             @Override
