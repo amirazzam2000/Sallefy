@@ -6,6 +6,7 @@ import edu.url.salle.amir.azzam.sallefy.model.Track;
 
 public interface TrackCallback extends FailureCallback {
     void onTracksReceived(List<Track> tracks);
+    void onTrackReceived(Track track);
     void onNoTracks(Throwable throwable);
     void onPersonalTracksReceived(List<Track> tracks);
     void onUserTracksReceived(List<Track> tracks);

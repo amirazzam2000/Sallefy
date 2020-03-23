@@ -83,4 +83,37 @@ public class TrackManager {
         });
     }
 
+
+    public synchronized void getTrackId(final TrackCallback trackCallback, int id) {
+
+        UserToken userToken = Session.getInstance(mContext).getUserToken();
+
+        Call<Track>  call = mService.getTrackId( "Bearer " + userToken.getIdToken(), id);
+
+        new Callback<Track>() {
+            @Override
+            public void onResponse(Call<Track> call, Response<Track> response) {
+                int code = response.code();
+                Track track = response.body();
+
+                if (response.isSuccessful()) {
+                    trackCallback.onTrackReceived(track);
+                } else {
+                    Log.d(TAG, "Error: " + code);
+                    try {
+                        trackCallback.onNoTracks(new Throwable("ERROR " + code + ", " + response.errorBody().string()));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Track> call, Throwable t) {
+                Log.d(TAG, "Error: " + t.getMessage());
+                trackCallback.onFailure(t);
+            }
+        };
+    }
+
 }
