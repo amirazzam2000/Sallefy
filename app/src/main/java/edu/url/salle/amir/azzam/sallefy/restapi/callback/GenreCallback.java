@@ -5,8 +5,9 @@ import java.util.ArrayList;
 import edu.url.salle.amir.azzam.sallefy.model.Genre;
 import edu.url.salle.amir.azzam.sallefy.model.Track;
 
-public interface GenreCallback {
+public interface GenreCallback extends  FailureCallback{
 
     void onGenresReceive(ArrayList<Genre> genres);
     void onTracksByGenre(ArrayList<Track> tracks);
+
 }
