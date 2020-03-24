@@ -34,6 +34,7 @@ import edu.url.salle.amir.azzam.sallefy.controller.adapters.TrackListAdapter;
 import edu.url.salle.amir.azzam.sallefy.controller.callbacks.TrackListCallback;
 import edu.url.salle.amir.azzam.sallefy.controller.music.MusicCallback;
 import edu.url.salle.amir.azzam.sallefy.controller.music.MusicService;
+import edu.url.salle.amir.azzam.sallefy.model.Like;
 import edu.url.salle.amir.azzam.sallefy.model.Track;
 import edu.url.salle.amir.azzam.sallefy.restapi.callback.TrackCallback;
 import edu.url.salle.amir.azzam.sallefy.restapi.manager.TrackManager;
@@ -289,6 +290,11 @@ public class HomeFragment extends Fragment
         mRecyclerView.setAdapter(adapter);
     }
 
+    @Override
+    public void onTrackReceived(Track track) {
+
+    }
+
 
     /**********************************************************************************************
      *   *   *   *   *   *   *   *   TrackCallback   *   *   *   *   *   *   *   *   *
@@ -296,6 +302,21 @@ public class HomeFragment extends Fragment
 
     @Override
     public void onNoTracks(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onTrackDeleted() {
+
+    }
+
+    @Override
+    public void onLikeReceived(Like like) {
+
+    }
+
+    @Override
+    public void onNoLike(Throwable throwable) {
 
     }
 
