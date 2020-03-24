@@ -29,4 +29,14 @@
     <string name="title_user">User</string>
     <string name="default_track_title">track</string>
     <string name="default_track_author">author</string>
+    <string name="state_wait">Wait</string>
+    <string name="state_task_in_progress">task in progress</string>
+    <string name="state_success_title">Success</string>
+    <string name="state_task_completed">Completed</string>
+    <string name="action_cloudinary">Upload Songs</string>
+    <string name="create_song_titulo">Song Name</string>
+    <string name="create_song_genre">Song Genre</string>
+    <string name="create_song_file">Upload File</string>
+    <string name="action_decline">Cancel</string>
+    <string name="action_accept">Upload</string>
 </resources>
