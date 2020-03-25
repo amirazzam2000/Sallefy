@@ -1,6 +1,6 @@
 package edu.url.salle.amir.azzam.sallefy.model;
 
-import com.google.gson.annotations.SerializedName;
+import android.content.Context;
 
 import java.io.Serializable;
 import java.util.List;
@@ -160,7 +160,6 @@ public class User implements Serializable {
         public void setAuthorities(List<String> authorities) {
             this.authorities = authorities;
         }
-
 
 
 
