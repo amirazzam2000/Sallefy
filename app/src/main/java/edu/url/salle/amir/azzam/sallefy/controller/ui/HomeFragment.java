@@ -18,6 +18,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.gauravk.audiovisualizer.visualizer.BarVisualizer;
 
 import java.io.IOException;
@@ -49,6 +50,7 @@ public class HomeFragment extends Fragment
 
     private TextView tvTitle;
     private TextView tvAuthor;
+    private ImageView ivPicture;
 
     private ImageButton btnBackward;
     private ImageButton btnPlayStop;
@@ -156,6 +158,7 @@ public class HomeFragment extends Fragment
 
         tvAuthor = v.findViewById(R.id.dynamic_artist);
         tvTitle = v.findViewById(R.id.dynamic_title);
+        ivPicture = (ImageView) v.findViewById(R.id.track_img);
 
         btnBackward = (ImageButton)v.findViewById(R.id.dynamic_backward_btn);
         btnBackward.setOnClickListener(new View.OnClickListener() {
@@ -190,8 +193,8 @@ public class HomeFragment extends Fragment
             }
         });
 
-        mSeekBar = (SeekBar) v.findViewById(R.id.dynamic_seekBar);
-        mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        //mSeekBar = (SeekBar) v.findViewById(R.id.dynamic_seekBar);
+        /*mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (fromUser) {
@@ -208,7 +211,7 @@ public class HomeFragment extends Fragment
             public void onStopTrackingTouch(SeekBar seekBar) {
 
             }
-        });
+        });*/
     }
 
     private void startStreamingService () {
@@ -234,8 +237,8 @@ public class HomeFragment extends Fragment
     public void updateSeekBar() {
         System.out.println("max duration: " + mBoundService.getMaxDuration());
         System.out.println("progress:" + mBoundService.getCurrrentPosition());
-        mSeekBar.setMax(mBoundService.getMaxDuration());
-        mSeekBar.setProgress(mBoundService.getCurrrentPosition());
+        //mSeekBar.setMax(mBoundService.getMaxDuration());
+        //mSeekBar.setProgress(mBoundService.getCurrrentPosition());
 
         if(mBoundService.isPlaying()) {
             mRunnable = new Runnable() {
@@ -253,7 +256,17 @@ public class HomeFragment extends Fragment
         currentTrack = index;
         tvAuthor.setText(track.getUserLogin());
         tvTitle.setText(track.getName());
+
+        if (mTracks.get(index).getThumbnail() != null) {
+            Glide.with(getContext())
+                    .asBitmap()
+                    .placeholder(R.drawable.ic_audiotrack)
+                    .load(mTracks.get(index).getThumbnail())
+                    .into(ivPicture);
+        }
+
         mBoundService.playStream(mTracks, index);
+
         btnPlayStop.setImageResource(R.drawable.ic_pause);
         btnPlayStop.setTag(STOP_VIEW);
         //updateSeekBar();
@@ -275,6 +288,13 @@ public class HomeFragment extends Fragment
         if (track != null) {
             tvAuthor.setText(track.getUserLogin());
             tvTitle.setText(track.getName());
+            if (track.getThumbnail() != null) {
+                Glide.with(getContext())
+                        .asBitmap()
+                        .placeholder(R.drawable.ic_audiotrack)
+                        .load(track.getThumbnail())
+                        .into(ivPicture);
+            }
         }
     }
 
@@ -356,7 +376,7 @@ public class HomeFragment extends Fragment
     @Override
     public void onMusicPlayerPrepared() {
         System.out.println("Entra en el prepared");
-        mSeekBar.setMax(mBoundService.getMaxDuration());
+        //mSeekBar.setMax(mBoundService.getMaxDuration());
         mDuration =  mBoundService.getMaxDuration();
         playAudio();
 
