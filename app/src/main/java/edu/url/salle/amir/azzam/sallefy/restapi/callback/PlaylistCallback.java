@@ -1,9 +1,19 @@
 package edu.url.salle.amir.azzam.sallefy.restapi.callback;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import edu.url.salle.amir.azzam.sallefy.model.Like;
 import edu.url.salle.amir.azzam.sallefy.model.Playlist;
+import edu.url.salle.amir.azzam.sallefy.model.Track;
 
-public interface PlaylistCallback {
+public interface PlaylistCallback extends FailureCallback{
+    void onPlaylistById(Playlist playlist);
 
-    void onPlaylistCreated(Playlist playlist);
-    void onPlaylistFailure(Throwable throwable);
+    void onPlaylistsByUser(ArrayList<Playlist> playlists);
+
+    void onAllList(ArrayList<Playlist> playlists);
+
+    void onFollowingList(ArrayList<Playlist> playlists);
+
 }

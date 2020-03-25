@@ -40,4 +40,6 @@
     <string name="create_song_file">Upload File</string>
     <string name="action_decline">Cancel</string>
     <string name="action_accept">Upload</string>
+    <string name="state_error_title">Error</string>
+    <string name="state_error_default">error state</string>
 </resources>
