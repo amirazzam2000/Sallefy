@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import androidx.annotation.Nullable;
@@ -44,12 +45,15 @@ public class UploadActivity  extends AppCompatActivity implements GenreCallback,
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_song);
+
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setLogo(R.drawable.ic_logo_dark);
-        getSupportActionBar().setDisplayUseLogoEnabled(true);
+        //Objects.requireNonNull(getSupportActionBar()).setLogo(R.drawable.ic_logo_dark);
+        //getSupportActionBar().setDisplayUseLogoEnabled(true);
         mContext = getApplicationContext();
         initViews();
         getData();

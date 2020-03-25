@@ -14,6 +14,8 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.Objects;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -43,7 +45,7 @@ public class HomePageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home_page2);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setLogo(R.drawable.ic_logo_dark);
+        Objects.requireNonNull(getSupportActionBar()).setLogo(R.drawable.ic_logo_dark);
         getSupportActionBar().setDisplayUseLogoEnabled(true);
 
         bottomNav = findViewById(R.id.nav_view);
@@ -112,6 +114,8 @@ public class HomePageActivity extends AppCompatActivity {
 
         if (id == R.id.settings) {
             Toast.makeText(getApplicationContext(),"you clicked settings", Toast.LENGTH_SHORT).show();
+            Intent i = new Intent(getApplicationContext(), UploadActivity.class);
+            startActivity(i);
         }
         return super.onOptionsItemSelected(item);
     }

@@ -41,10 +41,10 @@ public class StateDialog {
         mDialog.setContentView(R.layout.dialog_state);
         mDialog.setCanceledOnTouchOutside(false);
 
-        //tvTitle = (TextView) mDialog.findViewById(R.id.dialog_state_title);
-        //tvSubtitle = (TextView) mDialog.findViewById(R.id.dialog_state_subtitle);
-        //ivIcon = (ImageView) mDialog.findViewById(R.id.dialog_state_icon);
-        //btnAccept = (Button) mDialog.findViewById(R.id.dialog_state_button);
+        tvTitle = (TextView) mDialog.findViewById(R.id.dialog_state_title);
+        tvSubtitle = (TextView) mDialog.findViewById(R.id.dialog_state_subtitle);
+        ivIcon = (ImageView) mDialog.findViewById(R.id.dialog_state_icon);
+        btnAccept = (Button) mDialog.findViewById(R.id.dialog_state_button);
         btnAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
