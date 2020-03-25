@@ -21,14 +21,12 @@
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="381dp"
+        android:layout_width="414dp"
         android:layout_height="99dp"
         android:background="#aa66cc"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.466"
-        app:layout_constraintStart_toStartOf="parent"
         tools:ignore="MissingConstraints">
 
         <TextView
