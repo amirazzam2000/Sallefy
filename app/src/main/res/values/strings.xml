@@ -29,6 +29,7 @@
     <string name="title_user">User</string>
     <string name="default_track_title">track</string>
     <string name="default_track_author">author</string>
+    <string name="default_user_name">name</string>
     <string name="state_wait">Wait</string>
     <string name="state_task_in_progress">task in progress</string>
     <string name="state_success_title">Success</string>
