@@ -20,6 +20,9 @@ public interface PlaylistService {
     @GET("playlists")
     Call<List<Playlist>> showPlaylists(@Query("popular") boolean popular, @Query("recent") boolean recent, @Query("size") int size, @Header("Authorization") String token);
 
+    @GET("playlists")
+    Call<List<Playlist>> getAllPlaylists(@Header("Authorization") String token);
+
     @POST("playlists")
     Call<Playlist> createPlaylist(@Header("Authorization") String token, @Body Playlist playlist);
 
@@ -38,5 +41,17 @@ public interface PlaylistService {
 
     @PUT("playlists/{id}/follow")
     Call<Playlist> isFollowed(@Header("Authorization") String token, @Path("id") int id);
+
+    @GET("me/playlists")
+    Call<List<Playlist>> getOwnPlaylists(@Header("Authorization") String token);
+
+    @GET("me/playlists/following")
+    Call<List<Playlist>> getFollowingPlaylists(@Header("Authorization") String token);
+
+    @GET("users/{login}/playlists")
+    Call<List<Playlist>> getUserPlaylistsById(@Path("login") String login, @Header("Authorization") String token);
+
+
+
 
 }
