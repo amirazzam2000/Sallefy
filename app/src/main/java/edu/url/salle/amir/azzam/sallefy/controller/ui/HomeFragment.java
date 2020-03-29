@@ -52,6 +52,10 @@ public class HomeFragment extends Fragment
     private TextView tvAuthor;
     private ImageView ivPicture;
 
+    private TextView tvTitleBig;
+    private TextView tvAuthorBig;
+    private ImageView ivPictureBig;
+
     private ImageButton btnBackward;
     private ImageButton btnPlayStop;
     private ImageButton btnForward;
@@ -149,7 +153,7 @@ public class HomeFragment extends Fragment
     private void initViews(View v) {
 
         mRecyclerView = (RecyclerView) v.findViewById(R.id.dynamic_recyclerView);
-        LinearLayoutManager manager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
+        LinearLayoutManager manager = new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false);
         TrackListAdapter adapter = new TrackListAdapter(this, getActivity(), null);
         mRecyclerView.setLayoutManager(manager);
         mRecyclerView.setAdapter(adapter);
@@ -159,6 +163,10 @@ public class HomeFragment extends Fragment
         tvAuthor = v.findViewById(R.id.dynamic_artist);
         tvTitle = v.findViewById(R.id.dynamic_title);
         ivPicture = (ImageView) v.findViewById(R.id.track_img);
+
+        tvAuthorBig = v.findViewById(R.id.dynamic_artist_big);
+        tvTitleBig = v.findViewById(R.id.dynamic_title_big);
+        ivPictureBig = (ImageView) v.findViewById(R.id.big_image);
 
         btnBackward = (ImageButton)v.findViewById(R.id.dynamic_backward_btn);
         btnBackward.setOnClickListener(new View.OnClickListener() {
@@ -221,17 +229,17 @@ public class HomeFragment extends Fragment
 
     private void playAudio() {
         if (!mBoundService.isPlaying()) { mBoundService.togglePlayer(); }
-        updateSeekBar();
+        //updateSeekBar();
         btnPlayStop.setImageResource(R.drawable.ic_pause);
         btnPlayStop.setTag(STOP_VIEW);
-        Toast.makeText(getContext(), "Playing Audio", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getContext(), "Playing Audio", Toast.LENGTH_SHORT).show();
     }
 
     private void pauseAudio() {
         if (mBoundService.isPlaying()) { mBoundService.togglePlayer(); }
         btnPlayStop.setImageResource(R.drawable.ic_play);
         btnPlayStop.setTag(PLAY_VIEW);
-        Toast.makeText(getContext(), "Pausing Audio", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getContext(), "Pausing Audio", Toast.LENGTH_SHORT).show();
     }
 
     public void updateSeekBar() {
@@ -299,13 +307,23 @@ public class HomeFragment extends Fragment
     }
 
     private void getData() {
-        TrackManager.getInstance(getActivity()).getAllTracks(this);
+        TrackManager.getInstance(getActivity()).getAllTracks( this);
         mTracks = new ArrayList<>();
     }
 
     @Override
     public void onTracksReceived(List<Track> tracks) {
         mTracks = (ArrayList) tracks;
+        tvTitleBig.setText(tracks.get(0).getName());
+        tvAuthorBig.setText(tracks.get(0).getUserLogin());
+        if (tracks.get(0).getThumbnail() != null) {
+            Glide.with(getContext())
+                    .asBitmap()
+                    .placeholder(R.drawable.ic_audiotrack)
+                    .load(tracks.get(0).getThumbnail())
+                    .into(ivPictureBig);
+        }
+
         TrackListAdapter adapter = new TrackListAdapter(this, getActivity(), mTracks);
         mRecyclerView.setAdapter(adapter);
     }

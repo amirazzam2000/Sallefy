@@ -22,52 +22,64 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="297dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:orientation="horizontal"
-                android:padding="10dp"
-                android:gravity="center">
-
-                <ImageView
-                    android:id="@+id/dialog_state_icon"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_marginEnd="10dp"
-                    android:src="@drawable/ic_info" />
+                android:padding="10dp">
 
                 <TextView
                     android:id="@+id/dialog_state_title"
-                    android:layout_width="wrap_content"
+                    android:layout_width="166dp"
                     android:layout_height="wrap_content"
-                    android:textSize="30sp"
-                    android:textStyle="bold"
+                    android:text="@string/state_wait"
                     android:textAlignment="center"
-                    android:text="@string/state_wait"/>
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <TextView
                 android:id="@+id/dialog_state_subtitle"
-                android:layout_width="wrap_content"
+                android:layout_width="297dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:textSize="20sp"
-                android:text="@string/state_task_in_progress"/>
+                android:text="@string/state_task_in_progress"
+                android:textSize="20sp" />
 
-            <Button
-                android:id="@+id/dialog_state_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/button_background_blue"
-                android:textColor="@color/colorWhite"
-                android:textStyle="bold"
-                android:text="@string/action_accept"/>
+            <com.google.android.material.circularreveal.CircularRevealRelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ProgressBar
+                    android:id="@+id/loadingPanel"
+                    android:layout_width="154dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="7dp"
+                    android:foregroundGravity="center_horizontal"
+                    android:indeterminate="true" />
+
+                <Button
+                    android:id="@+id/dialog_state_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/button_background"
+                    android:text="@string/action_accept"
+                    android:textColor="@color/colorWhite"
+                    android:textStyle="bold" />
+            </com.google.android.material.circularreveal.CircularRevealRelativeLayout>
+
+
         </LinearLayout>
 
 

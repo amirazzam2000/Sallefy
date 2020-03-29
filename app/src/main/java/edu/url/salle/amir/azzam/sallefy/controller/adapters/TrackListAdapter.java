@@ -64,6 +64,13 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.View
                     .load(mTracks.get(position).getThumbnail())
                     .into(holder.ivPicture);
         }
+        else{
+            Glide.with(mContext)
+                    .asBitmap()
+                    .placeholder(R.drawable.ic_audiotrack)
+                    .load(R.drawable.ic_logo)
+                    .into(holder.ivPicture);
+        }
     }
 
     @Override

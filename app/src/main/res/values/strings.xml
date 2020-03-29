@@ -30,8 +30,8 @@
     <string name="default_track_title">track</string>
     <string name="default_track_author">author</string>
     <string name="default_user_name">name</string>
-    <string name="state_wait">Wait</string>
-    <string name="state_task_in_progress">task in progress</string>
+    <string name="state_wait">Please Wait</string>
+    <string name="state_task_in_progress">Uploading the song to the server</string>
     <string name="state_success_title">Success</string>
     <string name="state_task_completed">Completed</string>
     <string name="action_cloudinary">Upload Songs</string>
@@ -42,4 +42,5 @@
     <string name="action_accept">Upload</string>
     <string name="state_error_title">Error</string>
     <string name="state_error_default">error state</string>
+    <string name="most_played_songs">Most Played</string>
 </resources>
