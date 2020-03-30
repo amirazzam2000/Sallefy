@@ -23,8 +23,8 @@ public interface TrackService {
     @POST("tracks")
     Call<Track> createTrack(@Header("Authorization") String token, @Body Track track);
 
-    //@PUT("tracks")
-    //Call<Track> addTrack(@Header("Authorization") String token, @Path("track") Track track);
+    @PUT("tracks")
+    Call<Track> addTrack(@Header("Authorization") String token, @Path("track") Track track);
 
     @GET("tracks/{id}")
     Call<Track> getTrackId(@Header("Authorization") String token, @Path("id") int id);
