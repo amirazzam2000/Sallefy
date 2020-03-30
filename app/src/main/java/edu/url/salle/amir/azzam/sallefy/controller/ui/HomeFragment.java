@@ -163,6 +163,11 @@ public class HomeFragment extends Fragment
         tvAuthor = v.findViewById(R.id.dynamic_artist);
         tvTitle = v.findViewById(R.id.dynamic_title);
         ivPicture = (ImageView) v.findViewById(R.id.track_img);
+        Glide.with(getContext())
+                .asBitmap()
+                .placeholder(R.drawable.ic_audiotrack)
+                .load(R.drawable.ic_logo)
+                .into(ivPicture);
 
         tvAuthorBig = v.findViewById(R.id.dynamic_artist_big);
         tvTitleBig = v.findViewById(R.id.dynamic_title_big);
@@ -307,6 +312,13 @@ public class HomeFragment extends Fragment
                         .asBitmap()
                         .placeholder(R.drawable.ic_audiotrack)
                         .load(track.getThumbnail())
+                        .into(ivPicture);
+            }
+            else {
+                Glide.with(getContext())
+                        .asBitmap()
+                        .placeholder(R.drawable.ic_audiotrack)
+                        .load(R.drawable.ic_logo)
                         .into(ivPicture);
             }
         }

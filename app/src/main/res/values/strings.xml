@@ -44,4 +44,8 @@
     <string name="state_error_default">error state</string>
     <string name="most_played_songs">Most Played</string>
     <string name="search_for_a_song_user_or_playlist">Search for a song, user, or playlist</string>
+    <string name="search_results">Search results :</string>
+    <string name="users">Users</string>
+    <string name="songs">Songs</string>
+    <string name="playlists">PlayLists</string>
 </resources>

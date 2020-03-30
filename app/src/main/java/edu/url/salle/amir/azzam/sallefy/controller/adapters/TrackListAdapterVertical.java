@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ import edu.url.salle.amir.azzam.sallefy.R;
 import edu.url.salle.amir.azzam.sallefy.controller.callbacks.TrackListCallback;
 import edu.url.salle.amir.azzam.sallefy.model.Track;
 
-public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.ViewHolder>{
+public class TrackListAdapterVertical extends RecyclerView.Adapter<TrackListAdapterVertical.ViewHolder>{
 
     private static final String TAG = "TrackListAdapter";
     private ArrayList<Track> mTracks;
@@ -27,7 +28,7 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.View
     private int NUM_VIEWHOLDERS = 0;
 
 
-    public TrackListAdapter(TrackListCallback callback, Context context, ArrayList<Track> tracks ) {
+    public TrackListAdapterVertical(TrackListCallback callback, Context context, ArrayList<Track> tracks ) {
         mTracks = tracks;
         mContext = context;
         mCallback = callback;
@@ -39,8 +40,8 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.View
         Log.d(TAG, "onCreateViewHolder: called. Num viewHolders: " + NUM_VIEWHOLDERS++);
 
 
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_track_h, parent, false);
-        ViewHolder vh = new TrackListAdapter.ViewHolder(itemView);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_track, parent, false);
+        ViewHolder vh = new TrackListAdapterVertical.ViewHolder(itemView);
         Log.d(TAG, "onCreateViewHolder: called. viewHolder hashCode: " + vh.hashCode());
         return vh;
     }

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
@@ -16,18 +17,19 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import edu.url.salle.amir.azzam.sallefy.R;
 import edu.url.salle.amir.azzam.sallefy.controller.callbacks.TrackListCallback;
+import edu.url.salle.amir.azzam.sallefy.model.Playlist;
 import edu.url.salle.amir.azzam.sallefy.model.Track;
 
-public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.ViewHolder>{
+public class TrackListAdapterVerticalPlaylist extends RecyclerView.Adapter<TrackListAdapterVerticalPlaylist.ViewHolder>{
 
     private static final String TAG = "TrackListAdapter";
-    private ArrayList<Track> mTracks;
+    private ArrayList<Playlist> mTracks;
     private Context mContext;
     private TrackListCallback mCallback;
     private int NUM_VIEWHOLDERS = 0;
 
 
-    public TrackListAdapter(TrackListCallback callback, Context context, ArrayList<Track> tracks ) {
+    public TrackListAdapterVerticalPlaylist(TrackListCallback callback, Context context, ArrayList<Playlist> tracks ) {
         mTracks = tracks;
         mContext = context;
         mCallback = callback;
@@ -39,8 +41,8 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.View
         Log.d(TAG, "onCreateViewHolder: called. Num viewHolders: " + NUM_VIEWHOLDERS++);
 
 
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_track_h, parent, false);
-        ViewHolder vh = new TrackListAdapter.ViewHolder(itemView);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_track, parent, false);
+        ViewHolder vh = new TrackListAdapterVerticalPlaylist.ViewHolder(itemView);
         Log.d(TAG, "onCreateViewHolder: called. viewHolder hashCode: " + vh.hashCode());
         return vh;
     }
@@ -78,10 +80,6 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.View
         return mTracks != null ? mTracks.size():0;
     }
 
-    public void updateTrackLikeStateIcon(int position, boolean isLiked) {
-        mTracks.get(position).setLiked(isLiked);
-        notifyDataSetChanged();
-    }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 

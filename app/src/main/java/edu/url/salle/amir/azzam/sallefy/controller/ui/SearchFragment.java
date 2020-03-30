@@ -12,9 +12,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Objects;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import edu.url.salle.amir.azzam.sallefy.R;
 import edu.url.salle.amir.azzam.sallefy.model.Search;
 import edu.url.salle.amir.azzam.sallefy.restapi.callback.SearchCallback;
@@ -98,7 +102,13 @@ public class SearchFragment extends Fragment implements SearchCallback {
     @Override
     public void onSearchResultsReceive(Search search_result) {
 
-        Toast.makeText(getContext(), searchBar.getText().toString(), Toast.LENGTH_LONG).show();
+        //Toast.makeText(getContext(), searchBar.getText().toString(), Toast.LENGTH_LONG).show();
+        Fragment fragment = new SearchResults(search_result);
+        FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.nav_host_fragment, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
 
     }
 
