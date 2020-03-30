@@ -1,16 +1,30 @@
 package edu.url.salle.amir.azzam.sallefy.controller.ui;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import edu.url.salle.amir.azzam.sallefy.R;
+import edu.url.salle.amir.azzam.sallefy.model.Search;
+import edu.url.salle.amir.azzam.sallefy.restapi.callback.SearchCallback;
+import edu.url.salle.amir.azzam.sallefy.restapi.manager.SearchManager;
 
-public class SearchFragment extends Fragment {
+public class SearchFragment extends Fragment implements SearchCallback {
+
+
+
+    private EditText searchBar;
 
     public static final String TAG = SearchFragment.class.getName();
 
@@ -22,7 +36,79 @@ public class SearchFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_search, container, false);
+        initViews(root);
         return root;
     }
 
+    private void initViews(View v) {
+        SearchCallback searchCallback = this;
+        searchBar = (EditText) v.findViewById(R.id.search_bar);
+        searchBar.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH ||
+                        actionId == EditorInfo.IME_ACTION_DONE ||
+                        event != null &&
+                                event.getAction() == KeyEvent.ACTION_DOWN &&
+                                event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+
+                    if (event == null || !event.isShiftPressed()) {
+                        //Toast.makeText(getContext(), searchBar.getText().toString(), Toast.LENGTH_LONG).show();
+                        // the user is done typing.
+                        SearchManager.getInstance(getActivity()).search(searchBar.getText().toString(), searchCallback);
+
+                        return true; // consume.
+                    }
+                }
+                return false; // pass on to other listeners.
+            }
+        });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
+
+    }
+
+    @Override
+    public void onSearchResultsReceive(Search search_result) {
+
+        Toast.makeText(getContext(), searchBar.getText().toString(), Toast.LENGTH_LONG).show();
+
+    }
+
+    @Override
+    public void onFailureReceive(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onFailure(Throwable throwable) {
+
+    }
 }

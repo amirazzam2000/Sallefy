@@ -9,15 +9,6 @@
 
 
 
-    <TextView
-        android:id="@+id/Search_TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Search"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="408dp"
@@ -137,4 +128,39 @@
 
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/Search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
+        android:layout_marginBottom="30dp"
+        android:text="Search"
+        android:textColor="#000000"
+        android:textSize="42dp"
+        app:layout_constraintBottom_toTopOf="@+id/search_bar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.092"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <EditText
+        android:id="@+id/search_bar"
+        android:drawablePadding="10dp"
+        android:drawableStart="@drawable/ic_search_black_24dp"
+        android:layout_width="380dp"
+        android:layout_height="45dp"
+        android:layout_marginBottom="264dp"
+        android:autofillHints=""
+        android:background="@drawable/button_background_white_black"
+        android:hint="@string/search_for_a_song_user_or_playlist"
+        android:inputType="text"
+        android:selectAllOnFocus="true"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
