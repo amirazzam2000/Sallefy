@@ -58,8 +58,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvUsername = (TextView) itemView.findViewById(R.id.user_name);
-            ivPhoto = (ImageView) itemView.findViewById(R.id.user_photo);
+            tvUsername = (TextView) itemView.findViewById(R.id.item_user_name);
+            ivPhoto = (ImageView) itemView.findViewById(R.id.useLogo);
         }
     }
 }

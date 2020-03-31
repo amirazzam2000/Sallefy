@@ -4,13 +4,23 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import edu.url.salle.amir.azzam.sallefy.R;
+import edu.url.salle.amir.azzam.sallefy.model.User;
+import edu.url.salle.amir.azzam.sallefy.model.UserToken;
+import edu.url.salle.amir.azzam.sallefy.restapi.callback.SearchCallback;
+import edu.url.salle.amir.azzam.sallefy.restapi.callback.UserCallback;
 
-public class ProfileFragment extends Fragment {
+public class ProfileFragment extends Fragment implements UserCallback {
+
+    private ImageButton follow;
+    private ImageView userPicture;
 
     public static final String TAG = ProfileFragment.class.getName();
 
@@ -27,6 +37,18 @@ public class ProfileFragment extends Fragment {
     }
 
     private void initView(View v) {
+        //TODO Needs to be set to the picture gotten from the API call
+        //set the user picture
+        userPicture = v.findViewById(R.id.useLogo);
+
+        //TODO Needs changing to the actual button
+        follow = v.findViewById(R.id.dynamic_backward_btn);
+        follow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Do follow action in here
+            }
+        });
 
     }
 
@@ -61,4 +83,33 @@ public class ProfileFragment extends Fragment {
     }
 
 
+    @Override
+    public void onLoginSuccess(UserToken userToken) {
+
+    }
+
+    @Override
+    public void onLoginFailure(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onRegisterSuccess() {
+
+    }
+
+    @Override
+    public void onRegisterFailure(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onUserInfoReceived(User userData) {
+
+    }
+
+    @Override
+    public void onFailure(Throwable throwable) {
+
+    }
 }

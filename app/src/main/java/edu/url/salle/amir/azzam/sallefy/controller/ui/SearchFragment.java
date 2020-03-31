@@ -26,8 +26,6 @@ import edu.url.salle.amir.azzam.sallefy.restapi.manager.SearchManager;
 
 public class SearchFragment extends Fragment implements SearchCallback {
 
-
-
     private EditText searchBar;
 
     public static final String TAG = SearchFragment.class.getName();
