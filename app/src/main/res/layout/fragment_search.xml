@@ -147,13 +147,13 @@
 
     <EditText
         android:id="@+id/search_bar"
-        android:drawablePadding="10dp"
-        android:drawableStart="@drawable/ic_search_black_24dp"
         android:layout_width="380dp"
         android:layout_height="45dp"
         android:layout_marginBottom="264dp"
         android:autofillHints=""
         android:background="@drawable/button_background_white_black"
+        android:drawableStart="@drawable/ic_search_black_24dp"
+        android:drawablePadding="10dp"
         android:hint="@string/search_for_a_song_user_or_playlist"
         android:inputType="text"
         android:selectAllOnFocus="true"
@@ -161,6 +161,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="MissingConstraints" />
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
