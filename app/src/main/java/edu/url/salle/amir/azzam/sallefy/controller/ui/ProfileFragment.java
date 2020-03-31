@@ -14,7 +14,6 @@ import androidx.fragment.app.Fragment;
 import edu.url.salle.amir.azzam.sallefy.R;
 import edu.url.salle.amir.azzam.sallefy.model.User;
 import edu.url.salle.amir.azzam.sallefy.model.UserToken;
-import edu.url.salle.amir.azzam.sallefy.restapi.callback.SearchCallback;
 import edu.url.salle.amir.azzam.sallefy.restapi.callback.UserCallback;
 
 public class ProfileFragment extends Fragment implements UserCallback {
@@ -37,9 +36,6 @@ public class ProfileFragment extends Fragment implements UserCallback {
     }
 
     private void initView(View v) {
-        //TODO Needs to be set to the picture gotten from the API call
-        //set the user picture
-        userPicture = v.findViewById(R.id.useLogo);
 
         //TODO Needs changing to the actual button
         follow = v.findViewById(R.id.dynamic_backward_btn);
