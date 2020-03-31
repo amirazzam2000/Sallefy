@@ -18,8 +18,6 @@ import edu.url.salle.amir.azzam.sallefy.restapi.callback.UserCallback;
 
 public class ProfileFragment extends Fragment implements UserCallback {
 
-    private ImageButton follow;
-    private ImageView userPicture;
 
     public static final String TAG = ProfileFragment.class.getName();
 
@@ -37,14 +35,6 @@ public class ProfileFragment extends Fragment implements UserCallback {
 
     private void initView(View v) {
 
-        //TODO Needs changing to the actual button
-        follow = v.findViewById(R.id.dynamic_backward_btn);
-        follow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Do follow action in here
-            }
-        });
 
     }
 

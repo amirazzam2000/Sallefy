@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
@@ -16,18 +17,18 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import edu.url.salle.amir.azzam.sallefy.R;
 import edu.url.salle.amir.azzam.sallefy.controller.callbacks.TrackListCallback;
-import edu.url.salle.amir.azzam.sallefy.model.Track;
+import edu.url.salle.amir.azzam.sallefy.model.Playlist;
 
-public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.ViewHolder>{
+public class PlayListAdapterHorizantal extends RecyclerView.Adapter<PlayListAdapterHorizantal.ViewHolder>{
 
     private static final String TAG = "TrackListAdapter";
-    private ArrayList<Track> mTracks;
+    private ArrayList<Playlist> mTracks;
     private Context mContext;
     private TrackListCallback mCallback;
     private int NUM_VIEWHOLDERS = 0;
 
 
-    public TrackListAdapter(TrackListCallback callback, Context context, ArrayList<Track> tracks ) {
+    public PlayListAdapterHorizantal(TrackListCallback callback, Context context, ArrayList<Playlist> tracks ) {
         mTracks = tracks;
         mContext = context;
         mCallback = callback;
@@ -40,7 +41,7 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.View
 
 
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_track_h, parent, false);
-        ViewHolder vh = new TrackListAdapter.ViewHolder(itemView);
+        ViewHolder vh = new PlayListAdapterHorizantal.ViewHolder(itemView);
         Log.d(TAG, "onCreateViewHolder: called. viewHolder hashCode: " + vh.hashCode());
         return vh;
     }
@@ -52,7 +53,7 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.View
         holder.mLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mCallback.onTrackSelected(mTracks.get(position));
+                mCallback.onTrackSelected(position);
             }
         });
         holder.tvTitle.setText(mTracks.get(position).getName());
@@ -78,10 +79,7 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.View
         return mTracks != null ? mTracks.size():0;
     }
 
-    public void updateTrackLikeStateIcon(int position, boolean isLiked) {
-        mTracks.get(position).setLiked(isLiked);
-        notifyDataSetChanged();
-    }
+
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 

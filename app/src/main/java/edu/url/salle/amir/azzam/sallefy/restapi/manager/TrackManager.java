@@ -84,6 +84,104 @@ public class TrackManager {
         });
     }
 
+    public synchronized void getMostPlayedTracks (final TrackCallback trackCallback) {
+
+        UserToken userToken = Session.getInstance(mContext).getUserToken();
+
+        Call<List<Track>>  call = mService.getMostPlayedTracks( true,"Bearer " + userToken.getIdToken() );
+
+        call.enqueue(new Callback<List<Track>>() {
+            @Override
+            public void onResponse(Call<List<Track>> call, Response<List<Track>> response) {
+
+                int code = response.code();
+                List<Track> tracks = response.body();
+
+                if (response.isSuccessful()) {
+                    trackCallback.onTracksReceived(tracks);
+                } else {
+                    Log.d(TAG, "Error: " + code);
+                    try {
+                        trackCallback.onNoTracks(new Throwable("ERROR " + code + ", " + response.errorBody().string()));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Track>> call, Throwable t) {
+                Log.d(TAG, "Error: " + t.getMessage());
+                trackCallback.onFailure(t);
+            }
+        });
+    }
+
+    public synchronized void getMostLikedTracks (final TrackCallback trackCallback) {
+
+        UserToken userToken = Session.getInstance(mContext).getUserToken();
+
+        Call<List<Track>>  call = mService.getMostLikedTracks( true, "Bearer " + userToken.getIdToken() );
+
+        call.enqueue(new Callback<List<Track>>() {
+            @Override
+            public void onResponse(Call<List<Track>> call, Response<List<Track>> response) {
+
+                int code = response.code();
+                List<Track> tracks = response.body();
+
+                if (response.isSuccessful()) {
+                    trackCallback.onTracksReceived(tracks);
+                } else {
+                    Log.d(TAG, "Error: " + code);
+                    try {
+                        trackCallback.onNoTracks(new Throwable("ERROR " + code + ", " + response.errorBody().string()));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Track>> call, Throwable t) {
+                Log.d(TAG, "Error: " + t.getMessage());
+                trackCallback.onFailure(t);
+            }
+        });
+    }
+
+    public synchronized void getMostRecentTracks (final TrackCallback trackCallback) {
+
+        UserToken userToken = Session.getInstance(mContext).getUserToken();
+
+        Call<List<Track>>  call = mService.getMostRecentTracks( true,"Bearer " + userToken.getIdToken() );
+
+        call.enqueue(new Callback<List<Track>>() {
+            @Override
+            public void onResponse(Call<List<Track>> call, Response<List<Track>> response) {
+
+                int code = response.code();
+                List<Track> tracks = response.body();
+
+                if (response.isSuccessful()) {
+                    trackCallback.onTracksReceived(tracks);
+                } else {
+                    Log.d(TAG, "Error: " + code);
+                    try {
+                        trackCallback.onNoTracks(new Throwable("ERROR " + code + ", " + response.errorBody().string()));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Track>> call, Throwable t) {
+                Log.d(TAG, "Error: " + t.getMessage());
+                trackCallback.onFailure(t);
+            }
+        });
+    }
     public synchronized void getAllTracks (boolean liked , boolean played , boolean recent , int size ,final TrackCallback trackCallback) {
 
         UserToken userToken = Session.getInstance(mContext).getUserToken();

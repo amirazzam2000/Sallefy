@@ -21,6 +21,12 @@ public interface PlaylistService {
     Call<List<Playlist>> showPlaylists(@Query("popular") boolean popular, @Query("recent") boolean recent, @Query("size") int size, @Header("Authorization") String token);
 
     @GET("playlists")
+    Call<List<Playlist>> getPopularPlaylists(@Query("popular") boolean popular,@Header("Authorization") String token);
+
+    @GET("playlists")
+    Call<List<Playlist>> getRecentPlaylists(@Query("recent") boolean recent, @Header("Authorization") String token);
+
+    @GET("playlists")
     Call<List<Playlist>> getAllPlaylists(@Header("Authorization") String token);
 
     @POST("playlists")

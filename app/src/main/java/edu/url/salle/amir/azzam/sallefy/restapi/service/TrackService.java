@@ -18,6 +18,12 @@ public interface TrackService {
     Call<List<Track>> getAllTracks(@Query("liked") boolean liked, @Query("played") boolean played, @Query("recent") boolean recent, @Query("size") int size,  @Header("Authorization") String token);
 
     @GET("tracks")
+    Call<List<Track>> getMostPlayedTracks(@Query("played") boolean played,@Header("Authorization") String token);
+    @GET("tracks")
+    Call<List<Track>> getMostRecentTracks(@Query("recent") boolean recent, @Header("Authorization") String token);
+    @GET("tracks")
+    Call<List<Track>> getMostLikedTracks(@Query("liked") boolean liked,@Header("Authorization") String token);
+    @GET("tracks")
     Call<List<Track>> getAllTracks(@Header("Authorization") String token);
 
     @POST("tracks")

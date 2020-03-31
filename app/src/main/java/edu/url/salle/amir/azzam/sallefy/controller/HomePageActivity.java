@@ -27,6 +27,7 @@ import androidx.fragment.app.FragmentTransaction;
 import edu.url.salle.amir.azzam.sallefy.R;
 import edu.url.salle.amir.azzam.sallefy.controller.ui.HomeFragment;
 import edu.url.salle.amir.azzam.sallefy.controller.ui.LibraryFragment;
+import edu.url.salle.amir.azzam.sallefy.controller.ui.MusicControllerFragment;
 import edu.url.salle.amir.azzam.sallefy.controller.ui.ProfileFragment;
 import edu.url.salle.amir.azzam.sallefy.controller.ui.SearchFragment;
 import edu.url.salle.amir.azzam.sallefy.utils.Constants;
@@ -79,7 +80,13 @@ public class HomePageActivity extends AppCompatActivity {
             }
         });
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, new HomeFragment()).commit();
+        //getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, new HomeFragment()).commit();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.nav_host_fragment, new HomeFragment())
+                .add(R.id.musicPlayer, new MusicControllerFragment())
+                .addToBackStack(null)
+                .commit();
     }
 
     @Override

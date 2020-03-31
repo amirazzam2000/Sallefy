@@ -53,7 +53,7 @@ public class TrackListAdapterVertical extends RecyclerView.Adapter<TrackListAdap
         holder.mLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mCallback.onTrackSelected(position);
+                mCallback.onTrackSelected(mTracks.get(position));
             }
         });
         holder.tvTitle.setText(mTracks.get(position).getName());

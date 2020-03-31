@@ -106,6 +106,64 @@ public class PlaylistManager {
         });
     }
 
+
+    public synchronized void getPopularPlaylist (final PlaylistCallback playlistCallback) {
+
+        Call<List<Playlist>> call = mService.getPopularPlaylists(true,"Bearer " + userToken.getIdToken());
+
+        call.enqueue(new Callback<List<Playlist>>() {
+            @Override
+            public void onResponse(Call<List<Playlist>> call, Response<List<Playlist>> response) {
+
+                int code = response.code();
+                ArrayList<Playlist> data = (ArrayList<Playlist>) response.body();
+
+                if (response.isSuccessful()) {
+                    playlistCallback.onAllList(data);
+                    Log.d(TAG, "getList");
+
+                } else {
+                    Log.d(TAG, "Error: " + code);
+                    playlistCallback.onFailure(new Throwable("ERROR " + code + ", " + response.raw().message()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Playlist>> call, Throwable t) {
+                Log.d(TAG, "Error: " + t.getMessage());
+                playlistCallback.onFailure(t);
+            }
+        });
+    }
+
+    public synchronized void getRecentPlaylist (final PlaylistCallback playlistCallback) {
+
+        Call<List<Playlist>> call = mService.getRecentPlaylists(true, "Bearer " + userToken.getIdToken());
+
+        call.enqueue(new Callback<List<Playlist>>() {
+            @Override
+            public void onResponse(Call<List<Playlist>> call, Response<List<Playlist>> response) {
+
+                int code = response.code();
+                ArrayList<Playlist> data = (ArrayList<Playlist>) response.body();
+
+                if (response.isSuccessful()) {
+                    playlistCallback.onAllList(data);
+                    Log.d(TAG, "getList");
+
+                } else {
+                    Log.d(TAG, "Error: " + code);
+                    playlistCallback.onFailure(new Throwable("ERROR " + code + ", " + response.raw().message()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Playlist>> call, Throwable t) {
+                Log.d(TAG, "Error: " + t.getMessage());
+                playlistCallback.onFailure(t);
+            }
+        });
+    }
     /**********************
      * Get playlists by user
      **********************/

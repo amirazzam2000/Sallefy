@@ -35,4 +35,14 @@
 
     </FrameLayout>
 
+    <FrameLayout
+        android:id="@+id/musicPlayer"
+        android:layout_width="match_parent"
+        android:layout_height="125dp"
+        app:layout_constraintBottom_toBottomOf="@+id/nav_host_fragment"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+    </FrameLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -23,7 +23,7 @@ public class MusicService extends Service {
     private boolean playingBeforeInterruption = false;
 
     private ArrayList<Track> mTracks = new ArrayList<>();
-    private int currentTrack = 0;
+    private int currentTrack = -1;
 
     private MusicCallback mCallback;
 
@@ -99,7 +99,7 @@ public class MusicService extends Service {
 
     }
 
-    public void playStream(ArrayList<Track> tracks, int currentTrack) {
+    public void playStream(Track tracks) {
 
         if (mediaPlayer != null) {
             try {
@@ -109,8 +109,8 @@ public class MusicService extends Service {
             mediaPlayer = null;
         }
 
-        mTracks = tracks;
-        this.currentTrack = currentTrack;
+        mTracks.add(tracks);
+        this.currentTrack++;
         String url = mTracks.get(currentTrack).getUrl();
 
         mediaPlayer = new MediaPlayer();

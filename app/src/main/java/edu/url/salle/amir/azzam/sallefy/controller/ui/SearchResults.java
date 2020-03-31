@@ -110,7 +110,8 @@ public class SearchResults extends Fragment implements TrackListCallback {
 
     @Override
     public void onTrackSelected(Track track) {
-
+        MusicControllerFragment musicFragment = (MusicControllerFragment) getFragmentManager().findFragmentById(R.id.musicPlayer);
+        musicFragment.updateTrack(track);
     }
 
     @Override
