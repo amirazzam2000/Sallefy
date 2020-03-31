@@ -8,7 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +29,15 @@ import edu.url.salle.amir.azzam.sallefy.restapi.manager.SearchManager;
 public class SearchFragment extends Fragment implements SearchCallback {
 
     private EditText searchBar;
+    /*
+    private ImageButton mGenreRock;
+    private ImageButton mGenreJazz;
+    private ImageButton mGenrePop;
+    private ImageButton mGenreRap;
+    private ImageButton mGenreRnB;
+    private ImageButton mGenreClassical;
+
+     */
 
     public static final String TAG = SearchFragment.class.getName();
 
