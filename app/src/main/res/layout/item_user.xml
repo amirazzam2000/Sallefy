@@ -43,7 +43,7 @@
                     tools:ignore="SmallSp" /-->
 
                 <ImageView
-                    android:id="@+id/track_img"
+                    android:id="@+id/user_img"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/ic_person_black_24dp"
