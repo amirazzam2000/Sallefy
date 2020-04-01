@@ -50,7 +50,6 @@ public class HomeFragment extends Fragment
     private static final String PLAY_VIEW = "PlayIcon";
     private static final String STOP_VIEW = "StopIcon";
 
-
     private TextView tvTitleBig;
     private TextView tvAuthorBig;
     private ImageView ivPictureBig;
@@ -133,6 +132,7 @@ public class HomeFragment extends Fragment
     private void initViews(View v) {
         requestQ = new ConcurrentLinkedQueue<>();
         requestQPlaylist = new ConcurrentLinkedQueue<>();
+
         mRecyclerViewMostPlayed = (RecyclerView) v.findViewById(R.id.dynamic_recyclerView);
         LinearLayoutManager manager = new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false);
         TrackListAdapter adapter = new TrackListAdapter(this, getActivity(), null);
@@ -200,7 +200,6 @@ public class HomeFragment extends Fragment
 
         mPopularTracks = new ArrayList<>();
         mRecentTracks = new ArrayList<>();
-
 
     }
 
