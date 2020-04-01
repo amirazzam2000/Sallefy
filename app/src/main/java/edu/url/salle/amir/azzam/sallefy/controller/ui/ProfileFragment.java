@@ -113,7 +113,6 @@ public class ProfileFragment extends Fragment implements UserCallback, TrackList
         tvTitleBig = v.findViewById(R.id.dynamic_title_big);
         ivPictureBig = (ImageView) v.findViewById(R.id.big_image);
 
-
     }
 
     @Override
@@ -169,7 +168,8 @@ public class ProfileFragment extends Fragment implements UserCallback, TrackList
 
     @Override
     public void onUserInfoReceived(User userData) {
-
+        UserAdapter adapter = new UserAdapter(userData, getActivity());
+        mRecyclerViewUser.setAdapter(adapter);
     }
 
     @Override
@@ -199,16 +199,7 @@ public class ProfileFragment extends Fragment implements UserCallback, TrackList
 
     @Override
     public void onAllList(ArrayList<Playlist> playlists) {
-        requestQPlaylist.add(playlists);
-        requestNumberPlaylist++;
 
-        if(requestNumberPlaylist == 2) {
-            PlayListAdapterHorizantal adapter = new PlayListAdapterHorizantal(this, getActivity(), requestQPlaylist.poll());
-            mRecyclerViewMyPlaylists.setAdapter(adapter);
-
-            adapter = new PlayListAdapterHorizantal(this, getActivity(), requestQPlaylist.poll());
-            mRecyclerViewLikedPlaylist.setAdapter(adapter);
-        }
     }
 
     @Override
@@ -233,10 +224,10 @@ public class ProfileFragment extends Fragment implements UserCallback, TrackList
 
         if(requestNumber == 2) {
             TrackListAdapter adapter = new TrackListAdapter(this, getActivity(), requestQ.poll());
-            mRecyclerViewLikedPlaylist.setAdapter(adapter);
+            mRecyclerViewMySongs.setAdapter(adapter);
 
             adapter = new TrackListAdapter(this, getActivity(), requestQ.poll());
-            mRecyclerViewMyPlaylists.setAdapter(adapter);
+            mRecyclerViewLikedSongs.setAdapter(adapter);
         }
     }
 

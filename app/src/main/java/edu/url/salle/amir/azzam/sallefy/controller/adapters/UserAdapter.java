@@ -19,11 +19,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
     public static final String TAG = UserAdapter.class.getName();
 
-    private ArrayList<User> mUsers;
+    private User mUsers;
     private Context mContext;
 
-    public UserAdapter(ArrayList<User> users, Context context) {
-        mUsers = users;
+    public UserAdapter(User user, Context context) {
+        mUsers = user;
         mContext = context;
     }
 
@@ -36,19 +36,19 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.tvUsername.setText(mUsers.get(position).getLogin());
-        if (mUsers.get(position).getImageUrl() != null) {
+        holder.tvUsername.setText(mUsers.getLogin());
+        if (mUsers.getImageUrl() != null) {
             Glide.with(mContext)
                     .asBitmap()
                     //.placeholder(R.drawable.ic_user_thumbnail)
-                    .load(mUsers.get(position).getImageUrl())
+                    .load(mUsers.getImageUrl())
                     .into(holder.ivPhoto);
         }
     }
 
     @Override
     public int getItemCount() {
-        return (mUsers != null ? mUsers.size() : 0);
+        return 1;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
