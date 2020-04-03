@@ -19,10 +19,13 @@ public interface TrackService {
 
     @GET("tracks")
     Call<List<Track>> getMostPlayedTracks(@Query("played") boolean played,@Header("Authorization") String token);
+
     @GET("tracks")
     Call<List<Track>> getMostRecentTracks(@Query("recent") boolean recent, @Header("Authorization") String token);
+
     @GET("tracks")
-    Call<List<Track>> getMostLikedTracks(@Query("liked") boolean liked,@Header("Authorization") String token);
+    Call<List<Track>> getMostLikedTracks(@Query("liked") boolean liked, @Header("Authorization") String token);
+
     @GET("tracks")
     Call<List<Track>> getAllTracks(@Header("Authorization") String token);
 
@@ -41,12 +44,16 @@ public interface TrackService {
     @GET("tracks/{id}/like")
     Call<Like> isLiked(@Header("Authorization") String token, @Path("id") int id);
 
-    //TODO
+
     @PUT("tracks/{id}/like")
     Call<Like> likeTrackById(@Header("Authorization") String token, @Path("id") int id);
 
     @GET("users/{login}/tracks")
     Call<List<Track>> getUserTracks(@Path("login") String login, @Header("Authorization") String token);
+
+    @GET("users/{login}/tracks")
+    Call<List<Track>> getUserLikedTracks(@Path("login") String login, @Header("Authorization") String token);
+
 
     //doesnt work in the API but here is is
     //@PUT("tracks/{id}/like")
