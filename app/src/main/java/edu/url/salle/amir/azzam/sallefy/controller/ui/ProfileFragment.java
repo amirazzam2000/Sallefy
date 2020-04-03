@@ -97,13 +97,13 @@ public class ProfileFragment extends Fragment implements UserCallback, TrackList
         mRecyclerViewLikedSongs.setLayoutManager(manager2);
         mRecyclerViewLikedSongs.setAdapter(adapter2);
 
-        mRecyclerViewMyPlaylists = (RecyclerView) v.findViewById(R.id.dynamic_recyclerViewPopularPlaylist);
+        mRecyclerViewMyPlaylists = (RecyclerView) v.findViewById(R.id.dynamic_recyclerViewPlayList);
         LinearLayoutManager managerP1 = new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false);
         PlayListAdapterHorizantal adapterP1 = new PlayListAdapterHorizantal(this, getActivity(), null);
         mRecyclerViewMyPlaylists.setLayoutManager(managerP1);
         mRecyclerViewMyPlaylists.setAdapter(adapterP1);
 
-        mRecyclerViewLikedPlaylist = (RecyclerView) v.findViewById(R.id.dynamic_recyclerViewRecentPlaylist);
+        mRecyclerViewLikedPlaylist = (RecyclerView) v.findViewById(R.id.dynamic_recyclerViewLikedList);
         LinearLayoutManager managerP2 = new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false);
         PlayListAdapterHorizantal adapterP2 = new PlayListAdapterHorizantal(this, getActivity(), null);
         mRecyclerViewLikedPlaylist.setLayoutManager(managerP2);
@@ -118,13 +118,11 @@ public class ProfileFragment extends Fragment implements UserCallback, TrackList
     @Override
     public void onResume() {
         super.onResume();
-
     }
 
     @Override
     public void onPause() {
         super.onPause();
-
     }
 
     @Override
@@ -140,9 +138,7 @@ public class ProfileFragment extends Fragment implements UserCallback, TrackList
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-
     }
 
 
