@@ -254,13 +254,14 @@ public class HomeFragment extends Fragment
 
     }
 
+
     @Override
-    public void onPersonalTracksReceived(List<Track> tracks) {
+    public void onUserTracksReceived(List<Track> tracks) {
 
     }
 
     @Override
-    public void onUserTracksReceived(List<Track> tracks) {
+    public void onUserLikedTracksReceived(List<Track> tracks) {
 
     }
 
