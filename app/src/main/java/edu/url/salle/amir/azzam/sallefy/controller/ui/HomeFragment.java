@@ -91,6 +91,9 @@ public class HomeFragment extends Fragment
 
         super.onCreate(savedInstanceState);
 
+        ivPictureBig.setOnTouchListener(new OnSwipeTouchListener(getContext()){
+
+        });
     }
 
     @Nullable
