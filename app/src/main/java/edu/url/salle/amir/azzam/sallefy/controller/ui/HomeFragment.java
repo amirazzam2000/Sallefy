@@ -160,7 +160,6 @@ public class HomeFragment extends Fragment
         mHandler = new Handler();
 
 
-
         tvAuthorBig = v.findViewById(R.id.dynamic_artist_big);
         tvTitleBig = v.findViewById(R.id.dynamic_title_big);
         ivPictureBig = (ImageView) v.findViewById(R.id.big_image);
@@ -186,8 +185,6 @@ public class HomeFragment extends Fragment
             }
         });*/
     }
-
-
 
 
 
@@ -257,13 +254,14 @@ public class HomeFragment extends Fragment
 
     }
 
+
     @Override
-    public void onPersonalTracksReceived(List<Track> tracks) {
+    public void onUserTracksReceived(List<Track> tracks) {
 
     }
 
     @Override
-    public void onUserTracksReceived(List<Track> tracks) {
+    public void onUserLikedTracksReceived(List<Track> tracks) {
 
     }
 
@@ -288,7 +286,6 @@ public class HomeFragment extends Fragment
         /*System.out.println("Index song: " + index);
         updateTrack(index);*/
     }
-
 
     /**********************************************************************************************
      *   *   *   *   *   *   *   *   MusicCallback   *   *   *   *   *   *   *   *   *
