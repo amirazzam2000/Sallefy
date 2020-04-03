@@ -92,6 +92,7 @@ public class HomeFragment extends Fragment
 
         super.onCreate(savedInstanceState);
 
+        /*
         ivPictureBig.setOnTouchListener(new OnSwipeTouchListener(getActivity()){
             public void onSwipeTop() {
                 Toast.makeText(getContext(), "top", Toast.LENGTH_SHORT).show();
@@ -106,6 +107,8 @@ public class HomeFragment extends Fragment
                 Toast.makeText(getContext(), "bottom", Toast.LENGTH_SHORT).show();
             }
         });
+
+ */
     }
 
     @Nullable

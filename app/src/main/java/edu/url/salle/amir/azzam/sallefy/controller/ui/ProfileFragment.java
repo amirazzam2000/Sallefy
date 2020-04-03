@@ -158,6 +158,9 @@ public class ProfileFragment extends Fragment implements UserCallback, TrackList
 
         mMySongs = new ArrayList<>();
         mMyPlaylists = new ArrayList<>();
+
+        mLikedSongs = new ArrayList<>();
+        mLikedPlaylist = new ArrayList<>();
     }
 
     @Override
@@ -220,7 +223,7 @@ public class ProfileFragment extends Fragment implements UserCallback, TrackList
         requestQPlaylist.add(playlists);
         requestNumberPlaylist++;
 
-        if(requestNumberPlaylist == 2) {
+        if(requestNumberPlaylist == 1) {
             /*PlayListAdapterHorizantal adapter = new PlayListAdapterHorizantal(this, getActivity(), requestQPlaylist.poll());
             mRecyclerViewMyPlaylists.setAdapter(adapter);*/
 
@@ -239,7 +242,7 @@ public class ProfileFragment extends Fragment implements UserCallback, TrackList
         requestQ.add((ArrayList) tracks);
         requestNumber++;
 
-        if(requestNumber == 2) {
+        if(requestNumber == 1) {
             /*TrackListAdapter adapter = new TrackListAdapter(this, getActivity(), requestQ.poll());
             mRecyclerViewMySongs.setAdapter(adapter);*/
 
