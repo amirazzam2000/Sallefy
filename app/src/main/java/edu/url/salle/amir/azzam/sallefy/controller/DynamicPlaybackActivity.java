@@ -271,6 +271,10 @@ public class DynamicPlaybackActivity extends Activity implements TrackCallback, 
 
     }
 
+    @Override
+    public void onPersonalTracksReceived(List<Track> tracks) {
+
+    }
 
 
     @Override

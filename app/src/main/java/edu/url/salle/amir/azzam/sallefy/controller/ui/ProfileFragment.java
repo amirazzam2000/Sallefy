@@ -150,7 +150,7 @@ public class ProfileFragment extends Fragment implements UserCallback, TrackList
     private void getData() {
         String login = PreferenceUtils.getUser(getActivity());
         UserManager.getInstance(getContext()).getUserData(login,this);
-        TrackManager.getInstance(getActivity()).getMostPlayedTracks(this);
+        TrackManager.getInstance(getActivity()).getOwnTracks(this);
         TrackManager.getInstance(getActivity()).getMostRecentTracks(this);
 
         PlaylistManager.getInstance(getActivity()).getPlaylistsByUser(login,this);
@@ -240,10 +240,10 @@ public class ProfileFragment extends Fragment implements UserCallback, TrackList
         requestNumber++;
 
         if(requestNumber == 2) {
-            TrackListAdapter adapter = new TrackListAdapter(this, getActivity(), requestQ.poll());
-            mRecyclerViewMySongs.setAdapter(adapter);
+            /*TrackListAdapter adapter = new TrackListAdapter(this, getActivity(), requestQ.poll());
+            mRecyclerViewMySongs.setAdapter(adapter);*/
 
-            adapter = new TrackListAdapter(this, getActivity(), requestQ.poll());
+            TrackListAdapter adapter = new TrackListAdapter(this, getActivity(), requestQ.poll());
             mRecyclerViewLikedSongs.setAdapter(adapter);
         }
     }
@@ -271,6 +271,12 @@ public class ProfileFragment extends Fragment implements UserCallback, TrackList
     @Override
     public void onNoLike(Throwable throwable) {
 
+    }
+
+    @Override
+    public void onPersonalTracksReceived(List<Track> tracks) {
+        TrackListAdapter adapter = new TrackListAdapter(this, getActivity(), (ArrayList<Track>) tracks);
+        mRecyclerViewMySongs.setAdapter(adapter);
     }
 
 

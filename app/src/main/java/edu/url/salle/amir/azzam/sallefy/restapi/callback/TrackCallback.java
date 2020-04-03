@@ -12,7 +12,7 @@ public interface TrackCallback extends FailureCallback {
     void onTrackDeleted();
     void onLikeReceived(Like like);
     void onNoLike(Throwable throwable);
-    //void onPersonalTracksReceived(List<Track> tracks);
+    void onPersonalTracksReceived(List<Track> tracks);
     void onUserTracksReceived(List<Track> tracks);
     void onUserLikedTracksReceived(List<Track> tracks);
     void onCreateTrack();

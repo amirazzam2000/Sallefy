@@ -204,6 +204,11 @@ public class UploadActivity  extends AppCompatActivity implements GenreCallback,
 
     }
 
+    @Override
+    public void onPersonalTracksReceived(List<Track> tracks) {
+
+    }
+
 
     @Override
     public void onUserTracksReceived(List<Track> tracks) {
