@@ -13,7 +13,7 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface UserService {
-    @GET("user/{login}")
+    @GET("users/{login}")
     Call<User> getUserById(@Path("login") String login, @Header("Authorization") String token);
 
     @GET("users")

@@ -1,10 +1,13 @@
 package edu.url.salle.amir.azzam.sallefy.controller.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
@@ -31,18 +34,37 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_user, parent, false);
-        return new ViewHolder(v);
+        ViewHolder vh = new UserAdapter.ViewHolder(v);
+        Log.d(TAG, "onCreateViewHolder: called. viewHolder hashCode: " + vh.hashCode());
+        return vh;
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.tvUsername.setText(mUsers.getLogin());
-        if (mUsers.getImageUrl() != null) {
+        if(mUsers!= null){
+            holder.tvUsername.setText(mUsers.getLogin());
+            if (mUsers.getImageUrl() != null) {
+                Glide.with(mContext)
+                        .asBitmap()
+                        .placeholder(R.drawable.ic_person_black_24dp)
+                        .load(mUsers.getImageUrl())
+                        .into(holder.ivPhoto);
+            }else{
+                Glide.with(mContext)
+                        .asBitmap()
+                        .placeholder(R.drawable.ic_person_black_24dp)
+                        .load(R.drawable.ic_logo)
+                        .into(holder.ivPhoto);
+            }
+
+        }else{
+            holder.tvUsername.setText("User_Name");
             Glide.with(mContext)
-                    .asBitmap()
-                    //.placeholder(R.drawable.ic_user_thumbnail)
-                    .load(mUsers.getImageUrl())
-                    .into(holder.ivPhoto);
+                .asBitmap()
+                .placeholder(R.drawable.ic_person_black_24dp)
+                .load(R.drawable.ic_person_black_24dp)
+                .into(holder.ivPhoto);
         }
     }
 
@@ -60,6 +82,10 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             super(itemView);
             tvUsername = (TextView) itemView.findViewById(R.id.item_user_name);
             ivPhoto = (ImageView) itemView.findViewById(R.id.user_img);
+
         }
     }
+
+
+
 }

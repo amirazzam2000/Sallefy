@@ -62,6 +62,7 @@ public class HomeFragment extends Fragment
     private RecyclerView mRecyclerViewMostRecent;
     private RecyclerView mRecyclerViewPopularPlaylist;
     private RecyclerView mRecyclerViewRecentPlaylist;
+
     // Service
     private MusicService mBoundService;
     private boolean mServiceBound = false;
@@ -89,7 +90,6 @@ public class HomeFragment extends Fragment
     public void onCreate(Bundle savedInstanceState){
 
         super.onCreate(savedInstanceState);
-
 
     }
 

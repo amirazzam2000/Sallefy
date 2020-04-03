@@ -17,6 +17,7 @@ import edu.url.salle.amir.azzam.sallefy.model.Genre;
 import edu.url.salle.amir.azzam.sallefy.model.Track;
 import edu.url.salle.amir.azzam.sallefy.restapi.callback.TrackCallback;
 import edu.url.salle.amir.azzam.sallefy.utils.CloudinaryConfigs;
+import edu.url.salle.amir.azzam.sallefy.utils.Session;
 
 
 public class CloudinaryManager extends AppCompatActivity {
@@ -55,6 +56,21 @@ public class CloudinaryManager extends AppCompatActivity {
                 .dispatch();
     }
 
+    public synchronized void uploadImageFile(Uri fileUri, String fileName) {
+
+
+        Map<String, Object> options = new HashMap<>();
+        options.put("public_id", fileName);
+        options.put("folder", "sallefy/songs/mobile");
+        options.put("resource_type", "video");
+
+        MediaManager.get().upload(fileUri)
+                .unsigned(fileName)
+                .options(options)
+                .callback(new CloudinaryCallback())
+                .dispatch();
+    }
+
     private class CloudinaryCallback implements UploadCallback {
 
         @Override
@@ -69,8 +85,8 @@ public class CloudinaryManager extends AppCompatActivity {
             Track track = new Track();
             track.setId(null);
             track.setName(mFileName);
-            //track.setUser(Session.getInstance(mContext).getUser());
-            //track.setUserLogin(Session.getInstance(mContext).getUser().getLogin());
+            track.setUser(Session.getInstance(mContext).getUser());
+            track.setUserLogin(Session.getInstance(mContext).getUser().getLogin());
             track.setUrl((String) resultData.get("url"));
             ArrayList<Genre> genres = new ArrayList<>();
             genres.add(mGenre);
