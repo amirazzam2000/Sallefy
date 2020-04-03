@@ -15,6 +15,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -91,8 +92,19 @@ public class HomeFragment extends Fragment
 
         super.onCreate(savedInstanceState);
 
-        ivPictureBig.setOnTouchListener(new OnSwipeTouchListener(getContext()){
-
+        ivPictureBig.setOnTouchListener(new OnSwipeTouchListener(getActivity()){
+            public void onSwipeTop() {
+                Toast.makeText(getContext(), "top", Toast.LENGTH_SHORT).show();
+            }
+            public void onSwipeRight() {
+                Toast.makeText(getContext(), "right", Toast.LENGTH_SHORT).show();
+            }
+            public void onSwipeLeft() {
+                Toast.makeText(getContext(), "left", Toast.LENGTH_SHORT).show();
+            }
+            public void onSwipeBottom() {
+                Toast.makeText(getContext(), "bottom", Toast.LENGTH_SHORT).show();
+            }
         });
     }
 
