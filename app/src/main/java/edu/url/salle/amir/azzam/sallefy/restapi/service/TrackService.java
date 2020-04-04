@@ -44,18 +44,18 @@ public interface TrackService {
     @GET("tracks/{id}/like")
     Call<Like> isLiked(@Header("Authorization") String token, @Path("id") int id);
 
-
     @PUT("tracks/{id}/like")
     Call<Like> likeTrackById(@Header("Authorization") String token, @Path("id") int id);
 
     @GET("users/{login}/tracks")
     Call<List<Track>> getUserTracks(@Path("login") String login, @Header("Authorization") String token);
 
-    @GET("users/{login}/tracks")
-    Call<List<Track>> getUserLikedTracks(@Path("login") String login, @Header("Authorization") String token);
+    @GET("me/tracks/liked")
+    Call<List<Track>> getOwnLikedTracks(@Header("Authorization") String token);
 
     @GET("me/tracks")
     Call<List<Track>> getOwnTracks(@Header("Authorization") String token);
+
     //doesnt work in the API but here is is
     //@PUT("tracks/{id}/like")
     //Call<Track> playTrackById(@Header("Authorization") String token, @Path("id") int id, LatLong latLong);

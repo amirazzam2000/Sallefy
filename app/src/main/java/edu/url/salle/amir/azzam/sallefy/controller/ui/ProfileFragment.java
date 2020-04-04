@@ -5,17 +5,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +40,7 @@ public class ProfileFragment extends Fragment implements UserCallback, TrackList
     private RecyclerView mRecyclerViewMySongs;
     private RecyclerView mRecyclerViewMyPlaylists;
     private RecyclerView mRecyclerViewLikedSongs;
-    private RecyclerView mRecyclerViewLikedPlaylist;
+    private RecyclerView mRecyclerViewFollowingPlaylist;
 
     private ArrayList<Track> mUser;
     private ArrayList<Track> mMySongs;
@@ -109,11 +104,11 @@ public class ProfileFragment extends Fragment implements UserCallback, TrackList
         mRecyclerViewMyPlaylists.setLayoutManager(managerP1);
         mRecyclerViewMyPlaylists.setAdapter(adapterP1);
 
-        mRecyclerViewLikedPlaylist = (RecyclerView) v.findViewById(R.id.dynamic_recyclerViewLikedList);
+        mRecyclerViewFollowingPlaylist = (RecyclerView) v.findViewById(R.id.dynamic_recyclerViewLikedList);
         LinearLayoutManager managerP2 = new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false);
         PlayListAdapterHorizantal adapterP2 = new PlayListAdapterHorizantal(this, getActivity(), null);
-        mRecyclerViewLikedPlaylist.setLayoutManager(managerP2);
-        mRecyclerViewLikedPlaylist.setAdapter(adapterP2);
+        mRecyclerViewFollowingPlaylist.setLayoutManager(managerP2);
+        mRecyclerViewFollowingPlaylist.setAdapter(adapterP2);
 
         tvFollowers = (TextView) v.findViewById(R.id.textView9);
         tvFollowing = (TextView) v.findViewById(R.id.textView10);
@@ -150,11 +145,12 @@ public class ProfileFragment extends Fragment implements UserCallback, TrackList
     private void getData() {
         String login = PreferenceUtils.getUser(getActivity());
         UserManager.getInstance(getContext()).getUserData(login,this);
+
         TrackManager.getInstance(getActivity()).getOwnTracks(this);
-        TrackManager.getInstance(getActivity()).getMostRecentTracks(this);
+        TrackManager.getInstance(getActivity()).getOwnLikedTracks(this);
 
         PlaylistManager.getInstance(getActivity()).getPlaylistsByUser(login,this);
-        PlaylistManager.getInstance(getActivity()).getRecentPlaylist(this);
+        PlaylistManager.getInstance(getActivity()).getFollowingPlaylists(this);
 
         mMySongs = new ArrayList<>();
         mMyPlaylists = new ArrayList<>();
@@ -220,35 +216,18 @@ public class ProfileFragment extends Fragment implements UserCallback, TrackList
 
     @Override
     public void onAllList(ArrayList<Playlist> playlists) {
-        requestQPlaylist.add(playlists);
-        requestNumberPlaylist++;
 
-        if(requestNumberPlaylist == 1) {
-            /*PlayListAdapterHorizantal adapter = new PlayListAdapterHorizantal(this, getActivity(), requestQPlaylist.poll());
-            mRecyclerViewMyPlaylists.setAdapter(adapter);*/
-
-            PlayListAdapterHorizantal adapter = new PlayListAdapterHorizantal(this, getActivity(), requestQPlaylist.poll());
-            mRecyclerViewLikedPlaylist.setAdapter(adapter);
-        }
     }
 
     @Override
     public void onFollowingList(ArrayList<Playlist> playlists) {
-
+        PlayListAdapterHorizantal adapter = new PlayListAdapterHorizantal(this, getActivity(), playlists);
+        mRecyclerViewFollowingPlaylist.setAdapter(adapter);
     }
 
     @Override
     public void onTracksReceived(List<Track> tracks) {
-        requestQ.add((ArrayList) tracks);
-        requestNumber++;
 
-        if(requestNumber == 1) {
-            /*TrackListAdapter adapter = new TrackListAdapter(this, getActivity(), requestQ.poll());
-            mRecyclerViewMySongs.setAdapter(adapter);*/
-
-            TrackListAdapter adapter = new TrackListAdapter(this, getActivity(), requestQ.poll());
-            mRecyclerViewLikedSongs.setAdapter(adapter);
-        }
     }
 
     @Override
@@ -277,7 +256,7 @@ public class ProfileFragment extends Fragment implements UserCallback, TrackList
     }
 
     @Override
-    public void onPersonalTracksReceived(List<Track> tracks) {
+    public void onPersonalTracksReceived(List<Track> tracks){
         TrackListAdapter adapter = new TrackListAdapter(this, getActivity(), (ArrayList<Track>) tracks);
         mRecyclerViewMySongs.setAdapter(adapter);
     }
@@ -290,7 +269,8 @@ public class ProfileFragment extends Fragment implements UserCallback, TrackList
 
     @Override
     public void onUserLikedTracksReceived(List<Track> tracks) {
-
+        TrackListAdapter adapter = new TrackListAdapter(this, getActivity(), (ArrayList<Track>) tracks);
+        mRecyclerViewLikedSongs.setAdapter(adapter);
     }
 
     @Override

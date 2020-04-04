@@ -56,7 +56,7 @@
     <string name="my_songs">My Songs</string>
     <string name="my_playlists">My Playlists</string>
     <string name="liked_songs">Liked Songs</string>
-    <string name="liked_list">Liked List</string>
+    <string name="following_lists">Following Playlists</string>
     <string name="recently_added">Recently Added</string>
     <string name="new_playlists">New Playlists</string>
     <string name="popular_playlists">Popular Playlists</string>
