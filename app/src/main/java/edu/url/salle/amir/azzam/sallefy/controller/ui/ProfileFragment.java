@@ -1,10 +1,13 @@
 package edu.url.salle.amir.azzam.sallefy.controller.ui;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import edu.url.salle.amir.azzam.sallefy.controller.UploadActivity;
 import edu.url.salle.amir.azzam.sallefy.restapi.manager.PlaylistManager;
 import edu.url.salle.amir.azzam.sallefy.restapi.manager.TrackManager;
 import edu.url.salle.amir.azzam.sallefy.restapi.manager.UserManager;
@@ -41,6 +45,9 @@ public class ProfileFragment extends Fragment implements UserCallback, TrackList
     private RecyclerView mRecyclerViewMyPlaylists;
     private RecyclerView mRecyclerViewLikedSongs;
     private RecyclerView mRecyclerViewFollowingPlaylist;
+
+    private Button addSongs;
+    private Button addPlaylist;
 
     private ArrayList<Track> mUser;
     private ArrayList<Track> mMySongs;
@@ -112,6 +119,20 @@ public class ProfileFragment extends Fragment implements UserCallback, TrackList
 
         tvFollowers = (TextView) v.findViewById(R.id.textView9);
         tvFollowing = (TextView) v.findViewById(R.id.textView10);
+
+        addSongs = (Button) v.findViewById(R.id.addSongs);
+        addPlaylist = (Button) v.findViewById(R.id.addPlaylists);
+
+        addSongs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(), UploadActivity.class);
+                startActivity(i);
+                ((Activity) getActivity()).overridePendingTransition(0, 0);
+
+            }
+        });
+
 
     }
 
