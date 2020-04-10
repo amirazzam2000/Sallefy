@@ -15,5 +15,7 @@ public class Constants {
 
     public interface STORAGE {
         public static int SONG_SELECTED = 4;
+        public static int Image_SELECTED = 5;
+
     }
 }

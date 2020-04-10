@@ -10,6 +10,7 @@ import com.cloudinary.android.callback.UploadCallback;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import androidx.appcompat.app.AppCompatActivity;
 import edu.url.salle.amir.azzam.sallefy.controller.UploadActivity;
@@ -27,6 +28,8 @@ public class CloudinaryManager extends AppCompatActivity {
     private String mFileName;
     private Genre mGenre;
     private TrackCallback mCallback;
+    private ConcurrentLinkedQueue<Map> requests;
+    private int requestNum;
 
     public static CloudinaryManager getInstance(Context context, TrackCallback callback) {
         if (sManager == null) {
@@ -38,6 +41,7 @@ public class CloudinaryManager extends AppCompatActivity {
     public CloudinaryManager(Context context, TrackCallback callback) {
         mContext = context;
         mCallback = callback;
+        requests = new ConcurrentLinkedQueue<>();
         MediaManager.init(mContext, CloudinaryConfigs.getConfigurations());
     }
 
@@ -61,8 +65,8 @@ public class CloudinaryManager extends AppCompatActivity {
 
         Map<String, Object> options = new HashMap<>();
         options.put("public_id", fileName);
-        options.put("folder", "sallefy/songs/mobile");
-        options.put("resource_type", "video");
+        options.put("folder", "sallefy/images/mobile");
+        options.put("resource_type", "image");
 
         MediaManager.get().upload(fileUri)
                 .unsigned(fileName)
@@ -82,19 +86,25 @@ public class CloudinaryManager extends AppCompatActivity {
         }
         @Override
         public void onSuccess(String requestId, Map resultData) {
-            Track track = new Track();
-            track.setId(null);
-            track.setName(mFileName);
-            track.setUser(Session.getInstance(mContext).getUser());
-            track.setUserLogin(Session.getInstance(mContext).getUser().getLogin());
-            track.setUrl((String) resultData.get("url"));
-            ArrayList<Genre> genres = new ArrayList<>();
-            genres.add(mGenre);
-            track.setGenres(genres);
-            TrackManager.getInstance(mContext).createTrack(track, mCallback);
+            requestNum++;
+            requests.add(resultData);
+            if(requestNum == 2) {
+                Track track = new Track();
+                track.setId(null);
+                track.setName(mFileName);
+                track.setUser(Session.getInstance(mContext).getUser());
+                track.setUserLogin(Session.getInstance(mContext).getUser().getLogin());
+                track.setThumbnail((String) requests.poll().get("url") );
+                track.setUrl((String) requests.poll().get("url"));
+                ArrayList<Genre> genres = new ArrayList<>();
+                genres.add(mGenre);
+                track.setGenres(genres);
+                TrackManager.getInstance(mContext).createTrack(track, mCallback);
+            }
         }
         @Override
         public void onError(String requestId, ErrorInfo error) {
+
         }
         @Override
         public void onReschedule(String requestId, ErrorInfo error) {

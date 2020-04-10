@@ -60,4 +60,6 @@
     <string name="recently_added">Recently Added</string>
     <string name="new_playlists">New Playlists</string>
     <string name="popular_playlists">Popular Playlists</string>
+    <string name="upload_image">UPLOAD IMAGE</string>
+    <string name="upload_song">UPLOAD SONG</string>
 </resources>

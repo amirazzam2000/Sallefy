@@ -33,12 +33,13 @@ import edu.url.salle.amir.azzam.sallefy.utils.Constants;
 public class UploadActivity  extends AppCompatActivity implements GenreCallback, TrackCallback {
     private EditText etTitle;
     private Spinner mSpinner;
-    private TextView mFilename;
-    private Button btnFind, btnCancel, btnAccept;
+    private TextView mFilename, mImageName;
+    private Button btnFind, btnCancel, btnAccept, btnImage;
 
     private ArrayList<String> mGenres;
     private ArrayList<Genre> mGenresObjs;
     private Uri mFileUri;
+    private Uri mFileImage;
 
     private Context mContext;
 
@@ -73,6 +74,15 @@ public class UploadActivity  extends AppCompatActivity implements GenreCallback,
             }
         });
 
+        btnImage = (Button) findViewById(R.id.create_song_image);
+        btnImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getImageFromStorage();
+            }
+        });
+
+        mImageName = (TextView) findViewById(R.id.create_song_file_image);
         btnCancel = (Button) findViewById(R.id.create_song_cancel);
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,7 +111,7 @@ public class UploadActivity  extends AppCompatActivity implements GenreCallback,
 
     private boolean checkParameters() {
         if (!etTitle.getText().toString().equals("")) {
-            if (mFileUri != null) {
+            if (mFileUri != null && mFileImage != null) {
                 return true;
             }
         }
@@ -119,6 +129,15 @@ public class UploadActivity  extends AppCompatActivity implements GenreCallback,
         startActivityForResult(Intent.createChooser(intent, "Choose a song"), Constants.STORAGE.SONG_SELECTED);
     }
 
+    private void getImageFromStorage() {
+        Intent intent = new Intent(
+                Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        /*Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");*/
+        startActivityForResult(Intent.createChooser(intent, "Choose an Image"), Constants.STORAGE.Image_SELECTED);
+    }
+
     private void uploadToCloudinary() {
         Genre genre = new Genre();
         for (Genre g: mGenresObjs) {
@@ -126,6 +145,8 @@ public class UploadActivity  extends AppCompatActivity implements GenreCallback,
                 genre = g;
             }
         }
+        CloudinaryManager.getInstance(this,this).uploadImageFile(mFileImage, etTitle.getText().toString());
+
         CloudinaryManager.getInstance(this, this).uploadAudioFile(mFileUri, etTitle.getText().toString(), genre);
     }
 
@@ -135,7 +156,12 @@ public class UploadActivity  extends AppCompatActivity implements GenreCallback,
         if (requestCode == Constants.STORAGE.SONG_SELECTED && resultCode == RESULT_OK) {
             mFileUri = data.getData();
             mFilename.setText(mFileUri.toString());
+        } else if (requestCode == Constants.STORAGE.Image_SELECTED && resultCode == RESULT_OK && null != data){
+            mFileImage =  data.getData();
+            assert mFileImage != null;
+            mImageName.setText(mFileImage.getPath());
         }
+
     }
 
     @Override

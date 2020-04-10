@@ -216,12 +216,14 @@ public class ProfileFragment extends Fragment implements UserCallback, TrackList
 
     @Override
     public void onTrackSelected(Track track) {
-
+        MusicControllerFragment musicFragment = (MusicControllerFragment) getFragmentManager().findFragmentById(R.id.musicPlayer);
+        //musicFragment.updateTrack(track);
     }
 
     @Override
-    public void onTrackSelected(int index) {
-
+    public void onTrackSelected(int index , ArrayList<Track> tracks) {
+        MusicControllerFragment musicFragment = (MusicControllerFragment) getFragmentManager().findFragmentById(R.id.musicPlayer);
+        musicFragment.updateTrack(index,tracks);
     }
 
     @Override

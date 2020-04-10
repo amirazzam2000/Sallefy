@@ -20,6 +20,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
+
 import edu.url.salle.amir.azzam.sallefy.R;
 import edu.url.salle.amir.azzam.sallefy.controller.music.MusicCallback;
 import edu.url.salle.amir.azzam.sallefy.controller.music.MusicService;
@@ -45,6 +47,8 @@ public class MusicControllerFragment extends Fragment implements MusicCallback {
     private static final String STOP_VIEW = "StopIcon";
     private MusicService mBoundService;
     private boolean mServiceBound = false;
+    private ArrayList<Track> mList;
+    private int currentTrack;
 
     private ServiceConnection mServiceConnection = new ServiceConnection() {
         @Override
@@ -61,6 +65,9 @@ public class MusicControllerFragment extends Fragment implements MusicCallback {
         }
     };
 
+    public MusicControllerFragment() {
+    }
+
     public static ProfileFragment getInstance() {
         return new ProfileFragment();
     }
@@ -76,7 +83,7 @@ public class MusicControllerFragment extends Fragment implements MusicCallback {
 
     private void initView(View v) {
         mHandler = new Handler();
-
+        mList = new ArrayList<>();
         tvAuthor = v.findViewById(R.id.dynamic_artist);
         tvTitle = v.findViewById(R.id.dynamic_title);
         ivPicture = (ImageView) v.findViewById(R.id.track_img);
@@ -91,18 +98,18 @@ public class MusicControllerFragment extends Fragment implements MusicCallback {
         btnBackward.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*currentTrack = ((currentTrack-1)%(mPopularTracks.size()));
-                currentTrack = currentTrack < 0 ? (mPopularTracks.size()-1):currentTrack;
-                //updateTrack(currentTrack);*/
+                currentTrack = ((currentTrack-1)%(mList.size()));
+                currentTrack = currentTrack < 0 ? (mList.size()-1):currentTrack;
+                updateTrack(currentTrack);
             }
         });
         btnForward = (ImageButton)v.findViewById(R.id.dynamic_forward_btn);
         btnForward.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*currentTrack = ((currentTrack+1)%(mPopularTracks.size()));
-                currentTrack = currentTrack >= mPopularTracks.size() ? 0:currentTrack;
-                //updateTrack(currentTrack);*/
+                currentTrack = ((currentTrack+1)%(mList.size()));
+                currentTrack = currentTrack >= mList.size() ? 0:currentTrack;
+                updateTrack(currentTrack);
             }
         });
 
@@ -208,9 +215,37 @@ public class MusicControllerFragment extends Fragment implements MusicCallback {
         }
     }
 
-    public void updateTrack(Track track) {
-        //Track track = mPopularTracks.get(index);
-        //currentTrack = index;
+    public void updateTrack(int index, ArrayList<Track> tracks) {
+        mList = tracks;
+        Track track = mList.get(index);
+        currentTrack = index;
+        tvAuthor.setText(track.getUserLogin());
+        tvTitle.setText(track.getName());
+
+        if (track.getThumbnail() != null) {
+            Glide.with(getContext())
+                    .asBitmap()
+                    .placeholder(R.drawable.ic_audiotrack)
+                    .load(track.getThumbnail())
+                    .into(ivPicture);
+        }else{
+            Glide.with(getContext())
+                    .asBitmap()
+                    .placeholder(R.drawable.ic_audiotrack)
+                    .load(R.drawable.ic_logo)
+                    .into(ivPicture);
+        }
+
+        mBoundService.playStream(track);
+
+        btnPlayStop.setImageResource(R.drawable.ic_pause);
+        btnPlayStop.setTag(STOP_VIEW);
+        //updateSeekBar();
+    }
+
+    public void updateTrack(int index) {
+        Track track = mList.get(index);
+
         tvAuthor.setText(track.getUserLogin());
         tvTitle.setText(track.getName());
 

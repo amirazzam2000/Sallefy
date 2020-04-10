@@ -297,14 +297,16 @@ public class HomeFragment extends Fragment
 
     @Override
     public void onTrackSelected(Track track) {
-        MusicControllerFragment musicFragment = (MusicControllerFragment) getFragmentManager().findFragmentById(R.id.musicPlayer);
-        musicFragment.updateTrack(track);
+        //MusicControllerFragment musicFragment = (MusicControllerFragment) getFragmentManager().findFragmentById(R.id.musicPlayer);
+        //musicFragment.updateTrack(track);
     }
 
     @Override
-    public void onTrackSelected(int index) {
+    public void onTrackSelected(int index, ArrayList<Track> tracks) {
         /*System.out.println("Index song: " + index);
         updateTrack(index);*/
+        MusicControllerFragment musicFragment = (MusicControllerFragment) getFragmentManager().findFragmentById(R.id.musicPlayer);
+        musicFragment.updateTrack(index, tracks);
     }
 
     /**********************************************************************************************
