@@ -35,8 +35,6 @@ import edu.url.salle.amir.azzam.sallefy.utils.Session;
 
 public class HomePageActivity extends AppCompatActivity {
 
-
-
     private BottomNavigationView bottomNav;
     private int backButtonCount;
 
@@ -90,17 +88,14 @@ public class HomePageActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed()
-    {
-        if(backButtonCount >= 1)
-        {
+    public void onBackPressed() {
+        if(backButtonCount >= 1){
             Intent intent = new Intent(Intent.ACTION_MAIN);
             intent.addCategory(Intent.CATEGORY_HOME);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         }
-        else
-        {
+        else {
             Toast.makeText(this, "Press the back button once again to close the application.", Toast.LENGTH_SHORT).show();
             backButtonCount++;
         }
@@ -126,6 +121,4 @@ public class HomePageActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-
 }

@@ -126,7 +126,6 @@ public class MusicControllerFragment extends Fragment implements MusicCallback {
                 }
             }
         });
-
     }
 
 
@@ -175,11 +174,8 @@ public class MusicControllerFragment extends Fragment implements MusicCallback {
 
     @Override
     public void onCreate(Bundle savedInstanceState){
-
         super.onCreate(savedInstanceState);
         startStreamingService();
-
-
     }
 
 
@@ -328,5 +324,4 @@ public class MusicControllerFragment extends Fragment implements MusicCallback {
         playAudio();
 
     }
-
 }
