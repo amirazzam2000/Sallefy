@@ -123,16 +123,15 @@
             </LinearLayout>
         </LinearLayout>
 
-        <!---<SeekBar
+        <SeekBar
             android:id="@+id/dynamic_seekBar"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_width="6dp"
+            android:layout_height="33dp"
             android:layout_marginStart="30dp"
             android:layout_marginEnd="30dp"
             android:backgroundTint="@color/colorWhite"
-            android:progressBackgroundTint="@color/colorWhite" /> -->
+            android:progressBackgroundTint="@color/colorWhite" />
 
     </LinearLayout>
-
 
 </FrameLayout>

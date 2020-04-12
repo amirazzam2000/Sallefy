@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout7"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="@dimen/activity_horizontal_margin"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="-346dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            android:orientation="vertical"
+            android:padding="@dimen/activity_horizontal_margin"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <SeekBar
+                android:id="@+id/dynamic_seekBar"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:backgroundTint="@color/design_default_color_primary"
+                android:progressBackgroundTint="@color/design_default_color_primary"
+                app:layout_constraintBottom_toTopOf="@+id/buttons_playback"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/buttons_playback"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:layout_editor_absoluteX="0dp">
+
+                <ImageButton
+                    android:id="@+id/next_btn"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_margin="@dimen/activity_horizontal_margin"
+                    android:background="@drawable/button_background_trans"
+                    android:src="@drawable/ic_skip_previous" />
+
+                <ImageButton
+                    android:id="@+id/play_btn"
+                    android:layout_width="110dp"
+                    android:layout_height="100dp"
+                    android:layout_margin="@dimen/activity_horizontal_margin"
+                    android:background="@drawable/button_background_trans"
+                    android:src="@drawable/ic_play_circle_filled_black_24dp" />
+
+                <ImageButton
+                    android:id="@+id/previous_btn"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_margin="@dimen/activity_horizontal_margin"
+                    android:background="@drawable/button_background_trans"
+                    android:src="@drawable/ic_skip_next" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -61,9 +61,8 @@ public class DynamicPlaybackActivity extends Activity implements TrackCallback, 
 
     @Override
     public void onCreate(Bundle savedInstanceState){
-
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dynamic_playback);
+        setContentView(R.layout.fragment_song_view);
         mDuration = 0;
         initViews();
         getData();

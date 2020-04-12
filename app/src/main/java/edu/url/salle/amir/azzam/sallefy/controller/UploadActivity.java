@@ -102,7 +102,6 @@ public class UploadActivity  extends AppCompatActivity implements GenreCallback,
                 }
             }
         });
-
     }
 
     private void getData() {
