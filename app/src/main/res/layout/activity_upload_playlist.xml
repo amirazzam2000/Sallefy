@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".controller.UploadPlaylistActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/colorPrimary"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        android:textSize="34sp"
+        android:text="@string/create_playlist"/>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:ignore="MissingConstraints,ScrollViewCount">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginStart="30dp"
+                        android:layout_marginEnd="30dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/settings_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/playlist_name"
+                            android:textSize="20sp" />
+
+                        <EditText
+                            android:id="@+id/create_song_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/button_background_white" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+
+                        android:layout_marginStart="30dp"
+                        android:layout_marginEnd="30dp"
+                        android:orientation="vertical">
+
+                        <Button
+                            android:id="@+id/playlistThumbnail"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/button_background"
+                            android:padding="5dp"
+                            android:text="@string/upload_thumbnail"
+                            android:textColor="@color/colorWhite" />
+
+                        <TextView
+                            android:id="@+id/playlistThumbnailURI"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="10dp"
+                            android:textColor="@android:color/black" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+
+                        android:layout_marginStart="30dp"
+                        android:layout_marginEnd="30dp"
+                        android:orientation="vertical">
+
+                        <Button
+                            android:id="@+id/playlistCover"
+                            android:layout_width="116dp"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/button_background"
+                            android:padding="5dp"
+                            android:text="@string/upload_cover"
+                            android:textColor="@color/colorWhite" />
+
+                        <TextView
+                            android:id="@+id/playlistCoverText"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="10dp"
+                            android:textColor="@android:color/black" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="30dp"
+                        android:layout_marginEnd="30dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            style="@style/settings_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:text="@string/make_the_playlist_public"
+                            android:textSize="20sp" />
+
+                        <Switch
+                            android:id="@+id/switch_is_public"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:checked="false"
+                            android:theme="@style/SCBSwitch" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/settings_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="30dp"
+                            android:layout_marginEnd="30dp"
+                            android:text="@string/description"
+                            android:textSize="20sp" />
+
+                        <EditText
+                            android:id="@+id/playlistDescription"
+                            android:layout_width="match_parent"
+                            android:layout_height="109dp"
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/button_background_white"
+                            android:selectAllOnFocus="true" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:orientation="vertical">
+
+                        <Button
+                            android:id="@+id/addSongs"
+                            android:layout_width="116dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:background="@drawable/button_background"
+                            android:padding="5dp"
+                            android:text="@string/add_songs"
+                            android:textColor="@color/colorWhite" />
+
+                        <ScrollView
+                            android:layout_width="match_parent"
+                            android:layout_height="300dp">
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/selected_song"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/button_background_trans"
+                                app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:popupTheme="@style/AppTheme.PopupOverlay" />
+                        </ScrollView>
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/create_song_cancel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="40dp"
+                        android:background="@drawable/button_background_dark"
+                        android:padding="10dp"
+                        android:text="@string/action_decline"
+                        android:textColor="@color/colorWhite" />
+
+
+                    <Button
+                        android:id="@+id/create_song_accept"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/button_background"
+                        android:padding="15dp"
+                        android:text="@string/create"
+                        android:textColor="@color/colorWhite" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp" />
+
+            </LinearLayout>
+
+
+        </ScrollView>
+
+    </LinearLayout>
+</LinearLayout>

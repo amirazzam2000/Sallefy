@@ -74,6 +74,29 @@ public class PlaylistManager {
         });
     }
 
+    //    Call<Playlist> createPlaylist(@Header("Authorization") String token, @Body Playlist playlist);
+    public synchronized void createPlaylist(Playlist playlist, final PlaylistCallback playlistCallback) {
+        Call<Playlist> call = mService.createPlaylist("Bearer " + userToken.getIdToken(), playlist);
+        call.enqueue(new Callback<Playlist>() {
+            @Override
+            public void onResponse(Call<Playlist> call, Response<Playlist> response) {
+                int code = response.code();
+                if (response.isSuccessful()) {
+                    playlistCallback.onPlayListCreated(response.body());
+                } else {
+                    Log.d(TAG, "Error Not Successful: " + code);
+                    playlistCallback.onFailure(new Throwable("ERROR " + code + ", " + response.raw().message()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Playlist> call, Throwable t) {
+                Log.d(TAG, "Error Failure: " + t.getStackTrace());
+                playlistCallback.onFailure(new Throwable("ERROR " + t.getStackTrace()));
+            }
+        });
+    }
+
     /**********************
      * Get all playlist of backend
      **********************/

@@ -19,7 +19,10 @@ import java.util.stream.Collectors;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import edu.url.salle.amir.azzam.sallefy.R;
+import edu.url.salle.amir.azzam.sallefy.controller.adapters.TrackListAdapterVerticalSelect;
 import edu.url.salle.amir.azzam.sallefy.controller.dialogs.StateDialog;
 import edu.url.salle.amir.azzam.sallefy.model.Genre;
 import edu.url.salle.amir.azzam.sallefy.model.Like;
@@ -35,6 +38,7 @@ public class UploadActivity  extends AppCompatActivity implements GenreCallback,
     private Spinner mSpinner;
     private TextView mFilename, mImageName;
     private Button btnFind, btnCancel, btnAccept, btnImage;
+
 
     private ArrayList<String> mGenres;
     private ArrayList<Genre> mGenresObjs;
@@ -144,7 +148,7 @@ public class UploadActivity  extends AppCompatActivity implements GenreCallback,
                 genre = g;
             }
         }
-        CloudinaryManager.getInstance(this,this).uploadImageFile(mFileImage, etTitle.getText().toString());
+        CloudinaryManager.getInstance(this,this).uploadImageFile(mFileImage, etTitle.getText().toString(), true);
 
         CloudinaryManager.getInstance(this, this).uploadAudioFile(mFileUri, etTitle.getText().toString(), genre);
     }
@@ -260,4 +264,6 @@ public class UploadActivity  extends AppCompatActivity implements GenreCallback,
         });
         watchDialog.start();
     }
+
+
 }

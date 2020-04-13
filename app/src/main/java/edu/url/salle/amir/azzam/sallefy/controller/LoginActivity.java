@@ -129,6 +129,7 @@ public class LoginActivity extends AppCompatActivity implements UserCallback {
         if (checkExistingPreferences()) {
             email.setText(PreferenceUtils.getUser(this));
             password.setText(PreferenceUtils.getPassword(this));
+            doLogin(PreferenceUtils.getUser(this),PreferenceUtils.getPassword(this));
         }
     }
     private boolean checkExistingPreferences () {

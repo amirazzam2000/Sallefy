@@ -14,6 +14,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import androidx.appcompat.app.AppCompatActivity;
 import edu.url.salle.amir.azzam.sallefy.controller.UploadActivity;
+import edu.url.salle.amir.azzam.sallefy.controller.UploadPlaylistActivity;
 import edu.url.salle.amir.azzam.sallefy.model.Genre;
 import edu.url.salle.amir.azzam.sallefy.model.Track;
 import edu.url.salle.amir.azzam.sallefy.restapi.callback.TrackCallback;
@@ -30,6 +31,10 @@ public class CloudinaryManager extends AppCompatActivity {
     private TrackCallback mCallback;
     private ConcurrentLinkedQueue<Map> requests;
     private int requestNum;
+    private boolean song;
+    private int requestNum2;
+    private ConcurrentLinkedQueue<Map> requests2;
+    private UploadPlaylistActivity playlistActivity;
 
     public static CloudinaryManager getInstance(Context context, TrackCallback callback) {
         if (sManager == null) {
@@ -42,10 +47,12 @@ public class CloudinaryManager extends AppCompatActivity {
         mContext = context;
         mCallback = callback;
         requests = new ConcurrentLinkedQueue<>();
+        requests2 = new ConcurrentLinkedQueue<>();
         MediaManager.init(mContext, CloudinaryConfigs.getConfigurations());
     }
 
     public synchronized void uploadAudioFile(Uri fileUri, String fileName, Genre genre) {
+        song = true;
         mGenre = genre;
         mFileName = fileName;
         Map<String, Object> options = new HashMap<>();
@@ -60,9 +67,8 @@ public class CloudinaryManager extends AppCompatActivity {
                 .dispatch();
     }
 
-    public synchronized void uploadImageFile(Uri fileUri, String fileName) {
-
-
+    public synchronized void uploadImageFile(Uri fileUri, String fileName, boolean isSong) {
+        song = isSong;
         Map<String, Object> options = new HashMap<>();
         options.put("public_id", fileName);
         options.put("folder", "sallefy/images/mobile");
@@ -73,6 +79,10 @@ public class CloudinaryManager extends AppCompatActivity {
                 .options(options)
                 .callback(new CloudinaryCallback())
                 .dispatch();
+    }
+
+    public void setUploadPlaylistActivity(UploadPlaylistActivity uploadPlaylistActivity) {
+        playlistActivity = uploadPlaylistActivity;
     }
 
     private class CloudinaryCallback implements UploadCallback {
@@ -86,20 +96,28 @@ public class CloudinaryManager extends AppCompatActivity {
         }
         @Override
         public void onSuccess(String requestId, Map resultData) {
-            requestNum++;
-            requests.add(resultData);
-            if(requestNum == 2) {
-                Track track = new Track();
-                track.setId(null);
-                track.setName(mFileName);
-                track.setUser(Session.getInstance(mContext).getUser());
-                track.setUserLogin(Session.getInstance(mContext).getUser().getLogin());
-                track.setThumbnail((String) requests.poll().get("url") );
-                track.setUrl((String) requests.poll().get("url"));
-                ArrayList<Genre> genres = new ArrayList<>();
-                genres.add(mGenre);
-                track.setGenres(genres);
-                TrackManager.getInstance(mContext).createTrack(track, mCallback);
+            if (song){
+                requestNum++;
+                requests.add(resultData);
+                if (requestNum == 2) {
+                    Track track = new Track();
+                    track.setId(null);
+                    track.setName(mFileName);
+                    track.setUser(Session.getInstance(mContext).getUser());
+                    track.setUserLogin(Session.getInstance(mContext).getUser().getLogin());
+                    track.setThumbnail((String) requests.poll().get("url"));
+                    track.setUrl((String) requests.poll().get("url"));
+                    ArrayList<Genre> genres = new ArrayList<>();
+                    genres.add(mGenre);
+                    track.setGenres(genres);
+                    TrackManager.getInstance(mContext).createTrack(track, mCallback);
+                }
+            }
+            else{
+                requestNum2++;
+                requests2.add(resultData);
+                playlistActivity.upload(requests2);
+
             }
         }
         @Override

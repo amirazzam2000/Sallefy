@@ -413,4 +413,9 @@ public class HomeFragment extends Fragment
     public void onFollowingList(ArrayList<Playlist> playlists) {
 
     }
+
+    @Override
+    public void onPlayListCreated(Playlist playlist) {
+
+    }
 }

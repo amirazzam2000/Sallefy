@@ -64,4 +64,13 @@
     <string name="upload_image">UPLOAD IMAGE</string>
     <string name="upload_song">UPLOAD SONG</string>
     <string name="x">X%</string>
+    <string name="create">create</string>
+    <string name="playlist_name">Playlist Name</string>
+    <string name="create_playlist">Create Playlist</string>
+    <string name="make_the_playlist_public">Make the playlist public</string>
+    <string name="upload_thumbnail">upload Thumbnail</string>
+    <string name="upload_cover">Upload cover</string>
+    <string name="description">Description</string>
+    <string name="add_songs">add songs</string>
+    <string name="select_songs">Select Songs</string>
 </resources>
