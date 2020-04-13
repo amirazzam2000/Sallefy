@@ -29,9 +29,7 @@ public class ChoseSongDialog implements TrackListCallback {
     private Button btnAccept;
 
     public static ChoseSongDialog getInstance(Context context) {
-        if (sManager == null) {
-            sManager = new ChoseSongDialog(context);
-        }
+        sManager = new ChoseSongDialog(context);
         return sManager;
     }
 

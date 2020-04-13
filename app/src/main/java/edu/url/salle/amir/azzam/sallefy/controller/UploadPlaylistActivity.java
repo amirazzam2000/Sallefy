@@ -185,6 +185,7 @@ public class UploadPlaylistActivity extends AppCompatActivity implements TrackCa
     }
 
     private void showStateDialog() {
+
         ChoseSongDialog.getInstance(this).showDialog(allSongs, this);
     }
 
