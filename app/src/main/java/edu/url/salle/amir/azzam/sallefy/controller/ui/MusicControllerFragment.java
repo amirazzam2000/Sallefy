@@ -1,5 +1,6 @@
 package edu.url.salle.amir.azzam.sallefy.controller.ui;
 
+import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +15,7 @@ import android.os.IBinder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,12 +25,15 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 
 import edu.url.salle.amir.azzam.sallefy.R;
+import edu.url.salle.amir.azzam.sallefy.controller.MusicViewActivity;
 import edu.url.salle.amir.azzam.sallefy.controller.music.MusicCallback;
 import edu.url.salle.amir.azzam.sallefy.controller.music.MusicService;
 import edu.url.salle.amir.azzam.sallefy.model.Track;
+import edu.url.salle.amir.azzam.sallefy.restapi.manager.SongViewManger;
+import edu.url.salle.amir.azzam.sallefy.restapi.service.SongViewService;
 
 
-public class MusicControllerFragment extends Fragment implements MusicCallback {
+public class MusicControllerFragment extends Fragment implements MusicCallback , SongViewService {
     public static final String TAG = MusicControllerFragment.class.getName();
 
     private Handler mHandler;
@@ -42,6 +47,8 @@ public class MusicControllerFragment extends Fragment implements MusicCallback {
     private ImageButton btnPlayStop;
     private ImageButton btnForward;
     private int mDuration;
+
+    private Button viewButton;
 
     private static final String PLAY_VIEW = "PlayIcon";
     private static final String STOP_VIEW = "StopIcon";
@@ -68,8 +75,8 @@ public class MusicControllerFragment extends Fragment implements MusicCallback {
     public MusicControllerFragment() {
     }
 
-    public static ProfileFragment getInstance() {
-        return new ProfileFragment();
+    public static MusicControllerFragment getInstance() {
+        return new MusicControllerFragment();
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -124,6 +131,14 @@ public class MusicControllerFragment extends Fragment implements MusicCallback {
                 } else {
                     pauseAudio();
                 }
+            }
+        });
+
+        viewButton = (Button) v.findViewById(R.id.openMusicView);
+        viewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SongViewManger.getInstance(getContext()).transactToActivity(currentTrack,mList, mBoundService, MusicViewActivity.getInstance());
             }
         });
     }
@@ -322,6 +337,31 @@ public class MusicControllerFragment extends Fragment implements MusicCallback {
         //mSeekBar.setMax(mBoundService.getMaxDuration());
         mDuration =  mBoundService.getMaxDuration();
         playAudio();
+
+    }
+
+    @Override
+    public void onViewChangedToActivity(int index, ArrayList<Track> currentPlaylist, MusicService mBoundService) {
+       /* currentTrack = index;
+        mList = currentPlaylist;
+        this.mBoundService = mBoundService;
+        SongViewManger.getInstance(getContext()).transactionToActivityDone(MusicViewActivity.getInstance());*/
+    }
+
+    @Override
+    public void onSongsReceivedFromFragment() {
+       /* Intent i = new Intent(getActivity(), MusicViewActivity.class);
+        startActivity(i);
+        ((Activity) getActivity()).overridePendingTransition(0, 0);*/
+    }
+
+    @Override
+    public void onViewChangedToFragment(int index, ArrayList<Track> currentPlaylist, MusicService mBoundService) {
+
+    }
+
+    @Override
+    public void onSongsReceivedFromActivity() {
 
     }
 }

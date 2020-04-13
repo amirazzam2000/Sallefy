@@ -303,7 +303,8 @@ public class DynamicPlaybackActivity extends Activity implements TrackCallback, 
 
     @Override
     public void onTrackSelected(int index, ArrayList<Track> tracks) {
-
+        mTracks = tracks;
+        updateTrack(tracks.get(index));
     }
 
 }
