@@ -5,6 +5,7 @@
     <solid
         android:color="@android:color/transparent" />
     <corners
+        android:color="@android:color/transparent"
         android:bottomLeftRadius="10dp"
         android:bottomRightRadius="10dp"
         android:topLeftRadius="10dp"
