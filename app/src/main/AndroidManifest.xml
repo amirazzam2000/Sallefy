@@ -14,13 +14,14 @@
         android:roundIcon="@mipmap/ic_launcher_logo_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".controller.MusicViewActivity"></activity>
         <activity
             android:name=".controller.HomePageActivity"
-            android:label="@string/title_activity_home_page"></activity>
+            android:label="@string/title_activity_home_page" />
         <activity android:name=".controller.ForgotPasswordActivity" />
         <activity android:name=".controller.SignUpActivity" />
         <activity android:name=".controller.UploadActivity" />
-        <activity android:name=".controller.DynamicPlaybackActivity"/>
+        <activity android:name=".controller.DynamicPlaybackActivity" />
         <activity android:name=".controller.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,10 +29,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name=".controller.music.MusicService" android:enabled="true">
 
-        </service>
+        <service
+            android:name=".controller.music.MusicService"
+            android:enabled="true"></service>
     </application>
-
 
 </manifest>

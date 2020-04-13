@@ -8,65 +8,86 @@
     android:orientation="vertical"
     android:layout_margin="@dimen/mtrl_card_spacing"
     android:layout_centerInParent="true"
-    android:layout_centerHorizontal="true">
+    android:layout_centerHorizontal="true"
+    tools:ignore="PrivateResource">
 
 
     <LinearLayout
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical">
 
-        <RelativeLayout
-            android:layout_marginTop="20dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="bottom"
-            android:textAlignment="gravity">
+
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_marginStart="5dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="17dp"
                 android:layout_marginEnd="5dp"
                 android:layout_marginBottom="5dp"
-                android:elevation="10dp"
+                android:elevation="100dp"
                 app:cardCornerRadius="100dp">
 
-                <!--TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="bottom"
-                    android:text="@string/match_percentage"
-                    android:textSize="7sp"
-                    tools:ignore="SmallSp" /-->
 
                 <ImageView
                     android:id="@+id/user_img"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/ic_person_black_24dp"
-                    android:scaleType="centerCrop"
-                    tools:ignore="ContentDescription" />
+                    android:contentDescription="@string/users" />
 
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_gravity="bottom"
+                    android:layout_gravity="center"
                     android:background="@drawable/gradient_black" />
+
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_gravity="bottom"
+                    android:layout_marginBottom="0dp"
+                    android:shadowColor="#000000"
+                    android:shadowDx="10"
+                    android:shadowDy="10"
+                    android:shadowRadius="20"
+                    android:text="@string/match_percentage"
+                    android:textAlignment="center"
+
+                    android:textColor="@color/colorWhite"
+                    android:textSize="10sp"
+                    android:textStyle="italic"
+                    tools:ignore="RtlCompat,SmallSp" />
+
+                <TextView
+                    android:id="@+id/matchPercentage"
+                    android:layout_width="match_parent"
+                    android:layout_height="31dp"
+                    android:layout_gravity="bottom"
+                    android:layout_marginBottom="0dp"
+                    android:shadowColor="#000000"
+                    android:shadowDx="10"
+                    android:shadowDy="10"
+                    android:shadowRadius="20"
+                    android:text="@string/x"
+                    android:textAlignment="center"
+
+                    android:textColor="@color/colorWhite"
+                    android:textSize="10sp"
+                    android:textStyle="italic"
+                    tools:ignore="RtlCompat,SmallSp" />
 
             </androidx.cardview.widget.CardView>
 
 
-        </RelativeLayout>
 
-        <LinearLayout
-            android:layout_width="95dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical">
+
+
 
             <TextView
                 android:id="@+id/item_user_name"
@@ -75,12 +96,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:text="@string/default_user_name"
                 android:textColor="@android:color/black" />
 
         </LinearLayout>
 
-    </LinearLayout>
+
 
 
 </LinearLayout>
