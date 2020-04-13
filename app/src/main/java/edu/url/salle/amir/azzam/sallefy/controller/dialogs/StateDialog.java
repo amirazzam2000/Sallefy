@@ -28,9 +28,9 @@ public class StateDialog {
     private ProgressBar bar;
 
     public static StateDialog getInstance(Context context) {
-        if (sManager == null) {
-            sManager = new StateDialog(context);
-        }
+
+        sManager = new StateDialog(context);
+
         return sManager;
     }
 
