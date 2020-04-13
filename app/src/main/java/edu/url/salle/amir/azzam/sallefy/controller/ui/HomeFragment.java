@@ -11,6 +11,7 @@ import android.os.IBinder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.internal.$Gson$Preconditions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +56,11 @@ public class HomeFragment extends Fragment
     private TextView tvTitleBig;
     private TextView tvAuthorBig;
     private ImageView ivPictureBig;
+    private Button nextBig;
+    private Button previousBig;
+    private Button bigSelected;
+    private int currentBig;
+    private ArrayList<Track> mBigList;
 
     private Handler mHandler;
     private Runnable mRunnable;
@@ -175,9 +182,67 @@ public class HomeFragment extends Fragment
         mHandler = new Handler();
 
 
-        tvAuthorBig = v.findViewById(R.id.dynamic_artist_big);
-        tvTitleBig = v.findViewById(R.id.dynamic_title_big);
+        tvAuthorBig = (TextView) v.findViewById(R.id.dynamic_artist_big);
+        tvTitleBig = (TextView) v.findViewById(R.id.dynamic_title_big);
         ivPictureBig = (ImageView) v.findViewById(R.id.big_image);
+        nextBig = (Button) v.findViewById(R.id.nextBigSong);
+        previousBig = (Button) v.findViewById(R.id.previousBigSong);
+        bigSelected = (Button) v.findViewById(R.id.selectBig);
+
+        nextBig.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                currentBig = ((currentBig+1)%(mBigList.size()));
+                currentBig = currentBig >= mBigList.size() ? 0:currentBig;
+
+                tvTitleBig.setText(mBigList.get(currentBig).getName());
+                tvAuthorBig.setText(mBigList.get(currentBig).getUserLogin());
+                if (mBigList.get(currentBig).getThumbnail() != null) {
+                    Glide.with(getContext())
+                            .asBitmap()
+                            .placeholder(R.drawable.ic_audiotrack)
+                            .load(mBigList.get(currentBig).getThumbnail())
+                            .into(ivPictureBig);
+                }else{
+                    Glide.with(getContext())
+                            .asBitmap()
+                            .placeholder(R.drawable.ic_audiotrack)
+                            .load(R.drawable.ic_logo)
+                            .into(ivPictureBig);
+                }
+            }
+        });
+
+        previousBig.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                currentBig = ((currentBig-1)%(mBigList.size()));
+                currentBig = currentBig < 0 ? (mBigList.size()-1):currentBig;
+
+                tvTitleBig.setText(mBigList.get(currentBig).getName());
+                tvAuthorBig.setText(mBigList.get(currentBig).getUserLogin());
+                if (mBigList.get(currentBig).getThumbnail() != null) {
+                    Glide.with(getContext())
+                            .asBitmap()
+                            .placeholder(R.drawable.ic_audiotrack)
+                            .load(mBigList.get(currentBig).getThumbnail())
+                            .into(ivPictureBig);
+                }else{
+                    Glide.with(getContext())
+                            .asBitmap()
+                            .placeholder(R.drawable.ic_audiotrack)
+                            .load(R.drawable.ic_logo)
+                            .into(ivPictureBig);
+                }
+            }
+        });
+
+        bigSelected.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onTrackSelected(currentBig, mBigList);
+            }
+        });
 
 
         //mSeekBar = (SeekBar) v.findViewById(R.id.dynamic_seekBar);
@@ -228,13 +293,20 @@ public class HomeFragment extends Fragment
                     .placeholder(R.drawable.ic_audiotrack)
                     .load(tracks.get(0).getThumbnail())
                     .into(ivPictureBig);
+        }else{
+            Glide.with(getContext())
+                    .asBitmap()
+                    .placeholder(R.drawable.ic_audiotrack)
+                    .load(R.drawable.ic_logo)
+                    .into(ivPictureBig);
         }
 
         if(requestNumber == 2) {
             TrackListAdapter adapter = new TrackListAdapter(this, getActivity(), requestQ.poll());
             mRecyclerViewMostPlayed.setAdapter(adapter);
 
-            adapter = new TrackListAdapter(this, getActivity(), requestQ.poll());
+            mBigList = requestQ.poll();
+            adapter = new TrackListAdapter(this, getActivity(), mBigList);
             mRecyclerViewMostRecent.setAdapter(adapter);
         }
     }
