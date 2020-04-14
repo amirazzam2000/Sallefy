@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import edu.url.salle.amir.azzam.sallefy.controller.UploadActivity;
+import edu.url.salle.amir.azzam.sallefy.controller.UploadPlaylistActivity;
 import edu.url.salle.amir.azzam.sallefy.restapi.manager.PlaylistManager;
 import edu.url.salle.amir.azzam.sallefy.restapi.manager.TrackManager;
 import edu.url.salle.amir.azzam.sallefy.restapi.manager.UserManager;
@@ -133,6 +134,15 @@ public class ProfileFragment extends Fragment implements UserCallback, TrackList
             }
         });
 
+        addPlaylist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(), UploadPlaylistActivity.class);
+                startActivity(i);
+                ((Activity) getActivity()).overridePendingTransition(0, 0);
+
+            }
+        });
 
     }
 
@@ -246,6 +256,11 @@ public class ProfileFragment extends Fragment implements UserCallback, TrackList
     public void onFollowingList(ArrayList<Playlist> playlists) {
         PlayListAdapterHorizantal adapter = new PlayListAdapterHorizantal(this, getActivity(), playlists);
         mRecyclerViewFollowingPlaylist.setAdapter(adapter);
+    }
+
+    @Override
+    public void onPlayListCreated(Playlist playlist) {
+
     }
 
     @Override

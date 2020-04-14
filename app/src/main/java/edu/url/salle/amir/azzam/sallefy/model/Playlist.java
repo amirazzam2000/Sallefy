@@ -18,7 +18,7 @@ public class Playlist {
     @SerializedName("name")
     private String name;
 
-    @SerializedName("public")
+    @SerializedName("publicAccessible")
     private Boolean publicAccessible;
 
     @SerializedName("thumbnail")
