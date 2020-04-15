@@ -61,12 +61,7 @@ public class PlaylistFragment extends Fragment implements PlaylistCallback {
 
         rvPlaylistSongs = (RecyclerView) v.findViewById(R.id.dynamic_recyclerViewSong);
         LinearLayoutManager manager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
-        /*
-        im not sure what this line should be
-        TrackListAdapterVertical adapter = new TrackListAdapterVertical((TrackListCallback) this, getActivity(), (ArrayList<Track>) playlist.getTracks());
-
-         */
-        TrackListAdapterVertical adapter = new TrackListAdapterVertical((TrackListCallback) this, getActivity(), (ArrayList<Track>) playlist.getTracks());
+        TrackListAdapterVertical adapter = new TrackListAdapterVertical((TrackListCallback) this, getActivity(), (ArrayList<Track>) playlist.getTracks()); // TODO null
         rvPlaylistSongs.setLayoutManager(manager);
         rvPlaylistSongs.setAdapter(adapter);
 

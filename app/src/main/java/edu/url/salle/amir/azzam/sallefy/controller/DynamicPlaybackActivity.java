@@ -12,6 +12,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.gauravk.audiovisualizer.visualizer.BarVisualizer;
 
 import java.io.IOException;
@@ -25,13 +26,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import edu.url.salle.amir.azzam.sallefy.R;
 import edu.url.salle.amir.azzam.sallefy.controller.adapters.TrackListAdapter;
 import edu.url.salle.amir.azzam.sallefy.controller.callbacks.TrackListCallback;
+import edu.url.salle.amir.azzam.sallefy.controller.music.MusicPlayBackManager;
 import edu.url.salle.amir.azzam.sallefy.model.Like;
 import edu.url.salle.amir.azzam.sallefy.model.Track;
 import edu.url.salle.amir.azzam.sallefy.restapi.callback.TrackCallback;
 import edu.url.salle.amir.azzam.sallefy.restapi.manager.TrackManager;
 
 
-public class DynamicPlaybackActivity extends AppCompatActivity implements TrackCallback, TrackListCallback {
+public class DynamicPlaybackActivity extends AppCompatActivity {
 
     private static final String STOP_VIEW = "stop_view";
     private static final String PLAY_VIEW = "play_view";
@@ -39,7 +41,7 @@ public class DynamicPlaybackActivity extends AppCompatActivity implements TrackC
 
     private TextView tvTitle;
     private TextView tvAuthor;
-    private ImageView ivPhoto;
+    private ImageView ivPicture;
 
     private ImageButton btnBackward;
     private ImageButton btnPlayStop;
@@ -51,20 +53,15 @@ public class DynamicPlaybackActivity extends AppCompatActivity implements TrackC
     private Runnable mRunnable;
 
     private BarVisualizer mVisualizer;
-    private int mDuration;
 
-    //private RecyclerView mRecyclerView;
 
-    private MediaPlayer mPlayer;
-    private ArrayList<Track> mTracks;
-    private int currentTrack = 0;
+
 
 
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_song_view);
-        mDuration = 0;
         initViews();
         getData();
     }
@@ -82,49 +79,34 @@ public class DynamicPlaybackActivity extends AppCompatActivity implements TrackC
     }
 
     private void initViews() {
-
-        //mRecyclerView = (RecyclerView) findViewById(R.id.song_view);
-        //LinearLayoutManager manager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
-        //TrackListAdapter adapter = new TrackListAdapter(this, this, null);
-        //mRecyclerView.setLayoutManager(manager);
-        //mRecyclerView.setAdapter(adapter);
-
-
-        mPlayer = new MediaPlayer();
-        mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-        mPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                mSeekBar.setMax(mPlayer.getDuration());
-                mDuration =  mPlayer.getDuration();
-                playAudio();
-
-                int audioSessionId = mPlayer.getAudioSessionId();
-            }
-        });
-
         mHandler = new Handler();
+
 
         tvAuthor = findViewById(R.id.dynamic_artist);
         tvTitle = findViewById(R.id.dynamic_title);
+        ivPicture = (ImageView) findViewById(R.id.track_img);
+        Glide.with(getApplicationContext())
+                .asBitmap()
+                .placeholder(R.drawable.ic_audiotrack)
+                .load(R.drawable.ic_logo)
+                .into(ivPicture);
 
         btnBackward = (ImageButton)findViewById(R.id.dynamic_backward_btn);
         btnBackward.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                currentTrack = ((currentTrack-1)%(mTracks.size()));
-                currentTrack = currentTrack < 0 ? (mTracks.size()-1):currentTrack;
-                updateTrack(mTracks.get(currentTrack));
+                MusicPlayBackManager.getInstance().setCurrentTrack(((MusicPlayBackManager.getInstance().getCurrentTrack()-1)%(MusicPlayBackManager.getInstance().getMList().size())));
+                MusicPlayBackManager.getInstance().setCurrentTrack( MusicPlayBackManager.getInstance().getCurrentTrack() < 0 ? (MusicPlayBackManager.getInstance().getMList().size()-1):MusicPlayBackManager.getInstance().getCurrentTrack());
+                updateTrack(MusicPlayBackManager.getInstance().getCurrentTrack());
             }
         });
         btnForward = (ImageButton)findViewById(R.id.dynamic_forward_btn);
         btnForward.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                currentTrack = ((currentTrack+1)%(mTracks.size()));
-                currentTrack = currentTrack >= mTracks.size() ? 0:currentTrack;
-
-                updateTrack(mTracks.get(currentTrack));
+                MusicPlayBackManager.getInstance().setCurrentTrack(((MusicPlayBackManager.getInstance().getCurrentTrack()+1)%(MusicPlayBackManager.getInstance().getMList().size())));
+                MusicPlayBackManager.getInstance().setCurrentTrack( MusicPlayBackManager.getInstance().getCurrentTrack() >= MusicPlayBackManager.getInstance().getMList().size() ? 0 :MusicPlayBackManager.getInstance().getCurrentTrack());
+                updateTrack(MusicPlayBackManager.getInstance().getCurrentTrack());
             }
         });
 
@@ -147,10 +129,10 @@ public class DynamicPlaybackActivity extends AppCompatActivity implements TrackC
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (fromUser) {
-                    mPlayer.seekTo(progress);
+                    MusicPlayBackManager.getInstance().getMBoundService().seekTo(progress);
                 }
-                if (mDuration > 0) {
-                    int newProgress = ((progress*100)/mDuration);
+                if (MusicPlayBackManager.getInstance().getMDuration() > 0) {
+                    int newProgress = ((progress*100)/MusicPlayBackManager.getInstance().getMDuration());
                     System.out.println("New progress: " + newProgress);
                 }
             }
@@ -165,42 +147,54 @@ public class DynamicPlaybackActivity extends AppCompatActivity implements TrackC
 
             }
         });
+
+        if(MusicPlayBackManager.getInstance().ismServiceBound()){
+            playAudio();
+            Track track = MusicPlayBackManager.getInstance().getMList().get(MusicPlayBackManager.getInstance().getCurrentTrack());
+
+            tvAuthor.setText(track.getUserLogin());
+            tvTitle.setText(track.getName());
+
+            if (track.getThumbnail() != null) {
+                Glide.with((getApplicationContext()))
+                        .asBitmap()
+                        .placeholder(R.drawable.ic_audiotrack)
+                        .load(track.getThumbnail())
+                        .into(ivPicture);
+            }else{
+                Glide.with(getApplicationContext())
+                        .asBitmap()
+                        .placeholder(R.drawable.ic_audiotrack)
+                        .load(R.drawable.ic_logo)
+                        .into(ivPicture);
+            }
+
+        }
     }
 
     private void playAudio() {
-        mPlayer.start();
+        if (!MusicPlayBackManager.getInstance().getMBoundService().isPlaying()) {
+            MusicPlayBackManager.getInstance().getMBoundService().togglePlayer();
+        }
         updateSeekBar();
-        btnPlayStop.setImageResource(R.drawable.ic_pause);
+        btnPlayStop.setImageResource(R.drawable.ic_pause_circle_filled_black_24dp);
         btnPlayStop.setTag(STOP_VIEW);
         //Toast.makeText(getApplicationContext(), "Playing Audio", Toast.LENGTH_SHORT).show();
     }
 
     private void pauseAudio() {
-        mPlayer.pause();
-        btnPlayStop.setImageResource(R.drawable.ic_play);
+        if (MusicPlayBackManager.getInstance().getMBoundService().isPlaying()) { MusicPlayBackManager.getInstance().getMBoundService().togglePlayer(); }
+        btnPlayStop.setImageResource(R.drawable.ic_play_circle_filled_black_24dp);
         btnPlayStop.setTag(PLAY_VIEW);
         //Toast.makeText(getApplicationContext(), "Pausing Audio", Toast.LENGTH_SHORT).show();
     }
 
-    private void prepareMediaPlayer(final String url) {
-        Thread connection = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    mPlayer.setDataSource(url);
-                    mPlayer.prepare(); // might take long! (for buffering, etc)
-                } catch (IOException e) {
-                    Toast.makeText(getApplicationContext(),"Error, couldn't play the music\n" + e.getMessage(), Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-        connection.start();
-    }
+
 
     public void updateSeekBar() {
-        mSeekBar.setProgress(mPlayer.getCurrentPosition());
-
-        if(mPlayer.isPlaying()) {
+        mSeekBar.setMax(MusicPlayBackManager.getInstance().getMBoundService().getMaxDuration());
+        mSeekBar.setProgress(MusicPlayBackManager.getInstance().getMBoundService().getCurrentPosition());
+        if(MusicPlayBackManager.getInstance().getMBoundService().isPlaying()) {
             mRunnable = new Runnable() {
                 @Override
                 public void run() {
@@ -211,18 +205,34 @@ public class DynamicPlaybackActivity extends AppCompatActivity implements TrackC
         }
     }
 
-    public void updateTrack(Track track) {
-        //updateSessionMusicData(offset);
+
+    public void updateTrack(int index) {
+        Track track = MusicPlayBackManager.getInstance().getMList().get(index);
+
         tvAuthor.setText(track.getUserLogin());
         tvTitle.setText(track.getName());
-        try {
-            mPlayer.reset();
-            mPlayer.setDataSource(track.getUrl());
-            //mediaPlayer.pause();
-            mPlayer.prepare();
-        } catch(Exception e) {
+
+        if (track.getThumbnail() != null) {
+            Glide.with((getApplicationContext()))
+                    .asBitmap()
+                    .placeholder(R.drawable.ic_audiotrack)
+                    .load(track.getThumbnail())
+                    .into(ivPicture);
+        }else{
+            Glide.with(getApplicationContext())
+                    .asBitmap()
+                    .placeholder(R.drawable.ic_audiotrack)
+                    .load(R.drawable.ic_logo)
+                    .into(ivPicture);
         }
+
+        MusicPlayBackManager.getInstance().getMBoundService().playStream(track);
+
+        btnPlayStop.setImageResource(R.drawable.ic_pause_circle_filled_black_24dp);
+        btnPlayStop.setTag(STOP_VIEW);
+        updateSeekBar();
     }
+
 
     public void updateSessionMusicData(int offset) {
         /*int oldIndex = Session.getInstance(getApplicationContext()).getIndex();
@@ -235,78 +245,8 @@ public class DynamicPlaybackActivity extends AppCompatActivity implements TrackC
 
 
     private void getData() {
-        TrackManager.getInstance(this).getAllTracks(this);
-        mTracks = new ArrayList<>();
-    }
-
-    @Override
-    public void onTracksReceived(List<Track> tracks) {
-        //mTracks = (ArrayList) tracks;
-        //TrackListAdapter adapter = new TrackListAdapter(this, this, mTracks);
-        //mRecyclerView.setAdapter(adapter);
 
     }
 
-    @Override
-    public void onTrackReceived(Track track) {
-
-    }
-
-    @Override
-    public void onNoTracks(Throwable throwable) {
-
-    }
-
-    @Override
-    public void onTrackDeleted() {
-
-    }
-
-    @Override
-    public void onLikeReceived(Like like) {
-
-    }
-
-    @Override
-    public void onNoLike(Throwable throwable) {
-
-    }
-
-    @Override
-    public void onPersonalTracksReceived(List<Track> tracks) {
-
-    }
-
-
-    @Override
-    public void onUserTracksReceived(List<Track> tracks) {
-
-    }
-
-    @Override
-    public void onUserLikedTracksReceived(List<Track> tracks) {
-
-    }
-
-    @Override
-    public void onCreateTrack() {
-
-    }
-
-    @Override
-    public void onFailure(Throwable throwable) {
-
-    }
-
-    @Override
-    public void onTrackSelected(Track track) {
-        updateTrack(track);
-    }
-
-    @Override
-    public void onTrackSelected(int index, ArrayList<Track> tracks) {
-        mTracks = tracks;
-        updateTrack(tracks.get(index));
-    }
 
 }

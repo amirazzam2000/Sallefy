@@ -1,6 +1,7 @@
 package edu.url.salle.amir.azzam.sallefy.controller.adapters;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,6 +57,11 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.View
             }
         });
         holder.tvTitle.setText(mTracks.get(position).getName());
+        holder.tvTitle.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+        holder.tvTitle.setSingleLine(true);
+        holder.tvTitle.setMarqueeRepeatLimit(-1);
+        holder.tvTitle.setSelected(true);
+
         holder.tvAuthor.setText(mTracks.get(position).getUserLogin());
         if (mTracks.get(position).getThumbnail() != null) {
             Glide.with(mContext)

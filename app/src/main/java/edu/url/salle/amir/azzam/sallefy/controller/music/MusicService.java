@@ -23,7 +23,7 @@ public class MusicService extends Service {
     private boolean playingBeforeInterruption = false;
 
     private ArrayList<Track> mTracks = new ArrayList<>();
-    private int currentTrack = -1;
+    private static int currentTrack = -1;
 
     private MusicCallback mCallback;
 
@@ -160,6 +160,10 @@ public class MusicService extends Service {
         }
     }
 
+    public void seekTo(int progress){
+        mediaPlayer.seekTo(progress);
+    }
+
     public void pausePlayer() {
         try {
             mediaPlayer.pause();
@@ -216,7 +220,7 @@ public class MusicService extends Service {
         }
     }
 
-    public int getCurrrentPosition() {
+    public int getCurrentPosition() {
         try {
             if (mediaPlayer != null) {
                 return mediaPlayer.getCurrentPosition();

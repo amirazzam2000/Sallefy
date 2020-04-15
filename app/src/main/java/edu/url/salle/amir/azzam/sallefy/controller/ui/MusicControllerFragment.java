@@ -1,17 +1,14 @@
 package edu.url.salle.amir.azzam.sallefy.controller.ui;
 
 import android.app.Activity;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
-import android.os.IBinder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,15 +22,19 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 
 import edu.url.salle.amir.azzam.sallefy.R;
+import edu.url.salle.amir.azzam.sallefy.controller.DynamicPlaybackActivity;
 import edu.url.salle.amir.azzam.sallefy.controller.MusicViewActivity;
+import edu.url.salle.amir.azzam.sallefy.controller.UploadActivity;
 import edu.url.salle.amir.azzam.sallefy.controller.music.MusicCallback;
+import edu.url.salle.amir.azzam.sallefy.controller.music.MusicPlayBackManager;
 import edu.url.salle.amir.azzam.sallefy.controller.music.MusicService;
+import edu.url.salle.amir.azzam.sallefy.controller.music.MusicUpdatesCallback;
 import edu.url.salle.amir.azzam.sallefy.model.Track;
 import edu.url.salle.amir.azzam.sallefy.restapi.manager.SongViewManger;
 import edu.url.salle.amir.azzam.sallefy.restapi.service.SongViewService;
 
 
-public class MusicControllerFragment extends Fragment implements MusicCallback , SongViewService {
+public class MusicControllerFragment extends Fragment implements MusicCallback , SongViewService, MusicUpdatesCallback {
     public static final String TAG = MusicControllerFragment.class.getName();
 
     private Handler mHandler;
@@ -52,25 +53,7 @@ public class MusicControllerFragment extends Fragment implements MusicCallback ,
 
     private static final String PLAY_VIEW = "PlayIcon";
     private static final String STOP_VIEW = "StopIcon";
-    private MusicService mBoundService;
-    private boolean mServiceBound = false;
-    private ArrayList<Track> mList;
-    private int currentTrack;
 
-    private ServiceConnection mServiceConnection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            MusicService.MusicBinder binder = (MusicService.MusicBinder)service;
-            mBoundService = binder.getService();
-            mBoundService.setCallback(MusicControllerFragment.this);
-            mServiceBound = true;
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            mServiceBound = false;
-        }
-    };
 
     public MusicControllerFragment() {
     }
@@ -90,7 +73,8 @@ public class MusicControllerFragment extends Fragment implements MusicCallback ,
 
     private void initView(View v) {
         mHandler = new Handler();
-        mList = new ArrayList<>();
+        //mList = new ArrayList<>();
+        MusicPlayBackManager.getInstance().setMList(new ArrayList<>());
         tvAuthor = v.findViewById(R.id.dynamic_artist);
         tvTitle = v.findViewById(R.id.dynamic_title);
         ivPicture = (ImageView) v.findViewById(R.id.track_img);
@@ -101,22 +85,32 @@ public class MusicControllerFragment extends Fragment implements MusicCallback ,
                 .into(ivPicture);
 
 
+
+
         btnBackward = (ImageButton)v.findViewById(R.id.dynamic_backward_btn);
+
+        MusicPlayBackManager.getInstance().addCallback(this);
         btnBackward.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                currentTrack = ((currentTrack-1)%(mList.size()));
+                /*currentTrack = ((currentTrack-1)%(mList.size()));
                 currentTrack = currentTrack < 0 ? (mList.size()-1):currentTrack;
-                updateTrack(currentTrack);
+                updateTrack(currentTrack);*/
+                MusicPlayBackManager.getInstance().setCurrentTrack(((MusicPlayBackManager.getInstance().getCurrentTrack()-1)%(MusicPlayBackManager.getInstance().getMList().size())));
+                MusicPlayBackManager.getInstance().setCurrentTrack( MusicPlayBackManager.getInstance().getCurrentTrack() < 0 ? (MusicPlayBackManager.getInstance().getMList().size()-1):MusicPlayBackManager.getInstance().getCurrentTrack());
+                updateTrack(MusicPlayBackManager.getInstance().getCurrentTrack());
             }
         });
         btnForward = (ImageButton)v.findViewById(R.id.dynamic_forward_btn);
         btnForward.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                currentTrack = ((currentTrack+1)%(mList.size()));
+                /*currentTrack = ((currentTrack+1)%(mList.size()));
                 currentTrack = currentTrack >= mList.size() ? 0:currentTrack;
-                updateTrack(currentTrack);
+                updateTrack(currentTrack);*/
+                MusicPlayBackManager.getInstance().setCurrentTrack(((MusicPlayBackManager.getInstance().getCurrentTrack()+1)%(MusicPlayBackManager.getInstance().getMList().size())));
+                MusicPlayBackManager.getInstance().setCurrentTrack( MusicPlayBackManager.getInstance().getCurrentTrack() >= MusicPlayBackManager.getInstance().getMList().size() ? 0 :MusicPlayBackManager.getInstance().getCurrentTrack());
+                updateTrack(MusicPlayBackManager.getInstance().getCurrentTrack());
             }
         });
 
@@ -138,7 +132,9 @@ public class MusicControllerFragment extends Fragment implements MusicCallback ,
         viewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SongViewManger.getInstance(getContext()).transactToActivity(currentTrack,mList, mBoundService, MusicViewActivity.getInstance());
+                Intent i = new Intent(getActivity(), DynamicPlaybackActivity.class);
+                startActivity(i);
+                ((Activity) getActivity()).overridePendingTransition(0, 0);
             }
         });
     }
@@ -146,16 +142,18 @@ public class MusicControllerFragment extends Fragment implements MusicCallback ,
 
     private void startStreamingService () {
         Intent intent = new Intent(getContext(), MusicService.class);
-        getActivity().bindService(intent, mServiceConnection, Context.BIND_AUTO_CREATE);
+        //getActivity().bindService(intent, mServiceConnection, Context.BIND_AUTO_CREATE);
+        getActivity().bindService(intent, MusicPlayBackManager.getInstance().getMServiceConnection(), Context.BIND_AUTO_CREATE);
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
 
-        if (mBoundService != null) {
+        if (MusicPlayBackManager.getInstance().getMBoundService() != null) {
             resumeSongText();
-            if (mBoundService.isPlaying()) {
+            if (MusicPlayBackManager.getInstance().getMBoundService().isPlaying()) {
                 playAudio();
             } else {
                 pauseAudio();
@@ -167,7 +165,7 @@ public class MusicControllerFragment extends Fragment implements MusicCallback ,
     @Override
     public void onPause() {
         super.onPause();
-        if (mServiceBound) {
+        if (MusicPlayBackManager.getInstance().ismServiceBound()) {
             //pauseAudio();
         }
 
@@ -176,10 +174,10 @@ public class MusicControllerFragment extends Fragment implements MusicCallback ,
     @Override
     public void onStop() {
         super.onStop();
-        if (mServiceBound) {
-            getActivity().unbindService(mServiceConnection);
-            mServiceBound = false;
-        }
+        /*if (MusicPlayBackManager.getInstance().ismServiceBound()) {
+            getActivity().unbindService(MusicPlayBackManager.getInstance().getMServiceConnection());
+            MusicPlayBackManager.getInstance().setMServiceBound(false);
+        }*/
     }
 
     @Override
@@ -195,7 +193,10 @@ public class MusicControllerFragment extends Fragment implements MusicCallback ,
 
 
     private void playAudio() {
-        if (!mBoundService.isPlaying()) { mBoundService.togglePlayer(); }
+        
+        if (!MusicPlayBackManager.getInstance().getMBoundService().isPlaying()) {
+            MusicPlayBackManager.getInstance().getMBoundService().togglePlayer();
+        }
         //updateSeekBar();
         btnPlayStop.setImageResource(R.drawable.ic_pause);
         btnPlayStop.setTag(STOP_VIEW);
@@ -203,19 +204,19 @@ public class MusicControllerFragment extends Fragment implements MusicCallback ,
     }
 
     private void pauseAudio() {
-        if (mBoundService.isPlaying()) { mBoundService.togglePlayer(); }
+        if (MusicPlayBackManager.getInstance().getMBoundService().isPlaying()) { MusicPlayBackManager.getInstance().getMBoundService().togglePlayer(); }
         btnPlayStop.setImageResource(R.drawable.ic_play);
         btnPlayStop.setTag(PLAY_VIEW);
         //Toast.makeText(getContext(), "Pausing Audio", Toast.LENGTH_SHORT).show();
     }
 
     public void updateSeekBar() {
-        System.out.println("max duration: " + mBoundService.getMaxDuration());
-        System.out.println("progress:" + mBoundService.getCurrrentPosition());
+        System.out.println("max duration: " + MusicPlayBackManager.getInstance().getMBoundService().getMaxDuration());
+        System.out.println("progress:" + MusicPlayBackManager.getInstance().getMBoundService().getCurrentPosition());
         //mSeekBar.setMax(mBoundService.getMaxDuration());
         //mSeekBar.setProgress(mBoundService.getCurrrentPosition());
 
-        if(mBoundService.isPlaying()) {
+        if(MusicPlayBackManager.getInstance().getMBoundService().isPlaying()) {
             mRunnable = new Runnable() {
                 @Override
                 public void run() {
@@ -227,9 +228,9 @@ public class MusicControllerFragment extends Fragment implements MusicCallback ,
     }
 
     public void updateTrack(int index, ArrayList<Track> tracks) {
-        mList = tracks;
-        Track track = mList.get(index);
-        currentTrack = index;
+        MusicPlayBackManager.getInstance().setMList(tracks);
+        Track track = MusicPlayBackManager.getInstance().getMList().get(index);
+        MusicPlayBackManager.getInstance().setCurrentTrack(index);
         tvAuthor.setText(track.getUserLogin());
         tvTitle.setText(track.getName());
 
@@ -247,7 +248,7 @@ public class MusicControllerFragment extends Fragment implements MusicCallback ,
                     .into(ivPicture);
         }
 
-        mBoundService.playStream(track);
+        MusicPlayBackManager.getInstance().getMBoundService().playStream(track);
 
         btnPlayStop.setImageResource(R.drawable.ic_pause);
         btnPlayStop.setTag(STOP_VIEW);
@@ -255,7 +256,7 @@ public class MusicControllerFragment extends Fragment implements MusicCallback ,
     }
 
     public void updateTrack(int index) {
-        Track track = mList.get(index);
+        Track track = MusicPlayBackManager.getInstance().getMList().get(index);
 
         tvAuthor.setText(track.getUserLogin());
         tvTitle.setText(track.getName());
@@ -274,7 +275,7 @@ public class MusicControllerFragment extends Fragment implements MusicCallback ,
                     .into(ivPicture);
         }
 
-        mBoundService.playStream(track);
+        MusicPlayBackManager.getInstance().getMBoundService().playStream(track);
 
         btnPlayStop.setImageResource(R.drawable.ic_pause);
         btnPlayStop.setTag(STOP_VIEW);
@@ -310,7 +311,7 @@ public class MusicControllerFragment extends Fragment implements MusicCallback ,
 
 
     private void resumeSongText() {
-        Track track = mBoundService.getCurrentTrack();
+        Track track = MusicPlayBackManager.getInstance().getMBoundService().getCurrentTrack();
         if (track != null) {
             tvAuthor.setText(track.getUserLogin());
             tvTitle.setText(track.getName());
@@ -333,10 +334,7 @@ public class MusicControllerFragment extends Fragment implements MusicCallback ,
 
     @Override
     public void onMusicPlayerPrepared() {
-        System.out.println("Entra en el prepared");
-        //mSeekBar.setMax(mBoundService.getMaxDuration());
-        mDuration =  mBoundService.getMaxDuration();
-        playAudio();
+
 
     }
 
@@ -363,5 +361,13 @@ public class MusicControllerFragment extends Fragment implements MusicCallback ,
     @Override
     public void onSongsReceivedFromActivity() {
 
+    }
+
+    @Override
+    public void musicReady() {
+        System.out.println("Entra en el prepared");
+        //mSeekBar.setMax(mBoundService.getMaxDuration());
+        mDuration =  MusicPlayBackManager.getInstance().getMBoundService().getMaxDuration();
+        playAudio();
     }
 }
