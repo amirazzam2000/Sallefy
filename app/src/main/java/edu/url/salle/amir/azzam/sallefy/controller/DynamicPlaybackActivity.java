@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import edu.url.salle.amir.azzam.sallefy.R;
@@ -29,12 +31,11 @@ import edu.url.salle.amir.azzam.sallefy.restapi.callback.TrackCallback;
 import edu.url.salle.amir.azzam.sallefy.restapi.manager.TrackManager;
 
 
-public class DynamicPlaybackActivity extends Activity implements TrackCallback, TrackListCallback {
+public class DynamicPlaybackActivity extends AppCompatActivity implements TrackCallback, TrackListCallback {
 
+    private static final String STOP_VIEW = "stop_view";
+    private static final String PLAY_VIEW = "play_view";
     private static final String TAG = "DynamicPlaybackActivity";
-    private static final String PLAY_VIEW = "PlayIcon";
-    private static final String STOP_VIEW = "StopIcon";
-
 
     private TextView tvTitle;
     private TextView tvAuthor;
@@ -52,7 +53,7 @@ public class DynamicPlaybackActivity extends Activity implements TrackCallback, 
     private BarVisualizer mVisualizer;
     private int mDuration;
 
-    private RecyclerView mRecyclerView;
+    //private RecyclerView mRecyclerView;
 
     private MediaPlayer mPlayer;
     private ArrayList<Track> mTracks;
@@ -82,11 +83,11 @@ public class DynamicPlaybackActivity extends Activity implements TrackCallback, 
 
     private void initViews() {
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.dynamic_recyclerView);
-        LinearLayoutManager manager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
-        TrackListAdapter adapter = new TrackListAdapter(this, this, null);
-        mRecyclerView.setLayoutManager(manager);
-        mRecyclerView.setAdapter(adapter);
+        //mRecyclerView = (RecyclerView) findViewById(R.id.song_view);
+        //LinearLayoutManager manager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
+        //TrackListAdapter adapter = new TrackListAdapter(this, this, null);
+        //mRecyclerView.setLayoutManager(manager);
+        //mRecyclerView.setAdapter(adapter);
 
 
         mPlayer = new MediaPlayer();
@@ -240,9 +241,10 @@ public class DynamicPlaybackActivity extends Activity implements TrackCallback, 
 
     @Override
     public void onTracksReceived(List<Track> tracks) {
-        mTracks = (ArrayList) tracks;
-        TrackListAdapter adapter = new TrackListAdapter(this, this, mTracks);
-        mRecyclerView.setAdapter(adapter);
+        //mTracks = (ArrayList) tracks;
+        //TrackListAdapter adapter = new TrackListAdapter(this, this, mTracks);
+        //mRecyclerView.setAdapter(adapter);
+
     }
 
     @Override
