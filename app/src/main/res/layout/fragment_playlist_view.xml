@@ -6,11 +6,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:id="@+id/playlistName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/playlist_name"
+        android:textAlignment="center"
+        android:textSize="35dp"
+        app:layout_constraintBottom_toTopOf="@+id/playlistFollowButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView2" />
+
     <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="415dp"
-        android:layout_height="289dp"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+        android:id="@+id/playlistCover"
+        android:layout_width="405dp"
+        android:layout_height="209dp"
+        app:layout_constraintBottom_toTopOf="@+id/playlistFollowButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -18,23 +31,39 @@
         app:srcCompat="@color/colorGrey" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/playlistAuthor"
+        android:layout_width="288dp"
+        android:layout_height="39dp"
+        android:background="@drawable/button_background_white_black"
+        android:text="@string/username"
+        android:textColor="@color/colorWhite"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/playlistFollowButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/playlistName" />
+
+    <Button
+        android:id="@+id/playlistFollowButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
         android:background="@drawable/button_background"
         android:text="@string/follow"
         android:textColor="@color/colorWhite"
         app:layout_constraintBottom_toTopOf="@+id/scrollView3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/playlistName" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView2"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="50dp"
         android:elevation="10dp"
         app:cardCornerRadius="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -45,7 +74,7 @@
         app:layout_constraintVertical_bias="0.133">
 
         <ImageButton
-            android:id="@+id/imageButton3"
+            android:id="@+id/playlistThumbnail"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
@@ -58,8 +87,8 @@
 
     <ScrollView
         android:id="@+id/scrollView3"
-        android:layout_width="match_parent"
-        android:layout_height="350dp"
+        android:layout_width="416dp"
+        android:layout_height="253dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -85,7 +114,6 @@
         </LinearLayout>
 
     </ScrollView>
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
