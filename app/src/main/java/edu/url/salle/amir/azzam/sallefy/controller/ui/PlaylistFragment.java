@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import edu.url.salle.amir.azzam.sallefy.R;
 import edu.url.salle.amir.azzam.sallefy.controller.MusicViewActivity;
 import edu.url.salle.amir.azzam.sallefy.controller.adapters.TrackListAdapterVertical;
+import edu.url.salle.amir.azzam.sallefy.controller.callbacks.TrackListCallback;
 import edu.url.salle.amir.azzam.sallefy.model.Playlist;
 import edu.url.salle.amir.azzam.sallefy.model.Track;
 import edu.url.salle.amir.azzam.sallefy.restapi.callback.PlaylistCallback;
@@ -33,10 +34,23 @@ public class PlaylistFragment extends Fragment implements PlaylistCallback {
     private RecyclerView rvPlaylistSongs;
     private Button btnFollow;
     private Button btnAuthorProfile;
+    private Playlist playlist;
 
 
     public static PlaylistFragment getInstance() {
-        return new PlaylistFragment();
+        return new PlaylistFragment(null);
+    }
+
+    public PlaylistFragment(Playlist playlist){
+        this.playlist = playlist;
+    }
+
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             ViewGroup container, Bundle savedInstanceState) {
+
+        View root = inflater.inflate(R.layout.fragment_playlist_view, container, false);
+        initView(root);
+        return root;
     }
 
     private void initView(View v) {
@@ -47,9 +61,14 @@ public class PlaylistFragment extends Fragment implements PlaylistCallback {
 
         rvPlaylistSongs = (RecyclerView) v.findViewById(R.id.dynamic_recyclerViewSong);
         LinearLayoutManager manager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
-        //TrackListAdapterVertical adapter = new TrackListAdapterVertical(this, getActivity(), (ArrayList<Track>) searchResults.getFoundSongs());
+        /*
+        im not sure what this line should be
+        TrackListAdapterVertical adapter = new TrackListAdapterVertical((TrackListCallback) this, getActivity(), (ArrayList<Track>) playlist.getTracks());
+
+         */
+        TrackListAdapterVertical adapter = new TrackListAdapterVertical((TrackListCallback) this, getActivity(), (ArrayList<Track>) playlist.getTracks());
         rvPlaylistSongs.setLayoutManager(manager);
-        //rvPlaylistSongs.setAdapter(adapter);
+        rvPlaylistSongs.setAdapter(adapter);
 
         ibPlaylistThumbnail = (ImageButton)v.findViewById(R.id.playlistThumbnail);
 
@@ -57,12 +76,8 @@ public class PlaylistFragment extends Fragment implements PlaylistCallback {
         btnFollow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*
-                currentTrack = ((currentTrack+1)%(mList.size()));
-                currentTrack = currentTrack >= mList.size() ? 0:currentTrack;
-                updateTrack(currentTrack);
 
-                 */
+                playlist.setFollowed(true);
             }
         });
 
@@ -70,6 +85,9 @@ public class PlaylistFragment extends Fragment implements PlaylistCallback {
         btnAuthorProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                //playlist.getUser().
+                //go to author profile
                 /*
                 currentTrack = ((currentTrack+1)%(mList.size()));
                 currentTrack = currentTrack >= mList.size() ? 0:currentTrack;
@@ -79,14 +97,6 @@ public class PlaylistFragment extends Fragment implements PlaylistCallback {
             }
         });
 
-    }
-
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-
-        View root = inflater.inflate(R.layout.fragment_playlist_view, container, false);
-        initView(root);
-        return root;
     }
 
     @Override
