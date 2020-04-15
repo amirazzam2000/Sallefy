@@ -66,6 +66,7 @@
     <string name="x">X%</string>
     <string name="create">create</string>
     <string name="playlist_name">Playlist Name</string>
+    <string name="genre_name">Genre Name</string>
     <string name="create_playlist">Create Playlist</string>
     <string name="make_the_playlist_public">Make the playlist public</string>
     <string name="upload_thumbnail">upload Thumbnail</string>
