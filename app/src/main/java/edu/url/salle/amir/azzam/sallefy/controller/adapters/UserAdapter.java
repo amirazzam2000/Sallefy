@@ -2,6 +2,7 @@ package edu.url.salle.amir.azzam.sallefy.controller.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,6 +45,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         if(mUsers!= null){
             holder.tvUsername.setText(mUsers.getLogin());
+            holder.tvUsername.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+            holder.tvUsername.setSingleLine(true);
+            holder.tvUsername.setMarqueeRepeatLimit(-1);
+            holder.tvUsername.setSelected(true);
+
+
             if (mUsers.getImageUrl() != null) {
                 Glide.with(mContext)
                         .asBitmap()

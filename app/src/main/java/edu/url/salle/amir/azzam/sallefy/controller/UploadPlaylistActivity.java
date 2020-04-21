@@ -348,4 +348,14 @@ public class UploadPlaylistActivity extends AppCompatActivity implements TrackCa
         });
         watchDialog.start();
     }
+
+    @Override
+    public void onPlaylistFollowed() {
+
+    }
+
+    @Override
+    public void onPlaylistSelected(Playlist playlist) {
+
+    }
 }

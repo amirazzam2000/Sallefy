@@ -148,7 +148,7 @@ public class DynamicPlaybackActivity extends AppCompatActivity {
             }
         });
 
-        if(MusicPlayBackManager.getInstance().ismServiceBound()){
+        if(MusicPlayBackManager.getInstance().ismServiceBound() && MusicPlayBackManager.getInstance().getMList() != null){
             playAudio();
             Track track = MusicPlayBackManager.getInstance().getMList().get(MusicPlayBackManager.getInstance().getCurrentTrack());
 
@@ -169,7 +169,16 @@ public class DynamicPlaybackActivity extends AppCompatActivity {
                         .into(ivPicture);
             }
 
+        }else{
+            tvAuthor.setText("Author");
+            tvTitle.setText("Track name");
+            Glide.with(getApplicationContext())
+                    .asBitmap()
+                    .placeholder(R.drawable.ic_audiotrack)
+                    .load(R.drawable.ic_logo)
+                    .into(ivPicture);
         }
+
     }
 
     private void playAudio() {

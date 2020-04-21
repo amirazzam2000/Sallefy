@@ -29,6 +29,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import edu.url.salle.amir.azzam.sallefy.R;
@@ -285,22 +286,6 @@ public class HomeFragment extends Fragment
         requestQ.add((ArrayList) tracks);
         requestNumber++;
 
-        tvTitleBig.setText(tracks.get(0).getName());
-        tvAuthorBig.setText(tracks.get(0).getUserLogin());
-        if (tracks.get(0).getThumbnail() != null) {
-            Glide.with(getContext())
-                    .asBitmap()
-                    .placeholder(R.drawable.ic_audiotrack)
-                    .load(tracks.get(0).getThumbnail())
-                    .into(ivPictureBig);
-        }else{
-            Glide.with(getContext())
-                    .asBitmap()
-                    .placeholder(R.drawable.ic_audiotrack)
-                    .load(R.drawable.ic_logo)
-                    .into(ivPictureBig);
-        }
-
         if(requestNumber == 2) {
             TrackListAdapter adapter = new TrackListAdapter(this, getActivity(), requestQ.poll());
             mRecyclerViewMostPlayed.setAdapter(adapter);
@@ -308,6 +293,22 @@ public class HomeFragment extends Fragment
             mBigList = requestQ.poll();
             adapter = new TrackListAdapter(this, getActivity(), mBigList);
             mRecyclerViewMostRecent.setAdapter(adapter);
+
+            tvTitleBig.setText(tracks.get(0).getName());
+            tvAuthorBig.setText(tracks.get(0).getUserLogin());
+            if (tracks.get(0).getThumbnail() != null) {
+                Glide.with(getContext())
+                        .asBitmap()
+                        .placeholder(R.drawable.ic_audiotrack)
+                        .load(tracks.get(0).getThumbnail())
+                        .into(ivPictureBig);
+            }else{
+                Glide.with(getContext())
+                        .asBitmap()
+                        .placeholder(R.drawable.ic_audiotrack)
+                        .load(R.drawable.ic_logo)
+                        .into(ivPictureBig);
+            }
         }
     }
 
@@ -417,5 +418,18 @@ public class HomeFragment extends Fragment
     @Override
     public void onPlayListCreated(Playlist playlist) {
 
+    }
+
+    @Override
+    public void onPlaylistFollowed() {
+
+    }
+
+    @Override
+    public void onPlaylistSelected(Playlist playlist) {
+        PlaylistFragment fragment = new PlaylistFragment(playlist);
+        FragmentTransaction t = this.getFragmentManager().beginTransaction();
+        t.replace(R.id.nav_host_fragment, fragment);
+        t.commit();
     }
 }

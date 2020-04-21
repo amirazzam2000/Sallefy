@@ -18,4 +18,7 @@ public interface PlaylistCallback extends FailureCallback{
 
     void onPlayListCreated(Playlist playlist);
 
+    void onPlaylistFollowed();
+
+    void onPlaylistSelected(Playlist playlist);
 }

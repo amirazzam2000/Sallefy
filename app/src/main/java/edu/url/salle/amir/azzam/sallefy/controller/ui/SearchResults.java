@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import edu.url.salle.amir.azzam.sallefy.R;
@@ -25,10 +26,11 @@ import edu.url.salle.amir.azzam.sallefy.model.Playlist;
 import edu.url.salle.amir.azzam.sallefy.model.Search;
 import edu.url.salle.amir.azzam.sallefy.model.Track;
 import edu.url.salle.amir.azzam.sallefy.model.User;
+import edu.url.salle.amir.azzam.sallefy.restapi.callback.PlaylistCallback;
 import edu.url.salle.amir.azzam.sallefy.restapi.callback.TrackCallback;
 
 
-public class SearchResults extends Fragment implements TrackListCallback {
+public class SearchResults extends Fragment implements TrackListCallback, PlaylistCallback {
     public static final String TAG = SearchFragment.class.getName();
     private Search searchResults;
     private RecyclerView mRecyclerVieSongs;
@@ -118,5 +120,48 @@ public class SearchResults extends Fragment implements TrackListCallback {
     public void onTrackSelected(int index, ArrayList<Track> tracks) {
         MusicControllerFragment musicFragment = (MusicControllerFragment) getFragmentManager().findFragmentById(R.id.musicPlayer);
         musicFragment.updateTrack(index, tracks);
+    }
+
+    @Override
+    public void onPlaylistById(Playlist playlist) {
+
+    }
+
+    @Override
+    public void onPlaylistsByUser(ArrayList<Playlist> playlists) {
+
+    }
+
+    @Override
+    public void onAllList(ArrayList<Playlist> playlists) {
+
+    }
+
+    @Override
+    public void onFollowingList(ArrayList<Playlist> playlists) {
+
+    }
+
+    @Override
+    public void onPlayListCreated(Playlist playlist) {
+
+    }
+
+    @Override
+    public void onPlaylistFollowed() {
+
+    }
+
+    @Override
+    public void onPlaylistSelected(Playlist playlist) {
+        PlaylistFragment fragment = new PlaylistFragment(playlist);
+        FragmentTransaction t = this.getFragmentManager().beginTransaction();
+        t.replace(R.id.nav_host_fragment, fragment);
+        t.commit();
+    }
+
+    @Override
+    public void onFailure(Throwable throwable) {
+
     }
 }

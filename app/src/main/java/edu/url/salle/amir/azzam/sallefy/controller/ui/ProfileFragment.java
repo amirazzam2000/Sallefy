@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -261,6 +262,19 @@ public class ProfileFragment extends Fragment implements UserCallback, TrackList
     @Override
     public void onPlayListCreated(Playlist playlist) {
 
+    }
+
+    @Override
+    public void onPlaylistFollowed() {
+
+    }
+
+    @Override
+    public void onPlaylistSelected(Playlist playlist) {
+        PlaylistFragment fragment = new PlaylistFragment(playlist);
+        FragmentTransaction t = this.getFragmentManager().beginTransaction();
+        t.replace(R.id.nav_host_fragment, fragment);
+        t.commit();
     }
 
     @Override

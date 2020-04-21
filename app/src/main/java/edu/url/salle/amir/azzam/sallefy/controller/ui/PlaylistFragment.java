@@ -9,6 +9,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -23,16 +25,18 @@ import edu.url.salle.amir.azzam.sallefy.controller.callbacks.TrackListCallback;
 import edu.url.salle.amir.azzam.sallefy.model.Playlist;
 import edu.url.salle.amir.azzam.sallefy.model.Track;
 import edu.url.salle.amir.azzam.sallefy.restapi.callback.PlaylistCallback;
+import edu.url.salle.amir.azzam.sallefy.restapi.manager.PlaylistManager;
 import edu.url.salle.amir.azzam.sallefy.restapi.manager.SongViewManger;
 
-public class PlaylistFragment extends Fragment implements PlaylistCallback {
+public class PlaylistFragment extends Fragment implements PlaylistCallback, TrackListCallback {
 
     private ImageView ivPlaylistCoverPhoto;
-    private ImageButton ibPlaylistThumbnail;
+    private ImageView ibPlaylistThumbnail;
     private TextView tvPlaylistName;
-    private TextView tvPlaylistAuthor;
+    private Button tvPlaylistAuthor;
     private RecyclerView rvPlaylistSongs;
     private Button btnFollow;
+    private Button btnFollowing;
     private Button btnAuthorProfile;
     private Playlist playlist;
 
@@ -55,24 +59,57 @@ public class PlaylistFragment extends Fragment implements PlaylistCallback {
 
     private void initView(View v) {
 
-        tvPlaylistName = v.findViewById(R.id.dynamic_artist);
-        tvPlaylistAuthor = v.findViewById(R.id.dynamic_title);
-        ivPlaylistCoverPhoto = (ImageView) v.findViewById(R.id.track_img);
+        tvPlaylistName = v.findViewById(R.id.playlistName);
+        tvPlaylistName.setText(playlist.getName());
+
+        tvPlaylistAuthor = v.findViewById(R.id.playlistAuthor);
+        tvPlaylistAuthor.setText(playlist.getUser().getLogin());
+
+        ivPlaylistCoverPhoto = (ImageView) v.findViewById(R.id.playlistCover);
+        if (playlist.getCover() != null) {
+            Glide.with(getContext())
+                    .asBitmap()
+                    .placeholder(R.drawable.ic_audiotrack)
+                    .load(playlist.getCover())
+                    .into(ivPlaylistCoverPhoto);
+        }
 
         rvPlaylistSongs = (RecyclerView) v.findViewById(R.id.dynamic_recyclerViewSong);
         LinearLayoutManager manager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
-        TrackListAdapterVertical adapter = new TrackListAdapterVertical((TrackListCallback) this, getActivity(), (ArrayList<Track>) playlist.getTracks()); // TODO null
+        TrackListAdapterVertical adapter = new TrackListAdapterVertical( this, getActivity(), (ArrayList<Track>) playlist.getTracks());
         rvPlaylistSongs.setLayoutManager(manager);
         rvPlaylistSongs.setAdapter(adapter);
 
-        ibPlaylistThumbnail = (ImageButton)v.findViewById(R.id.playlistThumbnail);
+        ibPlaylistThumbnail = (ImageView)v.findViewById(R.id.playlistThumbnail);
+        if (playlist.getThumbnail() != null) {
+            Glide.with(getContext())
+                    .asBitmap()
+                    .placeholder(R.drawable.ic_audiotrack)
+                    .load(playlist.getThumbnail() )
+                    .into(ibPlaylistThumbnail);
+        }else{
+            Glide.with(getContext())
+                    .asBitmap()
+                    .placeholder(R.drawable.ic_audiotrack)
+                    .load(R.drawable.ic_logo)
+                    .into(ibPlaylistThumbnail);
+        }
 
         btnFollow = v.findViewById(R.id.playlistFollowButton);
+        btnFollow.setVisibility(View.VISIBLE);
+        btnFollowing = v.findViewById(R.id.playlistFollowedButton);
+        btnFollowing.setVisibility(View.GONE);
+        if(playlist.isFollowed()){
+            btnFollow.setVisibility(View.GONE);
+            btnFollowing.setVisibility(View.VISIBLE);
+        }
+        PlaylistFragment thisFragment = this;
         btnFollow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                playlist.setFollowed(true);
+                if (!playlist.isFollowed()) {
+                    PlaylistManager.getInstance(getContext()).follow(playlist.getId(),thisFragment);
+                }
             }
         });
 
@@ -97,6 +134,7 @@ public class PlaylistFragment extends Fragment implements PlaylistCallback {
     @Override
     public void onPlaylistById(Playlist playlist) {
 
+
     }
 
     @Override
@@ -120,7 +158,29 @@ public class PlaylistFragment extends Fragment implements PlaylistCallback {
     }
 
     @Override
+    public void onPlaylistFollowed() {
+        playlist.setFollowed(true);
+        btnFollow.setVisibility(View.GONE);
+        btnFollowing.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onPlaylistSelected(Playlist playlist) {
+
+    }
+
+    @Override
     public void onFailure(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onTrackSelected(Track track) {
+
+    }
+
+    @Override
+    public void onTrackSelected(int index, ArrayList<Track> tracks) {
 
     }
 }

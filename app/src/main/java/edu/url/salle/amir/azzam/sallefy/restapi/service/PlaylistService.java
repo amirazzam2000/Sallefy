@@ -42,11 +42,11 @@ public interface PlaylistService {
     Call<Playlist> deletePlaylist(@Header("Authorization") String token, @Path("id") int id);
 
     @GET("playlists/{id}/follow")
-    Call<Playlist> checkisFollowed(@Header("Authorization") String token, @Path("id") int id);
+    Call<Playlist> isFollowed(@Header("Authorization") String token, @Path("id") int id);
 
 
     @PUT("playlists/{id}/follow")
-    Call<Playlist> isFollowed(@Header("Authorization") String token, @Path("id") int id);
+    Call<Playlist> follow(@Header("Authorization") String token, @Path("id") int id);
 
     @GET("me/playlists")
     Call<List<Playlist>> getOwnPlaylists(@Header("Authorization") String token);

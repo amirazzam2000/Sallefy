@@ -63,6 +63,11 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.View
         holder.tvTitle.setSelected(true);
 
         holder.tvAuthor.setText(mTracks.get(position).getUserLogin());
+        holder.tvAuthor.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+        holder.tvAuthor.setSingleLine(true);
+        holder.tvAuthor.setMarqueeRepeatLimit(-1);
+        holder.tvAuthor.setSelected(true);
+
         if (mTracks.get(position).getThumbnail() != null) {
             Glide.with(mContext)
                     .asBitmap()

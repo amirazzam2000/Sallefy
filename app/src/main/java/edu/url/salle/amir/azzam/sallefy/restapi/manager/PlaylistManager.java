@@ -239,6 +239,53 @@ public class PlaylistManager {
         });
     }
 
+    public synchronized void isFollowed (int id,final PlaylistCallback playlistCallback) {
+        Call<Playlist> call = mService.isFollowed("Bearer " + userToken.getIdToken(),id);
+        call.enqueue(new Callback<Playlist>() {
+            @Override
+            public void onResponse(Call<Playlist> call, Response<Playlist> response) {
+                int code = response.code();
+                if (response.isSuccessful()) {
+                    Playlist playlist = (Playlist) response.body();
+                    playlistCallback.onPlaylistFollowed();
+
+                } else {
+                    Log.d(TAG, "Error Not Successful: " + code);
+                    playlistCallback.onFailure(new Throwable("ERROR " + code + ", " + response.raw().message()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Playlist> call, Throwable t) {
+                Log.d(TAG, "Error Failure: " + t.getStackTrace());
+                playlistCallback.onFailure(new Throwable("ERROR " + t.getStackTrace()));
+            }
+        });
+    }
+
+    public synchronized void follow (int id,final PlaylistCallback playlistCallback) {
+        Call<Playlist> call = mService.follow("Bearer " + userToken.getIdToken(), id);
+        call.enqueue(new Callback<Playlist>() {
+            @Override
+            public void onResponse(Call<Playlist> call, Response<Playlist> response) {
+                int code = response.code();
+                if (response.isSuccessful()) {
+                    Playlist playlist = (Playlist) response.body();
+                    playlistCallback.onPlaylistFollowed();
+
+                } else {
+                    Log.d(TAG, "Error Not Successful: " + code);
+                    playlistCallback.onFailure(new Throwable("ERROR " + code + ", " + response.raw().message()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Playlist> call, Throwable t) {
+                Log.d(TAG, "Error Failure: " + t.getStackTrace());
+                playlistCallback.onFailure(new Throwable("ERROR " + t.getStackTrace()));
+            }
+        });
+    }
 
 
 }

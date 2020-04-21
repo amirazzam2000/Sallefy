@@ -1,6 +1,7 @@
 package edu.url.salle.amir.azzam.sallefy.controller.adapters;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,21 +17,20 @@ import java.util.ArrayList;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import edu.url.salle.amir.azzam.sallefy.R;
-import edu.url.salle.amir.azzam.sallefy.controller.callbacks.TrackListCallback;
 import edu.url.salle.amir.azzam.sallefy.model.Playlist;
-import edu.url.salle.amir.azzam.sallefy.model.Track;
+import edu.url.salle.amir.azzam.sallefy.restapi.callback.PlaylistCallback;
 
 public class TrackListAdapterVerticalPlaylist extends RecyclerView.Adapter<TrackListAdapterVerticalPlaylist.ViewHolder>{
 
     private static final String TAG = "TrackListAdapter";
-    private ArrayList<Playlist> mTracks;
+    private ArrayList<Playlist> playlists;
     private Context mContext;
-    private TrackListCallback mCallback;
+    private PlaylistCallback mCallback;
     private int NUM_VIEWHOLDERS = 0;
 
 
-    public TrackListAdapterVerticalPlaylist(TrackListCallback callback, Context context, ArrayList<Playlist> tracks ) {
-        mTracks = tracks;
+    public TrackListAdapterVerticalPlaylist(PlaylistCallback callback, Context context, ArrayList<Playlist> tracks ) {
+        playlists = tracks;
         mContext = context;
         mCallback = callback;
     }
@@ -54,16 +54,27 @@ public class TrackListAdapterVerticalPlaylist extends RecyclerView.Adapter<Track
         holder.mLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //mCallback.onTrackSelected(position, mTracks);
+                mCallback.onPlaylistSelected(playlists.get(position));
             }
         });
-        holder.tvTitle.setText(mTracks.get(position).getName());
-        holder.tvAuthor.setText(mTracks.get(position).getUserLogin());
-        if (mTracks.get(position).getThumbnail() != null) {
+        holder.tvTitle.setText(playlists.get(position).getName());
+        holder.tvAuthor.setText(playlists.get(position).getUserLogin());
+
+        holder.tvTitle.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+        holder.tvTitle.setSingleLine(true);
+        holder.tvTitle.setMarqueeRepeatLimit(-1);
+        holder.tvTitle.setSelected(true);
+
+        holder.tvAuthor.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+        holder.tvAuthor.setSingleLine(true);
+        holder.tvAuthor.setMarqueeRepeatLimit(-1);
+        holder.tvAuthor.setSelected(true);
+
+        if (playlists.get(position).getThumbnail() != null) {
             Glide.with(mContext)
                     .asBitmap()
                     .placeholder(R.drawable.ic_audiotrack)
-                    .load(mTracks.get(position).getThumbnail())
+                    .load(playlists.get(position).getThumbnail())
                     .into(holder.ivPicture);
         }
         else{
@@ -77,7 +88,7 @@ public class TrackListAdapterVerticalPlaylist extends RecyclerView.Adapter<Track
 
     @Override
     public int getItemCount() {
-        return mTracks != null ? mTracks.size():0;
+        return playlists != null ? playlists.size():0;
     }
 
 
