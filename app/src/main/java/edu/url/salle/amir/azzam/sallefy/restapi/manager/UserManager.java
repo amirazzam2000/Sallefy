@@ -7,6 +7,7 @@ import android.util.Log;
 import java.io.IOException;
 
 import androidx.annotation.RequiresApi;
+import edu.url.salle.amir.azzam.sallefy.model.Playlist;
 import edu.url.salle.amir.azzam.sallefy.model.UserToken;
 import edu.url.salle.amir.azzam.sallefy.restapi.service.UserService;
 import edu.url.salle.amir.azzam.sallefy.restapi.service.UserTokenService;
@@ -34,7 +35,7 @@ public class UserManager {
 
     private UserService mService;
     private UserTokenService mTokenService;
-
+    UserToken userToken;
 
     public static UserManager getInstance(Context context) {
         if (sUserManager == null) {
@@ -64,9 +65,12 @@ public class UserManager {
 
                 int code = response.code();
                 UserToken userToken = response.body();
+                Session.getInstance(mContext).setUserToken(userToken);
 
                 if (response.isSuccessful()) {
+                    //userToken = Session.getInstance(mContext).getUserToken();
                     userCallback.onLoginSuccess(userToken);
+
                 } else {
                     Log.d(TAG, "Error: " + code);
                     userCallback.onLoginFailure(new Throwable("ERROR " + code + ", " + response.raw().message()));
@@ -84,7 +88,7 @@ public class UserManager {
 
 
     public synchronized void getUserData (String login, final UserCallback userCallback) {
-        UserToken userToken = Session.getInstance(mContext).getUserToken();
+        userToken = Session.getInstance(mContext).getUserToken();
         Call<User> call = mService.getUserById(login, "Bearer " + userToken.getIdToken());
         call.enqueue(new Callback<User>() {
             @Override
@@ -134,6 +138,55 @@ public class UserManager {
         });
     }
 
+    public synchronized void isFollowing (String login,final UserCallback playlistCallback) {
+        userToken = Session.getInstance(mContext).getUserToken();
+        Call<Boolean> call = mService.isFollowing("Bearer " + userToken.getIdToken(), login);
+        call.enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                int code = response.code();
+                if (response.isSuccessful()) {
+                    boolean value =  response.body();
+                    playlistCallback.onUserFollowed(value);
+
+                } else {
+                    Log.d(TAG, "Error Not Successful: " + code);
+                    playlistCallback.onFailure(new Throwable("ERROR " + code + ", " + response.raw().message()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+                Log.d(TAG, "Error Failure: " + t.getStackTrace());
+                playlistCallback.onFailure(new Throwable("ERROR " + t.getStackTrace()));
+            }
+        });
+    }
+
+    public synchronized void follow (String login, final UserCallback playlistCallback) {
+        userToken = Session.getInstance(mContext).getUserToken();
+        Call<Boolean> call = mService.follow("Bearer " + userToken.getIdToken(),  login);
+        call.enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                int code = response.code();
+                if (response.isSuccessful()) {
+                    boolean value =  response.body();
+                    playlistCallback.onUserFollowed(value);
+
+                } else {
+                    Log.d(TAG, "Error Not Successful: " + code);
+                    playlistCallback.onFailure(new Throwable("ERROR " + code + ", " + response.raw().message()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+                Log.d(TAG, "Error Failure: " + t.getStackTrace());
+                playlistCallback.onFailure(new Throwable("ERROR " + t.getStackTrace()));
+            }
+        });
+    }
 
 
 }

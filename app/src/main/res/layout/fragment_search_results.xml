@@ -39,9 +39,10 @@
 
 
             <TextView
+                android:id="@+id/song"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="30dp"
                 android:layout_marginBottom="5dp"
                 android:text="@string/songs"
@@ -62,9 +63,10 @@
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
 
             <TextView
+                android:id="@+id/playlist"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="30dp"
                 android:layout_marginBottom="5dp"
                 android:text="@string/playlists"
@@ -85,9 +87,10 @@
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
 
             <TextView
+                android:id="@+id/users"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="30dp"
                 android:layout_marginBottom="5dp"
                 android:text="@string/users"
@@ -99,6 +102,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10dp"
+                android:layout_marginBottom="200dp"
                 android:background="@drawable/button_background_dark"
                 app:layout_constraintBottom_toTopOf="@+id/linearLayout"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -108,7 +112,8 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="200dp" />
+                android:layout_height="200dp"/>
+
 
         </LinearLayout>
     </ScrollView>

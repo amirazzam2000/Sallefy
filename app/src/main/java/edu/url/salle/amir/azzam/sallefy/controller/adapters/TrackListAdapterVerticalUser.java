@@ -20,17 +20,18 @@ import edu.url.salle.amir.azzam.sallefy.R;
 import edu.url.salle.amir.azzam.sallefy.controller.callbacks.TrackListCallback;
 import edu.url.salle.amir.azzam.sallefy.model.Track;
 import edu.url.salle.amir.azzam.sallefy.model.User;
+import edu.url.salle.amir.azzam.sallefy.restapi.callback.UserCallback;
 
 public class TrackListAdapterVerticalUser extends RecyclerView.Adapter<TrackListAdapterVerticalUser.ViewHolder>{
 
     private static final String TAG = "TrackListAdapter";
     private ArrayList<User> mTracks;
     private Context mContext;
-    private TrackListCallback mCallback;
+    private UserCallback mCallback;
     private int NUM_VIEWHOLDERS = 0;
 
 
-    public TrackListAdapterVerticalUser(TrackListCallback callback, Context context, ArrayList<User> tracks ) {
+    public TrackListAdapterVerticalUser(UserCallback callback, Context context, ArrayList<User> tracks ) {
         mTracks = tracks;
         mContext = context;
         mCallback = callback;
@@ -55,7 +56,7 @@ public class TrackListAdapterVerticalUser extends RecyclerView.Adapter<TrackList
         holder.mLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // mCallback.onTrackSelected(position, mTracks);
+               mCallback.onUserSelected(mTracks.get(position));
             }
         });
         holder.tvTitle.setText((String)mTracks.get(position).getFirstName());

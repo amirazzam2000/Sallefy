@@ -9,6 +9,7 @@ import edu.url.salle.amir.azzam.sallefy.restapi.manager.SongViewManger;
 import edu.url.salle.amir.azzam.sallefy.restapi.service.SongViewService;
 
 import android.os.Bundle;
+import android.widget.Button;
 
 import java.util.ArrayList;
 
@@ -17,6 +18,9 @@ public class MusicViewActivity extends AppCompatActivity implements SongViewServ
     private static int currentTrack;
     private static ArrayList<Track> tracks;
     private static MusicService musicService;
+
+    private Button like;
+    private Button unlike;
 
     public static MusicViewActivity getInstance(){
         return new MusicViewActivity();

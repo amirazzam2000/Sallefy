@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import edu.url.salle.amir.azzam.sallefy.R;
 import edu.url.salle.amir.azzam.sallefy.controller.DynamicPlaybackActivity;
@@ -29,12 +30,15 @@ import edu.url.salle.amir.azzam.sallefy.controller.music.MusicCallback;
 import edu.url.salle.amir.azzam.sallefy.controller.music.MusicPlayBackManager;
 import edu.url.salle.amir.azzam.sallefy.controller.music.MusicService;
 import edu.url.salle.amir.azzam.sallefy.controller.music.MusicUpdatesCallback;
+import edu.url.salle.amir.azzam.sallefy.model.Like;
 import edu.url.salle.amir.azzam.sallefy.model.Track;
+import edu.url.salle.amir.azzam.sallefy.restapi.callback.TrackCallback;
 import edu.url.salle.amir.azzam.sallefy.restapi.manager.SongViewManger;
+import edu.url.salle.amir.azzam.sallefy.restapi.manager.TrackManager;
 import edu.url.salle.amir.azzam.sallefy.restapi.service.SongViewService;
 
 
-public class MusicControllerFragment extends Fragment implements MusicCallback , SongViewService, MusicUpdatesCallback {
+public class MusicControllerFragment extends Fragment implements MusicCallback , SongViewService, MusicUpdatesCallback, TrackCallback {
     public static final String TAG = MusicControllerFragment.class.getName();
 
     private Handler mHandler;
@@ -50,6 +54,8 @@ public class MusicControllerFragment extends Fragment implements MusicCallback ,
     private int mDuration;
 
     private Button viewButton;
+    private Button like;
+    private Button unlike;
 
     private static final String PLAY_VIEW = "PlayIcon";
     private static final String STOP_VIEW = "StopIcon";
@@ -137,6 +143,28 @@ public class MusicControllerFragment extends Fragment implements MusicCallback ,
                 ((Activity) getActivity()).overridePendingTransition(0, 0);
             }
         });
+
+        like = v.findViewById(R.id.like_fill);
+        like.setVisibility(View.GONE);
+
+        unlike = v.findViewById(R.id.like_unfill);
+        unlike.setVisibility(View.VISIBLE);
+        MusicControllerFragment fragment = this;
+        unlike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (MusicPlayBackManager.getInstance().getMList() != null && MusicPlayBackManager.getInstance().getMList().size() > 0)
+                TrackManager.getInstance(getContext()).like(fragment, MusicPlayBackManager.getInstance().getMList().get(MusicPlayBackManager.getInstance().getCurrentTrack()).getId());
+            }
+        });
+
+        like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (MusicPlayBackManager.getInstance().getMList() != null && MusicPlayBackManager.getInstance().getMList().size() > 0)
+                    TrackManager.getInstance(getContext()).like(fragment, MusicPlayBackManager.getInstance().getMList().get(MusicPlayBackManager.getInstance().getCurrentTrack()).getId());
+            }
+        });
     }
 
 
@@ -193,7 +221,8 @@ public class MusicControllerFragment extends Fragment implements MusicCallback ,
 
 
     private void playAudio() {
-        
+        MusicPlayBackManager.getInstance().setPlaying(true);
+
         if (!MusicPlayBackManager.getInstance().getMBoundService().isPlaying()) {
             MusicPlayBackManager.getInstance().getMBoundService().togglePlayer();
         }
@@ -204,6 +233,8 @@ public class MusicControllerFragment extends Fragment implements MusicCallback ,
     }
 
     private void pauseAudio() {
+        MusicPlayBackManager.getInstance().setPlaying(false);
+
         if (MusicPlayBackManager.getInstance().getMBoundService().isPlaying()) { MusicPlayBackManager.getInstance().getMBoundService().togglePlayer(); }
         btnPlayStop.setImageResource(R.drawable.ic_play);
         btnPlayStop.setTag(PLAY_VIEW);
@@ -228,6 +259,9 @@ public class MusicControllerFragment extends Fragment implements MusicCallback ,
     }
 
     public void updateTrack(int index, ArrayList<Track> tracks) {
+        like.setVisibility(View.GONE);
+        unlike.setVisibility(View.VISIBLE);
+        TrackManager.getInstance(getContext()).isLiked(this, tracks.get(index).getId());
         MusicPlayBackManager.getInstance().setMList(tracks);
         Track track = MusicPlayBackManager.getInstance().getMList().get(index);
         MusicPlayBackManager.getInstance().setCurrentTrack(index);
@@ -257,6 +291,10 @@ public class MusicControllerFragment extends Fragment implements MusicCallback ,
 
     public void updateTrack(int index) {
         Track track = MusicPlayBackManager.getInstance().getMList().get(index);
+
+        like.setVisibility(View.GONE);
+        unlike.setVisibility(View.VISIBLE);
+        TrackManager.getInstance(getContext()).isLiked(this, track.getId());
 
         tvAuthor.setText(track.getUserLogin());
         tvTitle.setText(track.getName());
@@ -369,5 +407,66 @@ public class MusicControllerFragment extends Fragment implements MusicCallback ,
         //mSeekBar.setMax(mBoundService.getMaxDuration());
         mDuration =  MusicPlayBackManager.getInstance().getMBoundService().getMaxDuration();
         playAudio();
+    }
+
+    @Override
+    public void onTracksReceived(List<Track> tracks) {
+
+    }
+
+    @Override
+    public void onTrackReceived(Track track) {
+
+    }
+
+    @Override
+    public void onNoTracks(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onTrackDeleted() {
+
+    }
+
+    @Override
+    public void onLikeReceived(Like like) {
+        if(like.getLiked()){
+            this.like.setVisibility(View.VISIBLE);
+            unlike.setVisibility(View.GONE);
+        }else{
+            this.like.setVisibility(View.GONE);
+            unlike.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void onNoLike(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onPersonalTracksReceived(List<Track> tracks) {
+
+    }
+
+    @Override
+    public void onUserTracksReceived(List<Track> tracks) {
+
+    }
+
+    @Override
+    public void onUserLikedTracksReceived(List<Track> tracks) {
+
+    }
+
+    @Override
+    public void onCreateTrack() {
+
+    }
+
+    @Override
+    public void onFailure(Throwable throwable) {
+
     }
 }

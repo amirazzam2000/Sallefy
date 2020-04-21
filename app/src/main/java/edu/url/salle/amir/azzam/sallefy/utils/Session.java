@@ -1,6 +1,7 @@
 package edu.url.salle.amir.azzam.sallefy.utils;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 
 import edu.url.salle.amir.azzam.sallefy.model.User;
@@ -9,7 +10,8 @@ import edu.url.salle.amir.azzam.sallefy.model.UserToken;
 
 public class Session {
 
-    public static Session sSession;
+    @SuppressLint("StaticFieldLeak")
+    private static Session sSession;
     private static Object mutex = new Object();
 
     private Context mContext;

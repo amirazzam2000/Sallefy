@@ -81,6 +81,16 @@ public class InitializationActivity extends AppCompatActivity implements UserCal
     }
 
     @Override
+    public void onUserFollowed(boolean value) {
+
+    }
+
+    @Override
+    public void onUserSelected(User user) {
+
+    }
+
+    @Override
     public void onFailure(Throwable throwable) {
 
     }

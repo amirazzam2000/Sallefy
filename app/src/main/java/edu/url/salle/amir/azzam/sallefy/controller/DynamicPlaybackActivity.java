@@ -6,6 +6,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -27,13 +28,14 @@ import edu.url.salle.amir.azzam.sallefy.R;
 import edu.url.salle.amir.azzam.sallefy.controller.adapters.TrackListAdapter;
 import edu.url.salle.amir.azzam.sallefy.controller.callbacks.TrackListCallback;
 import edu.url.salle.amir.azzam.sallefy.controller.music.MusicPlayBackManager;
+import edu.url.salle.amir.azzam.sallefy.controller.ui.MusicControllerFragment;
 import edu.url.salle.amir.azzam.sallefy.model.Like;
 import edu.url.salle.amir.azzam.sallefy.model.Track;
 import edu.url.salle.amir.azzam.sallefy.restapi.callback.TrackCallback;
 import edu.url.salle.amir.azzam.sallefy.restapi.manager.TrackManager;
 
 
-public class DynamicPlaybackActivity extends AppCompatActivity {
+public class DynamicPlaybackActivity extends AppCompatActivity implements TrackCallback {
 
     private static final String STOP_VIEW = "stop_view";
     private static final String PLAY_VIEW = "play_view";
@@ -48,6 +50,8 @@ public class DynamicPlaybackActivity extends AppCompatActivity {
     private ImageButton btnForward;
     private SeekBar mSeekBar;
 
+    private Button like;
+    private Button unlike;
 
     private Handler mHandler;
     private Runnable mRunnable;
@@ -148,10 +152,10 @@ public class DynamicPlaybackActivity extends AppCompatActivity {
             }
         });
 
-        if(MusicPlayBackManager.getInstance().ismServiceBound() && MusicPlayBackManager.getInstance().getMList() != null){
-            playAudio();
+        if(MusicPlayBackManager.getInstance().ismServiceBound() && MusicPlayBackManager.getInstance().getMList() != null && MusicPlayBackManager.getInstance().getMList().size() > 0){
+            if (MusicPlayBackManager.getInstance().isPlaying())
+                playAudio();
             Track track = MusicPlayBackManager.getInstance().getMList().get(MusicPlayBackManager.getInstance().getCurrentTrack());
-
             tvAuthor.setText(track.getUserLogin());
             tvTitle.setText(track.getName());
 
@@ -170,6 +174,7 @@ public class DynamicPlaybackActivity extends AppCompatActivity {
             }
 
         }else{
+            updateSeekBar();
             tvAuthor.setText("Author");
             tvTitle.setText("Track name");
             Glide.with(getApplicationContext())
@@ -179,9 +184,26 @@ public class DynamicPlaybackActivity extends AppCompatActivity {
                     .into(ivPicture);
         }
 
+        like = findViewById(R.id.like_fill);
+        like.setVisibility(View.GONE);
+
+        unlike = findViewById(R.id.like_unfill);
+        unlike.setVisibility(View.VISIBLE);
+        DynamicPlaybackActivity activity = this;
+        unlike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (MusicPlayBackManager.getInstance().getMList() != null && MusicPlayBackManager.getInstance().getMList().size() > 0)
+                    TrackManager.getInstance(getApplicationContext()).like(activity, MusicPlayBackManager.getInstance().getMList().get(MusicPlayBackManager.getInstance().getCurrentTrack()).getId());
+            }
+        });
+        if (MusicPlayBackManager.getInstance().getMList() != null && MusicPlayBackManager.getInstance().getMList().size() > 0)
+            TrackManager.getInstance(getApplicationContext()).isLiked(this, MusicPlayBackManager.getInstance().getMList().get(MusicPlayBackManager.getInstance().getCurrentTrack()).getId());
+
     }
 
     private void playAudio() {
+        MusicPlayBackManager.getInstance().setPlaying(true);
         if (!MusicPlayBackManager.getInstance().getMBoundService().isPlaying()) {
             MusicPlayBackManager.getInstance().getMBoundService().togglePlayer();
         }
@@ -192,6 +214,7 @@ public class DynamicPlaybackActivity extends AppCompatActivity {
     }
 
     private void pauseAudio() {
+        MusicPlayBackManager.getInstance().setPlaying(false);
         if (MusicPlayBackManager.getInstance().getMBoundService().isPlaying()) { MusicPlayBackManager.getInstance().getMBoundService().togglePlayer(); }
         btnPlayStop.setImageResource(R.drawable.ic_play_circle_filled_black_24dp);
         btnPlayStop.setTag(PLAY_VIEW);
@@ -217,6 +240,10 @@ public class DynamicPlaybackActivity extends AppCompatActivity {
 
     public void updateTrack(int index) {
         Track track = MusicPlayBackManager.getInstance().getMList().get(index);
+        like.setVisibility(View.GONE);
+        unlike.setVisibility(View.VISIBLE);
+        TrackManager.getInstance(getApplicationContext()).isLiked(this, track.getId());
+
 
         tvAuthor.setText(track.getUserLogin());
         tvTitle.setText(track.getName());
@@ -258,4 +285,61 @@ public class DynamicPlaybackActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onTracksReceived(List<Track> tracks) {
+
+    }
+
+    @Override
+    public void onTrackReceived(Track track) {
+
+    }
+
+    @Override
+    public void onNoTracks(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onTrackDeleted() {
+
+    }
+
+    @Override
+    public void onLikeReceived(Like like) {
+        if(like.getLiked()){
+            this.like.setVisibility(View.VISIBLE);
+            unlike.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onNoLike(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onPersonalTracksReceived(List<Track> tracks) {
+
+    }
+
+    @Override
+    public void onUserTracksReceived(List<Track> tracks) {
+
+    }
+
+    @Override
+    public void onUserLikedTracksReceived(List<Track> tracks) {
+
+    }
+
+    @Override
+    public void onCreateTrack() {
+
+    }
+
+    @Override
+    public void onFailure(Throwable throwable) {
+
+    }
 }

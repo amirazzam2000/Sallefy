@@ -13,4 +13,5 @@
     <color name="colorWhite">#FFF</color>
     <color name="colorConnected">#00c853</color>
     <color name="colorGrey">#FFFCFC</color>
+    <color name="black">#000000</color>
 </resources>

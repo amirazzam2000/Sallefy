@@ -63,6 +63,45 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <Button
+                    android:id="@+id/playlistFollowButton"
+                    android:layout_width="145dp"
+                    android:layout_height="53dp"
+                    android:layout_below="@+id/divider"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginEnd="65dp"
+                    android:layout_marginBottom="25dp"
+                    android:background="@drawable/button_background"
+                    android:text="@string/follow"
+                    android:textColor="@color/colorWhite"
+                    app:layout_constraintBottom_toTopOf="@+id/scrollView3"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.498"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/playlistName" />
+
+
+                <Button
+                    android:id="@+id/playlistFollowedButton"
+                    android:layout_width="145dp"
+                    android:layout_height="53dp"
+                    android:layout_below="@+id/divider"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginTop="44dp"
+                    android:layout_marginEnd="64dp"
+                    android:layout_marginBottom="-1dp"
+                    android:background="@drawable/button_background_dark"
+                    android:text="@string/following"
+                    android:textColor="@color/colorWhite"
+                    app:layout_constraintBottom_toTopOf="@+id/scrollView3"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.498"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/playlistName" />
+
                 <TextView
                     android:id="@+id/textView7"
                     android:layout_width="wrap_content"
@@ -113,38 +152,26 @@
                 android:layout_height="40dp"
                 android:layout_marginTop="50dp" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+
+            <TextView
+                android:id="@+id/MostPlayed"
+                android:layout_width="175dp"
+                android:layout_height="30dp"
                 android:layout_gravity="center_horizontal"
-                android:orientation="horizontal">
+                android:maxWidth="20dp"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                android:text="@string/uploaded_songs"
+                android:textAlignment="center"
+                android:textColor="@android:color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:layout_editor_absoluteY="178dp" />
 
-                <TextView
-                    android:id="@+id/MostPlayed"
-                    android:layout_width="130dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="center_horizontal"
-                    android:maxWidth="20dp"
-                    android:scrollHorizontally="true"
-                    android:singleLine="true"
-                    android:text="@string/my_songs"
-                    android:textAlignment="center"
-                    android:textColor="@android:color/black"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.497"
-                    app:layout_constraintStart_toStartOf="parent"
-                    tools:layout_editor_absoluteY="178dp" />
 
-                <Button
-                    android:id="@+id/addSongs"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="end"
-                    android:layout_marginEnd="0dp"
-                    android:background="@drawable/ic_add" />
-            </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/dynamic_recyclerViewMostPlayed"
@@ -161,40 +188,27 @@
                 app:layout_constraintVertical_bias="0.614"
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="29dp"
+
+            <TextView
+                android:id="@+id/MyPlaylists"
+                android:layout_width="180dp"
+                android:layout_height="30dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp"
-                android:orientation="horizontal">
+                android:maxWidth="20dp"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                android:text="@string/uploaded_playlists"
+                android:textAlignment="center"
+                android:textColor="@android:color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:layout_editor_absoluteY="178dp" />
 
-                <TextView
-                    android:id="@+id/MyPlaylists"
-                    android:layout_width="133dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="20dp"
-                    android:maxWidth="20dp"
-                    android:scrollHorizontally="true"
-                    android:singleLine="true"
-                    android:text="@string/my_playlists"
-                    android:textAlignment="center"
-                    android:textColor="@android:color/black"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.497"
-                    app:layout_constraintStart_toStartOf="parent"
-                    tools:layout_editor_absoluteY="178dp" />
 
-                <Button
-                    android:id="@+id/addPlaylists"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="end"
-                    android:layout_marginEnd="0dp"
-                    android:background="@drawable/ic_add" />
-            </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/dynamic_recyclerViewPlayList"
@@ -211,77 +225,11 @@
                 app:layout_constraintVertical_bias="0.614"
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-            <TextView
-                android:id="@+id/LikedSongs"
-                android:layout_width="200dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="20dp"
-                android:maxWidth="20dp"
-                android:scrollHorizontally="true"
-                android:singleLine="true"
-                android:text="@string/liked_songs"
-                android:textAlignment="center"
-                android:textColor="@android:color/black"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.497"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:layout_editor_absoluteY="178dp" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/dynamic_recyclerViewLikedSong"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-
-                android:background="@drawable/button_background_dark"
-                app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.473"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.614"
-                app:popupTheme="@style/AppTheme.PopupOverlay" />
-
-            <TextView
-                android:id="@+id/MyPlaylistsFollowingList"
-                android:layout_width="200dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="20dp"
-                android:maxWidth="20dp"
-                android:scrollHorizontally="true"
-                android:singleLine="true"
-                android:text="@string/following_lists"
-                android:textAlignment="center"
-                android:textColor="@android:color/black"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.497"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:layout_editor_absoluteY="178dp" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/dynamic_recyclerViewLikedList"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-
-                android:background="@drawable/button_background_dark"
-                app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.473"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.614"
-                app:popupTheme="@style/AppTheme.PopupOverlay" />
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="400dp" />
+                android:layout_height="200dp" />
 
 
         </LinearLayout>

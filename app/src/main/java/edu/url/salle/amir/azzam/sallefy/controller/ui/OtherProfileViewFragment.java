@@ -4,6 +4,10 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,22 +15,16 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import edu.url.salle.amir.azzam.sallefy.R;
 import edu.url.salle.amir.azzam.sallefy.controller.UploadActivity;
 import edu.url.salle.amir.azzam.sallefy.controller.UploadPlaylistActivity;
-import edu.url.salle.amir.azzam.sallefy.restapi.manager.PlaylistManager;
-import edu.url.salle.amir.azzam.sallefy.restapi.manager.TrackManager;
-import edu.url.salle.amir.azzam.sallefy.restapi.manager.UserManager;
-import edu.url.salle.amir.azzam.sallefy.R;
 import edu.url.salle.amir.azzam.sallefy.controller.adapters.PlayListAdapterHorizantal;
 import edu.url.salle.amir.azzam.sallefy.controller.adapters.TrackListAdapter;
 import edu.url.salle.amir.azzam.sallefy.controller.adapters.UserAdapter;
@@ -39,28 +37,25 @@ import edu.url.salle.amir.azzam.sallefy.model.UserToken;
 import edu.url.salle.amir.azzam.sallefy.restapi.callback.PlaylistCallback;
 import edu.url.salle.amir.azzam.sallefy.restapi.callback.TrackCallback;
 import edu.url.salle.amir.azzam.sallefy.restapi.callback.UserCallback;
+import edu.url.salle.amir.azzam.sallefy.restapi.manager.PlaylistManager;
+import edu.url.salle.amir.azzam.sallefy.restapi.manager.TrackManager;
+import edu.url.salle.amir.azzam.sallefy.restapi.manager.UserManager;
 import edu.url.salle.amir.azzam.sallefy.utils.PreferenceUtils;
 
-public class ProfileFragment extends Fragment implements UserCallback, TrackListCallback, TrackCallback, PlaylistCallback {
+/**
+ *
+ * create an instance of this fragment.
+ */
+public class OtherProfileViewFragment extends Fragment  implements UserCallback, TrackListCallback, TrackCallback, PlaylistCallback {
 
     private RecyclerView mRecyclerViewUser;
     private RecyclerView mRecyclerViewMySongs;
     private RecyclerView mRecyclerViewMyPlaylists;
-    private RecyclerView mRecyclerViewLikedSongs;
-    private RecyclerView mRecyclerViewFollowingPlaylist;
-
-    private Button addSongs;
-    private Button addPlaylist;
+    ;
 
     private Button btnFollow;
     private Button btnFollowing;
-
-    private ArrayList<Track> mUser;
-    private ArrayList<Track> mMySongs;
-    private ArrayList<Track> mMyPlaylists;
-    private ArrayList<Track> mLikedSongs;
-    private ArrayList<Track> mLikedPlaylist;
-
+    private User user;
 
     TextView tvFollowing;
     TextView tvFollowers;
@@ -79,16 +74,21 @@ public class ProfileFragment extends Fragment implements UserCallback, TrackList
         return new ProfileFragment();
     }
 
+    public OtherProfileViewFragment(User user){
+        this.user = user;
+    }
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        View root = inflater.inflate(R.layout.fragment_profile, container, false);
+        View root = inflater.inflate(R.layout.fragment_other_profile_view, container, false);
         initView(root);
         getData();
         return root;
     }
 
     private void initView(View v) {
+
         v.setFocusableInTouchMode(true);
         v.requestFocus();
         v.setOnKeyListener( new View.OnKeyListener()
@@ -103,7 +103,6 @@ public class ProfileFragment extends Fragment implements UserCallback, TrackList
                 return false;
             }
         } );
-
         requestQ = new ConcurrentLinkedQueue<>();
         requestQPlaylist = new ConcurrentLinkedQueue<>();
 
@@ -119,11 +118,6 @@ public class ProfileFragment extends Fragment implements UserCallback, TrackList
         mRecyclerViewMySongs.setLayoutManager(manager1);
         mRecyclerViewMySongs.setAdapter(adapter1);
 
-        mRecyclerViewLikedSongs = (RecyclerView) v.findViewById(R.id.dynamic_recyclerViewLikedSong);
-        LinearLayoutManager manager2 = new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false);
-        TrackListAdapter adapter2 = new TrackListAdapter(this, getActivity(), null);
-        mRecyclerViewLikedSongs.setLayoutManager(manager2);
-        mRecyclerViewLikedSongs.setAdapter(adapter2);
 
         mRecyclerViewMyPlaylists = (RecyclerView) v.findViewById(R.id.dynamic_recyclerViewPlayList);
         LinearLayoutManager managerP1 = new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false);
@@ -131,38 +125,31 @@ public class ProfileFragment extends Fragment implements UserCallback, TrackList
         mRecyclerViewMyPlaylists.setLayoutManager(managerP1);
         mRecyclerViewMyPlaylists.setAdapter(adapterP1);
 
-        mRecyclerViewFollowingPlaylist = (RecyclerView) v.findViewById(R.id.dynamic_recyclerViewLikedList);
-        LinearLayoutManager managerP2 = new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false);
-        PlayListAdapterHorizantal adapterP2 = new PlayListAdapterHorizantal(this, getActivity(), null);
-        mRecyclerViewFollowingPlaylist.setLayoutManager(managerP2);
-        mRecyclerViewFollowingPlaylist.setAdapter(adapterP2);
 
         tvFollowers = (TextView) v.findViewById(R.id.textView9);
         tvFollowing = (TextView) v.findViewById(R.id.textView10);
 
-        addSongs = (Button) v.findViewById(R.id.addSongs);
-        addPlaylist = (Button) v.findViewById(R.id.addPlaylists);
+        btnFollow = v.findViewById(R.id.playlistFollowButton);
+        btnFollow.setVisibility(View.VISIBLE);
+        btnFollowing = v.findViewById(R.id.playlistFollowedButton);
+        btnFollowing.setVisibility(View.GONE);
 
-
-        addSongs.setOnClickListener(new View.OnClickListener() {
+        UserManager.getInstance(getContext()).isFollowing(user.getLogin(),this);
+        OtherProfileViewFragment thisFragment = this;
+        btnFollow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getActivity(), UploadActivity.class);
-                startActivity(i);
-                ((Activity) getActivity()).overridePendingTransition(0, 0);
-
+                UserManager.getInstance(getContext()).follow(user.getLogin(),thisFragment);
+            }
+        });
+        btnFollowing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UserManager.getInstance(getContext()).follow(user.getLogin(),thisFragment);
             }
         });
 
-        addPlaylist.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getActivity(), UploadPlaylistActivity.class);
-                startActivity(i);
-                ((Activity) getActivity()).overridePendingTransition(0, 0);
 
-            }
-        });
 
     }
 
@@ -194,20 +181,14 @@ public class ProfileFragment extends Fragment implements UserCallback, TrackList
 
 
     private void getData() {
-        String login = PreferenceUtils.getUser(getActivity());
+        String login = user.getLogin();
         UserManager.getInstance(getContext()).getUserData(login,this);
 
-        TrackManager.getInstance(getActivity()).getOwnTracks(this);
-        TrackManager.getInstance(getActivity()).getOwnLikedTracks(this);
+        TrackManager.getInstance(getActivity()).getUserTracks(login,this);
 
         PlaylistManager.getInstance(getActivity()).getPlaylistsByUser(login,this);
-        PlaylistManager.getInstance(getActivity()).getFollowingPlaylists(this);
 
-        mMySongs = new ArrayList<>();
-        mMyPlaylists = new ArrayList<>();
 
-        mLikedSongs = new ArrayList<>();
-        mLikedPlaylist = new ArrayList<>();
     }
 
     @Override
@@ -241,7 +222,10 @@ public class ProfileFragment extends Fragment implements UserCallback, TrackList
 
     @Override
     public void onUserFollowed(boolean value) {
-
+        if(value){
+            btnFollow.setVisibility(View.GONE);
+            btnFollowing.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -284,8 +268,7 @@ public class ProfileFragment extends Fragment implements UserCallback, TrackList
 
     @Override
     public void onFollowingList(ArrayList<Playlist> playlists) {
-        PlayListAdapterHorizantal adapter = new PlayListAdapterHorizantal(this, getActivity(), playlists);
-        mRecyclerViewFollowingPlaylist.setAdapter(adapter);
+
     }
 
     @Override
@@ -338,20 +321,18 @@ public class ProfileFragment extends Fragment implements UserCallback, TrackList
 
     @Override
     public void onPersonalTracksReceived(List<Track> tracks){
-        TrackListAdapter adapter = new TrackListAdapter(this, getActivity(), (ArrayList<Track>) tracks);
-        mRecyclerViewMySongs.setAdapter(adapter);
+
     }
 
 
     @Override
     public void onUserTracksReceived(List<Track> tracks) {
-
+        TrackListAdapter adapter = new TrackListAdapter(this, getActivity(), (ArrayList<Track>) tracks);
+        mRecyclerViewMySongs.setAdapter(adapter);
     }
 
     @Override
     public void onUserLikedTracksReceived(List<Track> tracks) {
-        TrackListAdapter adapter = new TrackListAdapter(this, getActivity(), (ArrayList<Track>) tracks);
-        mRecyclerViewLikedSongs.setAdapter(adapter);
     }
 
     @Override

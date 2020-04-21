@@ -83,13 +83,12 @@ public class HomePageActivity extends AppCompatActivity {
                 .beginTransaction()
                 .add(R.id.nav_host_fragment, new HomeFragment())
                 .add(R.id.musicPlayer, new MusicControllerFragment())
-                .addToBackStack(null)
                 .commit();
     }
 
     @Override
     public void onBackPressed() {
-        if(backButtonCount >= 1){
+        /*if(backButtonCount >= 1){
             Intent intent = new Intent(Intent.ACTION_MAIN);
             intent.addCategory(Intent.CATEGORY_HOME);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -98,7 +97,7 @@ public class HomePageActivity extends AppCompatActivity {
         else {
             Toast.makeText(this, "Press the back button once again to close the application.", Toast.LENGTH_SHORT).show();
             backButtonCount++;
-        }
+        }*/
     }
 
     @Override

@@ -29,6 +29,7 @@ import edu.url.salle.amir.azzam.sallefy.restapi.manager.SearchManager;
 public class SearchFragment extends Fragment implements SearchCallback {
 
     private EditText searchBar;
+    private String searchText;
     /*
     private ImageButton mGenreRock;
     private ImageButton mGenreJazz;
@@ -54,6 +55,20 @@ public class SearchFragment extends Fragment implements SearchCallback {
     }
 
     private void initViews(View v) {
+        v.setFocusableInTouchMode(true);
+        v.requestFocus();
+        v.setOnKeyListener( new View.OnKeyListener()
+        {
+            @Override
+            public boolean onKey( View v, int keyCode, KeyEvent event )
+            {
+                if( keyCode == KeyEvent.KEYCODE_BACK )
+                {
+                    getParentFragmentManager().popBackStack();
+                }
+                return false;
+            }
+        } );
         SearchCallback searchCallback = this;
         searchBar = (EditText) v.findViewById(R.id.search_bar);
         searchBar.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -68,7 +83,8 @@ public class SearchFragment extends Fragment implements SearchCallback {
                     if (event == null || !event.isShiftPressed()) {
                         //Toast.makeText(getContext(), searchBar.getText().toString(), Toast.LENGTH_LONG).show();
                         // the user is done typing.
-                        SearchManager.getInstance(getActivity()).search(searchBar.getText().toString(), searchCallback);
+                        searchText = searchBar.getText().toString();
+                        SearchManager.getInstance(getActivity()).search(searchText, searchCallback);
 
                         return true; // consume.
                     }
@@ -76,6 +92,8 @@ public class SearchFragment extends Fragment implements SearchCallback {
                 return false; // pass on to other listeners.
             }
         });
+
+
     }
 
     @Override
@@ -112,8 +130,8 @@ public class SearchFragment extends Fragment implements SearchCallback {
     public void onSearchResultsReceive(Search search_result) {
 
         //Toast.makeText(getContext(), searchBar.getText().toString(), Toast.LENGTH_LONG).show();
-        Fragment fragment = new SearchResults(search_result);
-        FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
+        Fragment fragment = new SearchResults(searchText,search_result);
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.nav_host_fragment, fragment);
         fragmentTransaction.addToBackStack(null);

@@ -98,10 +98,8 @@
 
         <LinearLayout
             android:id="@+id/linearLayout5"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="100dp"
-            android:layout_marginEnd="100dp"
             android:layout_marginBottom="96dp"
             android:layout_weight="2"
             android:gravity="center"
@@ -111,6 +109,24 @@
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent">
 
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp">
+                <Button
+                    android:id="@+id/download_unfill"
+                    android:layout_width="35dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/ic_cloud_download_black_unfill"
+                    />
+                <Button
+                    android:id="@+id/download_fill"
+                    android:layout_width="35dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/ic_cloud_download_black_24dp"
+                    />
+
+            </RelativeLayout>
             <ImageButton
                 android:id="@+id/dynamic_backward_btn"
                 android:layout_width="65dp"
@@ -133,6 +149,28 @@
                 android:layout_marginStart="10dp"
                 android:background="@android:color/transparent"
                 android:src="@drawable/ic_skip_next_black_24dp" />
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp">
+            <Button
+                android:id="@+id/like_unfill"
+                android:layout_width="35dp"
+                android:layout_height="40dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/ic_noun_like_unfill" />
+
+            <Button
+                android:id="@+id/like_fill"
+                android:layout_width="35dp"
+                android:layout_height="40dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/ic_noun_like_837116" />
+            </RelativeLayout>
 
         </LinearLayout>
 

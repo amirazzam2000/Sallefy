@@ -345,6 +345,38 @@ public class TrackManager {
     }
 
 
+    public synchronized void like(final TrackCallback trackCallback, int id) {
+
+        UserToken userToken = Session.getInstance(mContext).getUserToken();
+
+        Call<Like>  call = mService.likeTrackById( "Bearer " + userToken.getIdToken(), id);
+
+        call.enqueue(new Callback<Like>() {
+            @Override
+            public void onResponse(Call<Like> call, Response<Like> response) {
+                int code = response.code();
+                Like like = response.body();
+
+                if (response.isSuccessful()) {
+                    trackCallback.onLikeReceived(like);
+                } else {
+                    Log.d(TAG, "Error: " + code);
+                    try {
+                        trackCallback.onNoLike(new Throwable("ERROR " + code + ", " + response.errorBody().string()));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Like> call, Throwable t) {
+                Log.d(TAG, "Error: " + t.getMessage());
+                trackCallback.onFailure(t);
+            }
+        });
+    }
+
     public synchronized void getUserTracks(String login, final TrackCallback trackCallback) {
         UserToken userToken = Session.getInstance(mContext).getUserToken();
 

@@ -428,8 +428,9 @@ public class HomeFragment extends Fragment
     @Override
     public void onPlaylistSelected(Playlist playlist) {
         PlaylistFragment fragment = new PlaylistFragment(playlist);
-        FragmentTransaction t = this.getFragmentManager().beginTransaction();
+        FragmentTransaction t = this.getParentFragmentManager().beginTransaction();
         t.replace(R.id.nav_host_fragment, fragment);
+        t.addToBackStack(null);
         t.commit();
     }
 }

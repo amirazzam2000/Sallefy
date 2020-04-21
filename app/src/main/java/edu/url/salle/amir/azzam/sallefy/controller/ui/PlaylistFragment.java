@@ -1,6 +1,9 @@
 package edu.url.salle.amir.azzam.sallefy.controller.ui;
 
+import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,9 +13,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.chootdev.blurimg.BlurImage;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,6 +32,7 @@ import edu.url.salle.amir.azzam.sallefy.model.Track;
 import edu.url.salle.amir.azzam.sallefy.restapi.callback.PlaylistCallback;
 import edu.url.salle.amir.azzam.sallefy.restapi.manager.PlaylistManager;
 import edu.url.salle.amir.azzam.sallefy.restapi.manager.SongViewManger;
+import edu.url.salle.amir.azzam.sallefy.utils.PreferenceUtils;
 
 public class PlaylistFragment extends Fragment implements PlaylistCallback, TrackListCallback {
 
@@ -57,12 +63,28 @@ public class PlaylistFragment extends Fragment implements PlaylistCallback, Trac
         return root;
     }
 
+    @SuppressLint("CutPasteId")
     private void initView(View v) {
+        v.setFocusableInTouchMode(true);
+        v.requestFocus();
+        v.setOnKeyListener( new View.OnKeyListener()
+        {
+            @Override
+            public boolean onKey( View v, int keyCode, KeyEvent event )
+            {
+                if( keyCode == KeyEvent.KEYCODE_BACK )
+                {
+                    getParentFragmentManager().popBackStack();
+                }
+                return false;
+            }
+        } );
 
         tvPlaylistName = v.findViewById(R.id.playlistName);
         tvPlaylistName.setText(playlist.getName());
 
         tvPlaylistAuthor = v.findViewById(R.id.playlistAuthor);
+        tvPlaylistAuthor.setTextColor(Color.BLACK);
         tvPlaylistAuthor.setText(playlist.getUser().getLogin());
 
         ivPlaylistCoverPhoto = (ImageView) v.findViewById(R.id.playlistCover);
@@ -103,6 +125,12 @@ public class PlaylistFragment extends Fragment implements PlaylistCallback, Trac
             btnFollow.setVisibility(View.GONE);
             btnFollowing.setVisibility(View.VISIBLE);
         }
+
+        if (playlist.getUser().getLogin().equals(PreferenceUtils.getUser(getContext()))){
+            btnFollow.setVisibility(View.GONE);
+            btnFollowing.setVisibility(View.GONE);
+        }
+
         PlaylistFragment thisFragment = this;
         btnFollow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,21 +141,28 @@ public class PlaylistFragment extends Fragment implements PlaylistCallback, Trac
             }
         });
 
+        btnFollowing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (playlist.isFollowed()) {
+                    PlaylistManager.getInstance(getContext()).follow(playlist.getId(),thisFragment);
+                }
+            }
+        });
+
         btnAuthorProfile = v.findViewById(R.id.playlistAuthor);
         btnAuthorProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                //playlist.getUser().
-                //go to author profile
-                /*
-                currentTrack = ((currentTrack+1)%(mList.size()));
-                currentTrack = currentTrack >= mList.size() ? 0:currentTrack;
-                updateTrack(currentTrack);
-
-                 */
+                OtherProfileViewFragment fragment = new OtherProfileViewFragment(playlist.getUser());
+                FragmentTransaction t = thisFragment.getFragmentManager().beginTransaction();
+                t.replace(R.id.nav_host_fragment, fragment);
+                t.addToBackStack(null);
+                t.commit();
             }
         });
+
+
 
     }
 
@@ -159,9 +194,14 @@ public class PlaylistFragment extends Fragment implements PlaylistCallback, Trac
 
     @Override
     public void onPlaylistFollowed() {
-        playlist.setFollowed(true);
-        btnFollow.setVisibility(View.GONE);
-        btnFollowing.setVisibility(View.VISIBLE);
+        playlist.setFollowed(!playlist.isFollowed());
+        if(playlist.isFollowed()) {
+            btnFollow.setVisibility(View.GONE);
+            btnFollowing.setVisibility(View.VISIBLE);
+        }else{
+            btnFollow.setVisibility(View.VISIBLE);
+            btnFollowing.setVisibility(View.GONE);
+        }
     }
 
     @Override

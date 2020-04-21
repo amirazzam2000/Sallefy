@@ -12,4 +12,6 @@ public interface UserCallback extends FailureCallback {
     void onRegisterSuccess();
     void onRegisterFailure(Throwable throwable);
     void onUserInfoReceived(User userData);
+    void onUserFollowed(boolean value);
+    void onUserSelected(User user);
 }

@@ -18,6 +18,7 @@ public class MusicPlayBackManager implements MusicCallback{
     private static MusicPlayBackManager music;
     private MusicService mBoundService;
     private boolean mServiceBound = false;
+    private boolean isPlaying = false;
     private ArrayList<Track> mList;
     private int currentTrack;
     private int mDuration;
@@ -103,6 +104,14 @@ public class MusicPlayBackManager implements MusicCallback{
 
     public  ServiceConnection getMServiceConnection() {
         return mServiceConnection;
+    }
+
+    public boolean isPlaying() {
+        return isPlaying;
+    }
+
+    public void setPlaying(boolean playing) {
+        isPlaying = playing;
     }
 
     public void setMServiceConnection(ServiceConnection mServiceConnection) {
