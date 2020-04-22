@@ -64,9 +64,9 @@ public class SearchResults extends Fragment implements TrackListCallback, Playli
     public SearchResults(String search,Search searchResults){
         this.searchResults = searchResults;
         searchString = search;
-        aux10Tracks = new Track[9];
-        aux10Playlist = new Playlist[9];
-        aux10Users = new User[9];
+        aux10Tracks = new Track[4];
+        aux10Playlist = new Playlist[4];
+        aux10Users = new User[4];
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -90,8 +90,8 @@ public class SearchResults extends Fragment implements TrackListCallback, Playli
         mRecyclerVieSongs = (RecyclerView) v.findViewById(R.id.dynamic_recyclerViewSong);
         LinearLayoutManager manager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
         TrackListAdapterVertical adapter = null;
-        if (searchResults.getFoundSongs().size() > 9){
-            for (int i = 0; i < 9; i++) {
+        if (searchResults.getFoundSongs().size() > 4){
+            for (int i = 0; i < 4; i++) {
                 aux10Tracks[i] = searchResults.getFoundSongs().get(i);
             }
             adapter = new TrackListAdapterVertical(this, getActivity(), new ArrayList<Track>(Arrays.asList(aux10Tracks)));
@@ -109,8 +109,8 @@ public class SearchResults extends Fragment implements TrackListCallback, Playli
         mRecyclerViePlaylist = (RecyclerView) v.findViewById(R.id.dynamic_recyclerViewPlayList);
         LinearLayoutManager managerPlaylist = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
         TrackListAdapterVerticalPlaylist adapterPlaylist = null;
-        if (searchResults.getFoundPlaylists().size() > 9){
-            for (int i = 0; i < 9; i++) {
+        if (searchResults.getFoundPlaylists().size() > 4){
+            for (int i = 0; i < 4; i++) {
                 aux10Playlist[i] = searchResults.getFoundPlaylists().get(i);
             }
             adapterPlaylist = new TrackListAdapterVerticalPlaylist(this, getActivity(), new ArrayList<Playlist>(Arrays.asList(aux10Playlist)));
@@ -128,8 +128,8 @@ public class SearchResults extends Fragment implements TrackListCallback, Playli
         mRecyclerVieUsers = (RecyclerView) v.findViewById(R.id.dynamic_recyclerViewUser);
         LinearLayoutManager managerUser = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
         TrackListAdapterVerticalUser adapterUser = null;
-        if (searchResults.getFoundUsers().size() > 9){
-            for (int i = 0; i < 9; i++) {
+        if (searchResults.getFoundUsers().size() > 4){
+            for (int i = 0; i < 4; i++) {
                 aux10Users[i] = (User)searchResults.getFoundUsers().get(i);
             }
             adapterUser = new TrackListAdapterVerticalUser(this, getActivity(), new ArrayList<User>(Arrays.asList(aux10Users)));

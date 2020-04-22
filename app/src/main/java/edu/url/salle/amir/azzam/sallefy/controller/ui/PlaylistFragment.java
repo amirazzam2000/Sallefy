@@ -221,6 +221,7 @@ public class PlaylistFragment extends Fragment implements PlaylistCallback, Trac
 
     @Override
     public void onTrackSelected(int index, ArrayList<Track> tracks) {
-
+        MusicControllerFragment musicFragment = (MusicControllerFragment) getFragmentManager().findFragmentById(R.id.musicPlayer);
+        musicFragment.updateTrack(index, tracks);
     }
 }

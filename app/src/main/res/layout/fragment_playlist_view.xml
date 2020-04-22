@@ -120,10 +120,9 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/dynamic_recyclerViewSong"
-            android:layout_width="387dp"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_marginHorizontal="10dp"
-            android:layout_marginBottom="200dp"
             android:background="@drawable/button_background_dark"
             app:layout_constraintBottom_toTopOf="@+id/linearLayout"
             app:layout_constraintEnd_toEndOf="parent"
@@ -131,6 +130,10 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"/>
     </LinearLayout>
+
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
