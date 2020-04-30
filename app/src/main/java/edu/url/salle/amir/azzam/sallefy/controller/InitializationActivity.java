@@ -2,6 +2,7 @@ package edu.url.salle.amir.azzam.sallefy.controller;
 
 import androidx.appcompat.app.AppCompatActivity;
 import edu.url.salle.amir.azzam.sallefy.R;
+import edu.url.salle.amir.azzam.sallefy.controller.ui.HomeFragment;
 import edu.url.salle.amir.azzam.sallefy.model.User;
 import edu.url.salle.amir.azzam.sallefy.model.UserToken;
 import edu.url.salle.amir.azzam.sallefy.restapi.callback.UserCallback;
@@ -23,7 +24,11 @@ public class InitializationActivity extends AppCompatActivity implements UserCal
         setContentView(R.layout.activity_initilization);
 
         if (checkExistingPreferences()) {
-            doLogin(PreferenceUtils.getUser(this),PreferenceUtils.getPassword(this));
+           // doLogin(PreferenceUtils.getUser(this),PreferenceUtils.getPassword(this));
+            Session.getInstance(this).setUserToken(new UserToken(PreferenceUtils.getToken(this)));
+            Intent intent = new Intent(getApplicationContext(), HomePageActivity.class);
+            startActivity(intent);
+
         }else {
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(intent);
@@ -36,8 +41,10 @@ public class InitializationActivity extends AppCompatActivity implements UserCal
     }
 
     private boolean checkExistingPreferences () {
-        return PreferenceUtils.getUser(this) != null
-                && PreferenceUtils.getPassword(this) != null;
+        //return PreferenceUtils.getUser(this) != null
+        //        && PreferenceUtils.getPassword(this) != null;
+        return PreferenceUtils.getToken(this)!=null;
+
     }
 
 

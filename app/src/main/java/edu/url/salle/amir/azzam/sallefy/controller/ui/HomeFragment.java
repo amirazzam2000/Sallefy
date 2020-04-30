@@ -41,6 +41,7 @@ import edu.url.salle.amir.azzam.sallefy.controller.music.MusicService;
 import edu.url.salle.amir.azzam.sallefy.model.Like;
 import edu.url.salle.amir.azzam.sallefy.model.Playlist;
 import edu.url.salle.amir.azzam.sallefy.model.Track;
+import edu.url.salle.amir.azzam.sallefy.model.TrackRealm;
 import edu.url.salle.amir.azzam.sallefy.restapi.callback.PlaylistCallback;
 import edu.url.salle.amir.azzam.sallefy.restapi.callback.TrackCallback;
 import edu.url.salle.amir.azzam.sallefy.restapi.manager.PlaylistManager;
@@ -380,6 +381,11 @@ public class HomeFragment extends Fragment
         updateTrack(index);*/
         MusicControllerFragment musicFragment = (MusicControllerFragment) getFragmentManager().findFragmentById(R.id.musicPlayer);
         musicFragment.updateTrack(index, tracks);
+    }
+
+    @Override
+    public void onTrackOfflineSelected(int index, ArrayList<TrackRealm> tracks) {
+
     }
 
     /**********************************************************************************************

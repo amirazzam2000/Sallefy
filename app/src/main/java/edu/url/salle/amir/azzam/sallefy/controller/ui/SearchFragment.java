@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -83,6 +84,8 @@ public class SearchFragment extends Fragment implements SearchCallback {
                     if (event == null || !event.isShiftPressed()) {
                         //Toast.makeText(getContext(), searchBar.getText().toString(), Toast.LENGTH_LONG).show();
                         // the user is done typing.
+                        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(getContext().INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(searchBar.getWindowToken(), 0);
                         searchText = searchBar.getText().toString();
                         SearchManager.getInstance(getActivity()).search(searchText, searchCallback);
 

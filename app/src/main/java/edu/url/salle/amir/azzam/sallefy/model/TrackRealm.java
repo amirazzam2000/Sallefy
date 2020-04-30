@@ -1,14 +1,15 @@
 package edu.url.salle.amir.azzam.sallefy.model;
 
+import android.media.MediaPlayer;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-import io.realm.Realm;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-public class Track {
+public class TrackRealm extends RealmObject {
 
     @SerializedName("color")
     private String color;
@@ -16,18 +17,12 @@ public class Track {
     @SerializedName("duration")
     private Integer duration;
 
-    @SerializedName("genres")
-    private List<Genre> genres = null;
-
     @PrimaryKey
     @SerializedName("id")
     private Integer id;
 
     @SerializedName("name")
     private String name;
-
-    @SerializedName("owner")
-    private User user;
 
     @SerializedName("released")
     private String released;
@@ -38,14 +33,17 @@ public class Track {
     @SerializedName("url")
     private String url;
 
+    private String login;
+
     private boolean selected = false;
 
     private boolean liked;
 
-    public Track() {
+
+    public TrackRealm() {
     }
 
-    public Track(TrackRealm track) {
+    public TrackRealm(Track track) {
         this.color = track.getColor();
         this.duration = track.getDuration();
         this.id = track.getId();
@@ -53,10 +51,10 @@ public class Track {
         this.released = track.getReleased();
         this.thumbnail = track.getThumbnail();
         this.url = track.getUrl();
-        this.user = new User();
-        this.user.setLogin( track.getUserLogin());
+        this.login = track.getUserLogin();
         this.liked = track.isLiked();
     }
+
 
     public String getColor() {
         return color;
@@ -74,14 +72,6 @@ public class Track {
         this.duration = duration;
     }
 
-    public List<Genre> getGenres() {
-        return genres;
-    }
-
-    public void setGenres(List<Genre> genres) {
-        this.genres = genres;
-    }
-
     public Integer getId() {
         return id;
     }
@@ -96,23 +86,6 @@ public class Track {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public String getUserLogin() {
-        return user.getLogin();
-    }
-
-    public void setUserLogin(String userLogin) {
-        user = new User();
-        user.setLogin(userLogin);
     }
 
     public String getReleased() {
@@ -153,5 +126,9 @@ public class Track {
 
     public void setSelected(boolean selected) {
         this.selected = selected;
+    }
+
+    public String getUserLogin() {
+        return login;
     }
 }

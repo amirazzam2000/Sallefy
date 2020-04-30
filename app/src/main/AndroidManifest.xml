@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="edu.url.salle.amir.azzam.sallefy" >
+    package="edu.url.salle.amir.azzam.sallefy">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
@@ -13,8 +14,9 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_logo_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme" >
-        <activity android:name=".controller.InitializationActivity" >
+        android:theme="@style/AppTheme">
+        <activity android:name=".controller.Download"></activity>
+        <activity android:name=".controller.InitializationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -29,9 +31,8 @@
         <activity android:name=".controller.ForgotPasswordActivity" />
         <activity android:name=".controller.SignUpActivity" />
         <activity android:name=".controller.UploadActivity" />
-        <activity android:name=".controller.DynamicPlaybackActivity" />
+        <activity android:name=".controller.SongViewActivity" />
         <activity android:name=".controller.LoginActivity" />
-
 
         <service
             android:name=".controller.music.MusicService"

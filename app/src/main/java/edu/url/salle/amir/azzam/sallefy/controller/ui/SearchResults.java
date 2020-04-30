@@ -31,6 +31,7 @@ import edu.url.salle.amir.azzam.sallefy.controller.callbacks.TrackListCallback;
 import edu.url.salle.amir.azzam.sallefy.model.Playlist;
 import edu.url.salle.amir.azzam.sallefy.model.Search;
 import edu.url.salle.amir.azzam.sallefy.model.Track;
+import edu.url.salle.amir.azzam.sallefy.model.TrackRealm;
 import edu.url.salle.amir.azzam.sallefy.model.User;
 import edu.url.salle.amir.azzam.sallefy.model.UserToken;
 import edu.url.salle.amir.azzam.sallefy.restapi.callback.PlaylistCallback;
@@ -207,6 +208,11 @@ public class SearchResults extends Fragment implements TrackListCallback, Playli
     public void onTrackSelected(int index, ArrayList<Track> tracks) {
         MusicControllerFragment musicFragment = (MusicControllerFragment) getFragmentManager().findFragmentById(R.id.musicPlayer);
         musicFragment.updateTrack(index, tracks);
+    }
+
+    @Override
+    public void onTrackOfflineSelected(int index, ArrayList<TrackRealm> tracks) {
+
     }
 
     @Override

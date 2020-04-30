@@ -23,6 +23,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import edu.url.salle.amir.azzam.sallefy.controller.UploadActivity;
 import edu.url.salle.amir.azzam.sallefy.controller.UploadPlaylistActivity;
+import edu.url.salle.amir.azzam.sallefy.model.TrackRealm;
 import edu.url.salle.amir.azzam.sallefy.restapi.manager.PlaylistManager;
 import edu.url.salle.amir.azzam.sallefy.restapi.manager.TrackManager;
 import edu.url.salle.amir.azzam.sallefy.restapi.manager.UserManager;
@@ -264,6 +265,11 @@ public class ProfileFragment extends Fragment implements UserCallback, TrackList
     public void onTrackSelected(int index , ArrayList<Track> tracks) {
         MusicControllerFragment musicFragment = (MusicControllerFragment) getFragmentManager().findFragmentById(R.id.musicPlayer);
         musicFragment.updateTrack(index,tracks);
+    }
+
+    @Override
+    public void onTrackOfflineSelected(int index, ArrayList<TrackRealm> tracks) {
+
     }
 
     @Override

@@ -23,9 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.url.salle.amir.azzam.sallefy.R;
-import edu.url.salle.amir.azzam.sallefy.controller.DynamicPlaybackActivity;
-import edu.url.salle.amir.azzam.sallefy.controller.MusicViewActivity;
-import edu.url.salle.amir.azzam.sallefy.controller.UploadActivity;
+import edu.url.salle.amir.azzam.sallefy.controller.SongViewActivity;
 import edu.url.salle.amir.azzam.sallefy.controller.music.MusicCallback;
 import edu.url.salle.amir.azzam.sallefy.controller.music.MusicPlayBackManager;
 import edu.url.salle.amir.azzam.sallefy.controller.music.MusicService;
@@ -33,7 +31,6 @@ import edu.url.salle.amir.azzam.sallefy.controller.music.MusicUpdatesCallback;
 import edu.url.salle.amir.azzam.sallefy.model.Like;
 import edu.url.salle.amir.azzam.sallefy.model.Track;
 import edu.url.salle.amir.azzam.sallefy.restapi.callback.TrackCallback;
-import edu.url.salle.amir.azzam.sallefy.restapi.manager.SongViewManger;
 import edu.url.salle.amir.azzam.sallefy.restapi.manager.TrackManager;
 import edu.url.salle.amir.azzam.sallefy.restapi.service.SongViewService;
 
@@ -138,7 +135,7 @@ public class MusicControllerFragment extends Fragment implements MusicCallback ,
         viewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getActivity(), DynamicPlaybackActivity.class);
+                Intent i = new Intent(getActivity(), SongViewActivity.class);
                 startActivity(i);
                 ((Activity) getActivity()).overridePendingTransition(0, 0);
             }
@@ -283,6 +280,37 @@ public class MusicControllerFragment extends Fragment implements MusicCallback ,
         }
 
         MusicPlayBackManager.getInstance().getMBoundService().playStream(track);
+
+        btnPlayStop.setImageResource(R.drawable.ic_pause);
+        btnPlayStop.setTag(STOP_VIEW);
+        //updateSeekBar();
+    }
+
+    public void updateTrackOffline(int index, ArrayList<Track> tracks) {
+        like.setVisibility(View.GONE);
+        unlike.setVisibility(View.VISIBLE);
+        TrackManager.getInstance(getContext()).isLiked(this, tracks.get(index).getId());
+        MusicPlayBackManager.getInstance().setMList(tracks);
+        Track track = MusicPlayBackManager.getInstance().getMList().get(index);
+        MusicPlayBackManager.getInstance().setCurrentTrack(index);
+        tvAuthor.setText(track.getUserLogin());
+        tvTitle.setText(track.getName());
+
+        if (track.getThumbnail() != null) {
+            Glide.with(getContext())
+                    .asBitmap()
+                    .placeholder(R.drawable.ic_audiotrack)
+                    .load(track.getThumbnail())
+                    .into(ivPicture);
+        }else{
+            Glide.with(getContext())
+                    .asBitmap()
+                    .placeholder(R.drawable.ic_audiotrack)
+                    .load(R.drawable.ic_logo)
+                    .into(ivPicture);
+        }
+
+        MusicPlayBackManager.getInstance().getMBoundService().playStreamInternal(track);
 
         btnPlayStop.setImageResource(R.drawable.ic_pause);
         btnPlayStop.setTag(STOP_VIEW);

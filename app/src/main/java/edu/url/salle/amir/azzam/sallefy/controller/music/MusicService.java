@@ -5,10 +5,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import edu.url.salle.amir.azzam.sallefy.model.Track;
@@ -135,6 +139,100 @@ public class MusicService extends Service {
             });
         } catch(Exception e) {
         }
+
+    }
+
+    public void playStreamInternal(Track tracks) {
+
+        if (mediaPlayer != null) {
+            try {
+                mediaPlayer.stop();
+            } catch(Exception e) {
+            }
+            mediaPlayer = null;
+        }
+
+        mTracks.add(tracks);
+        this.currentTrack++;
+        String url = mTracks.get(currentTrack).getUrl();
+
+        mediaPlayer = new MediaPlayer();
+        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                updateTrack(1);
+            }
+        });
+
+        try {
+
+            File file = new File(url);
+            FileInputStream inputStream = new FileInputStream(file);
+            mediaPlayer.setDataSource(inputStream.getFD());
+            /*Uri myUri = Uri.fromFile(new File(url)); // initialize Uri here
+            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            mediaPlayer.setDataSource(getApplicationContext(), myUri);*/
+            inputStream.close();
+            mediaPlayer.prepare();
+            mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+                    mediaPlayer.start();
+                    mCallback.onMusicPlayerPrepared();
+                }
+            });
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public MediaPlayer prepareStream(Track tracks) {
+
+        if (mediaPlayer != null) {
+            try {
+                mediaPlayer.stop();
+            } catch(Exception e) {
+            }
+            mediaPlayer = null;
+        }
+
+        mTracks.add(tracks);
+        this.currentTrack++;
+        String url = mTracks.get(currentTrack).getUrl();
+
+        mediaPlayer = new MediaPlayer();
+        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                updateTrack(1);
+            }
+        });
+
+        try {
+            mediaPlayer.setDataSource(url);
+        } catch(Exception ignored) {
+        }
+        return mediaPlayer;
+    }
+
+    public void playPreparedMusic(MediaPlayer mediaPlayer1){
+        try {
+            mediaPlayer1.prepare();
+            mediaPlayer1.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+                    mediaPlayer1.start();
+                    mCallback.onMusicPlayerPrepared();
+
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
     }
 

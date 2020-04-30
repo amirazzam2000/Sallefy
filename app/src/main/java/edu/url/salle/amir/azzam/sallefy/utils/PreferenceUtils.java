@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 
 public class PreferenceUtils {
 
+    public static final String USER_TOKEN = "User Token";
     private static String LOGIN_COLLECTION = "userPreferences";
     private static String KEY_USER = "userLogin";
     private static String KEY_PASSWORD = "password";
@@ -39,6 +40,19 @@ public class PreferenceUtils {
     public static String getPassword (Context context) {
         SharedPreferences prefs = context.getSharedPreferences(LOGIN_COLLECTION, Context.MODE_PRIVATE);
         return prefs.getString(KEY_PASSWORD, null);
+    }
+
+    public static boolean saveToken(Context context, String userToken){
+        SharedPreferences prefs = context.getSharedPreferences(LOGIN_COLLECTION, Context.MODE_PRIVATE);
+        SharedPreferences.Editor prefsEditor = prefs.edit();
+        prefsEditor.putString(USER_TOKEN, userToken);
+        prefsEditor.apply();
+        return true;
+    }
+
+    public static String getToken(Context context){
+        SharedPreferences prefs = context.getSharedPreferences(LOGIN_COLLECTION, Context.MODE_PRIVATE);
+        return prefs.getString(USER_TOKEN, null);
     }
 
     public static void resetValues(Context context) {

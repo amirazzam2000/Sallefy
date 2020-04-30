@@ -15,6 +15,7 @@ import edu.url.salle.amir.azzam.sallefy.controller.UploadPlaylistActivity;
 import edu.url.salle.amir.azzam.sallefy.controller.adapters.TrackListAdapterVerticalSelect;
 import edu.url.salle.amir.azzam.sallefy.controller.callbacks.TrackListCallback;
 import edu.url.salle.amir.azzam.sallefy.model.Track;
+import edu.url.salle.amir.azzam.sallefy.model.TrackRealm;
 
 public class ChoseSongDialog implements TrackListCallback {
 
@@ -77,6 +78,11 @@ public class ChoseSongDialog implements TrackListCallback {
 
     @Override
     public void onTrackSelected(int index, ArrayList<Track> tracks) {
+
+    }
+
+    @Override
+    public void onTrackOfflineSelected(int index, ArrayList<TrackRealm> tracks) {
 
     }
 }

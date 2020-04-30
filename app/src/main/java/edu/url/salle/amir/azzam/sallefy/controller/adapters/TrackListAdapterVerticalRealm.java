@@ -1,0 +1,115 @@
+package edu.url.salle.amir.azzam.sallefy.controller.adapters;
+
+import android.content.Context;
+import android.text.TextUtils;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+
+import java.util.ArrayList;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+import edu.url.salle.amir.azzam.sallefy.R;
+import edu.url.salle.amir.azzam.sallefy.controller.callbacks.TrackListCallback;
+import edu.url.salle.amir.azzam.sallefy.model.Track;
+import edu.url.salle.amir.azzam.sallefy.model.TrackRealm;
+
+public class TrackListAdapterVerticalRealm extends RecyclerView.Adapter<TrackListAdapterVerticalRealm.ViewHolder>{
+
+    private static final String TAG = "TrackListAdapter";
+    private ArrayList<TrackRealm> mTracks;
+    private Context mContext;
+    private TrackListCallback mCallback;
+    private int NUM_VIEWHOLDERS = 0;
+
+
+    public TrackListAdapterVerticalRealm(TrackListCallback callback, Context context, ArrayList<TrackRealm> tracks ) {
+        mTracks = tracks;
+        mContext = context;
+        mCallback = callback;
+    }
+
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        Log.d(TAG, "onCreateViewHolder: called. Num viewHolders: " + NUM_VIEWHOLDERS++);
+
+
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_track, parent, false);
+        ViewHolder vh = new TrackListAdapterVerticalRealm.ViewHolder(itemView);
+        Log.d(TAG, "onCreateViewHolder: called. viewHolder hashCode: " + vh.hashCode());
+        return vh;
+    }
+
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
+        Log.d(TAG, "onBindViewHolder: called. viewHolder hashcode: " + holder.hashCode());
+
+
+        holder.mLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCallback.onTrackOfflineSelected(position, mTracks);
+            }
+        });
+        holder.tvTitle.setText(mTracks.get(position).getName());
+        holder.tvAuthor.setText(mTracks.get(position).getUserLogin());
+
+        holder.tvTitle.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+        holder.tvTitle.setSingleLine(true);
+        holder.tvTitle.setMarqueeRepeatLimit(-1);
+        holder.tvTitle.setSelected(true);
+
+        holder.tvAuthor.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+        holder.tvAuthor.setSingleLine(true);
+        holder.tvAuthor.setMarqueeRepeatLimit(-1);
+        holder.tvAuthor.setSelected(true);
+
+        if (mTracks.get(position).getThumbnail() != null) {
+            Glide.with(mContext)
+                    .asBitmap()
+                    .placeholder(R.drawable.ic_audiotrack)
+                    .load(mTracks.get(position).getThumbnail())
+                    .into(holder.ivPicture);
+        }
+        else{
+            Glide.with(mContext)
+                    .asBitmap()
+                    .placeholder(R.drawable.ic_audiotrack)
+                    .load(R.drawable.ic_logo)
+                    .into(holder.ivPicture);
+        }
+    }
+
+    @Override
+    public int getItemCount() {
+        return mTracks != null ? mTracks.size():0;
+    }
+
+    public void updateTrackLikeStateIcon(int position, boolean isLiked) {
+        mTracks.get(position).setLiked(isLiked);
+        notifyDataSetChanged();
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+
+        LinearLayout mLayout;
+        TextView tvTitle;
+        TextView tvAuthor;
+        ImageView ivPicture;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            mLayout = itemView.findViewById(R.id.track_item_layout);
+            tvTitle = (TextView) itemView.findViewById(R.id.track_title);
+            tvAuthor = (TextView) itemView.findViewById(R.id.track_author);
+            ivPicture = (ImageView) itemView.findViewById(R.id.track_img);
+        }
+    }
+}

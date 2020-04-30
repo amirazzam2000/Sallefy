@@ -23,6 +23,7 @@ public class User implements Serializable {
         private int tracks;
         private int followers;
         private int following;
+        private boolean followed;
         private List<String> authorities = null;
 
         public int getId() {
@@ -162,5 +163,7 @@ public class User implements Serializable {
         }
 
 
-
+    public boolean isFollowed() {
+            return followed;
+    }
 }

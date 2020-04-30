@@ -140,13 +140,13 @@ public class UserManager {
 
     public synchronized void isFollowing (String login,final UserCallback playlistCallback) {
         userToken = Session.getInstance(mContext).getUserToken();
-        Call<Boolean> call = mService.isFollowing("Bearer " + userToken.getIdToken(), login);
-        call.enqueue(new Callback<Boolean>() {
+        Call<User> call = mService.isFollowing("Bearer " + userToken.getIdToken(), login);
+        call.enqueue(new Callback<User>() {
             @Override
-            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+            public void onResponse(Call<User> call, Response<User> response) {
                 int code = response.code();
                 if (response.isSuccessful()) {
-                    boolean value =  response.body();
+                    boolean value =  response.body().isFollowed();
                     playlistCallback.onUserFollowed(value);
 
                 } else {
@@ -156,7 +156,7 @@ public class UserManager {
             }
 
             @Override
-            public void onFailure(Call<Boolean> call, Throwable t) {
+            public void onFailure(Call<User> call, Throwable t) {
                 Log.d(TAG, "Error Failure: " + t.getStackTrace());
                 playlistCallback.onFailure(new Throwable("ERROR " + t.getStackTrace()));
             }
@@ -165,14 +165,13 @@ public class UserManager {
 
     public synchronized void follow (String login, final UserCallback playlistCallback) {
         userToken = Session.getInstance(mContext).getUserToken();
-        Call<Boolean> call = mService.follow("Bearer " + userToken.getIdToken(),  login);
-        call.enqueue(new Callback<Boolean>() {
+        Call<User> call = mService.follow("Bearer " + userToken.getIdToken(),  login);
+        call.enqueue(new Callback<User>() {
             @Override
-            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+            public void onResponse(Call<User> call, Response<User> response) {
                 int code = response.code();
                 if (response.isSuccessful()) {
-                    boolean value =  response.body();
-                    playlistCallback.onUserFollowed(value);
+                    playlistCallback.onUserFollowed(response.body().isFollowed());
 
                 } else {
                     Log.d(TAG, "Error Not Successful: " + code);
@@ -181,7 +180,7 @@ public class UserManager {
             }
 
             @Override
-            public void onFailure(Call<Boolean> call, Throwable t) {
+            public void onFailure(Call<User> call, Throwable t) {
                 Log.d(TAG, "Error Failure: " + t.getStackTrace());
                 playlistCallback.onFailure(new Throwable("ERROR " + t.getStackTrace()));
             }

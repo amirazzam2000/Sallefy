@@ -14,7 +14,8 @@ public class Session {
     private static Session sSession;
     private static Object mutex = new Object();
 
-    private Context mContext;
+    @SuppressLint("StaticFieldLeak")
+    private static Context mContext;
 
     private UserRegister mUserRegister;
     private User mUser;
@@ -22,6 +23,7 @@ public class Session {
 
     public static Session getInstance(Context context) {
         Session result = sSession;
+        mContext = context;
         if (result == null) {
             synchronized (mutex) {
                 result = sSession;
@@ -35,7 +37,7 @@ public class Session {
     private Session() {}
 
     public Session(Context context) {
-        this.mContext = context;
+        Session.mContext = context;
         this.mUserRegister = null;
         this.mUserToken = null;
     }
@@ -66,6 +68,8 @@ public class Session {
     }
 
     public void setUserToken(UserToken userToken) {
+        if (PreferenceUtils.getToken(mContext) == null || !PreferenceUtils.getToken(mContext).equals(userToken.getIdToken()))
+            PreferenceUtils.saveToken(mContext, userToken.getIdToken());
         this.mUserToken = userToken;
     }
 

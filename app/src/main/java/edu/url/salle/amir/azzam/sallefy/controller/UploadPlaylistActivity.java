@@ -14,6 +14,7 @@ import edu.url.salle.amir.azzam.sallefy.model.Genre;
 import edu.url.salle.amir.azzam.sallefy.model.Like;
 import edu.url.salle.amir.azzam.sallefy.model.Playlist;
 import edu.url.salle.amir.azzam.sallefy.model.Track;
+import edu.url.salle.amir.azzam.sallefy.model.TrackRealm;
 import edu.url.salle.amir.azzam.sallefy.restapi.callback.PlaylistCallback;
 import edu.url.salle.amir.azzam.sallefy.restapi.callback.TrackCallback;
 import edu.url.salle.amir.azzam.sallefy.restapi.manager.CloudinaryManager;
@@ -298,6 +299,12 @@ public class UploadPlaylistActivity extends AppCompatActivity implements TrackCa
     public void onTrackSelected(int index, ArrayList<Track> tracks) {
 
     }
+
+    @Override
+    public void onTrackOfflineSelected(int index, ArrayList<TrackRealm> tracks) {
+
+    }
+
     public void onCreatePlaylist() {
         StateDialog.getInstance(this).showStateDialog(true);
         Thread watchDialog = new Thread(new Runnable() {
