@@ -15,7 +15,8 @@
         android:roundIcon="@mipmap/ic_launcher_logo_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".controller.Download"></activity>
+        <activity android:name=".controller.LogoutActivity"></activity>
+        <activity android:name=".controller.Download" />
         <activity android:name=".controller.InitializationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

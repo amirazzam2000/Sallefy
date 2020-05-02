@@ -288,20 +288,22 @@ public class HomeFragment extends Fragment
         requestNumber++;
 
         if(requestNumber == 2) {
-            TrackListAdapter adapter = new TrackListAdapter(this, getActivity(), requestQ.poll());
-            mRecyclerViewMostPlayed.setAdapter(adapter);
 
             mBigList = requestQ.poll();
-            adapter = new TrackListAdapter(this, getActivity(), mBigList);
+            TrackListAdapter adapter = new TrackListAdapter(this, getActivity(), mBigList);
             mRecyclerViewMostRecent.setAdapter(adapter);
 
-            tvTitleBig.setText(tracks.get(0).getName());
-            tvAuthorBig.setText(tracks.get(0).getUserLogin());
-            if (tracks.get(0).getThumbnail() != null) {
+            adapter = new TrackListAdapter(this, getActivity(), requestQ.poll());
+            mRecyclerViewMostPlayed.setAdapter(adapter);
+
+
+            tvTitleBig.setText(mBigList.get(0).getName());
+            tvAuthorBig.setText(mBigList.get(0).getUserLogin());
+            if (mBigList.get(0).getThumbnail() != null) {
                 Glide.with(getContext())
                         .asBitmap()
                         .placeholder(R.drawable.ic_audiotrack)
-                        .load(tracks.get(0).getThumbnail())
+                        .load(mBigList.get(0).getThumbnail())
                         .into(ivPictureBig);
             }else{
                 Glide.with(getContext())
@@ -408,11 +410,12 @@ public class HomeFragment extends Fragment
         requestNumberPlaylist++;
 
         if(requestNumberPlaylist == 2) {
-            PlayListAdapterHorizantal adapter = new PlayListAdapterHorizantal(this, getActivity(), requestQPlaylist.poll());
-            mRecyclerViewPopularPlaylist.setAdapter(adapter);
+            PlayListAdapterHorizantal  adapter = new PlayListAdapterHorizantal(this, getActivity(), requestQPlaylist.poll());
+            mRecyclerViewRecentPlaylist.setAdapter(adapter);
 
             adapter = new PlayListAdapterHorizantal(this, getActivity(), requestQPlaylist.poll());
-            mRecyclerViewRecentPlaylist.setAdapter(adapter);
+            mRecyclerViewPopularPlaylist.setAdapter(adapter);
+
         }
     }
 

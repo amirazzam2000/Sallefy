@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +20,7 @@ import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -114,10 +117,16 @@ public class HomePageActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.settings) {
-            Toast.makeText(getApplicationContext(),"you clicked settings", Toast.LENGTH_SHORT).show();
-            Intent i = new Intent(getApplicationContext(), UploadActivity.class);
+            Intent i = new Intent(getApplicationContext(), LogoutActivity.class);
             startActivity(i);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void myMenuClicked(View view) {
+        PopupMenu popup = new PopupMenu(getApplicationContext(), view);
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.music_menu, popup.getMenu());
+        popup.show();
     }
 }

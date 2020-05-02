@@ -6,10 +6,13 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -21,6 +24,7 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import edu.url.salle.amir.azzam.sallefy.R;
 import edu.url.salle.amir.azzam.sallefy.controller.SongViewActivity;
@@ -35,7 +39,7 @@ import edu.url.salle.amir.azzam.sallefy.restapi.manager.TrackManager;
 import edu.url.salle.amir.azzam.sallefy.restapi.service.SongViewService;
 
 
-public class MusicControllerFragment extends Fragment implements MusicCallback , SongViewService, MusicUpdatesCallback, TrackCallback {
+public class MusicControllerFragment extends Fragment implements MusicCallback , SongViewService, MusicUpdatesCallback, TrackCallback, PopupMenu.OnMenuItemClickListener {
     public static final String TAG = MusicControllerFragment.class.getName();
 
     private Handler mHandler;
@@ -51,8 +55,8 @@ public class MusicControllerFragment extends Fragment implements MusicCallback ,
     private int mDuration;
 
     private Button viewButton;
-    private Button like;
-    private Button unlike;
+    /*private Button like;
+    private Button unlike;*/
 
     private static final String PLAY_VIEW = "PlayIcon";
     private static final String STOP_VIEW = "StopIcon";
@@ -141,7 +145,7 @@ public class MusicControllerFragment extends Fragment implements MusicCallback ,
             }
         });
 
-        like = v.findViewById(R.id.like_fill);
+        /*like = v.findViewById(R.id.like_fill);
         like.setVisibility(View.GONE);
 
         unlike = v.findViewById(R.id.like_unfill);
@@ -161,7 +165,7 @@ public class MusicControllerFragment extends Fragment implements MusicCallback ,
                 if (MusicPlayBackManager.getInstance().getMList() != null && MusicPlayBackManager.getInstance().getMList().size() > 0)
                     TrackManager.getInstance(getContext()).like(fragment, MusicPlayBackManager.getInstance().getMList().get(MusicPlayBackManager.getInstance().getCurrentTrack()).getId());
             }
-        });
+        });*/
     }
 
 
@@ -256,8 +260,8 @@ public class MusicControllerFragment extends Fragment implements MusicCallback ,
     }
 
     public void updateTrack(int index, ArrayList<Track> tracks) {
-        like.setVisibility(View.GONE);
-        unlike.setVisibility(View.VISIBLE);
+        /*like.setVisibility(View.GONE);
+        unlike.setVisibility(View.VISIBLE);*/
         TrackManager.getInstance(getContext()).isLiked(this, tracks.get(index).getId());
         MusicPlayBackManager.getInstance().setMList(tracks);
         Track track = MusicPlayBackManager.getInstance().getMList().get(index);
@@ -287,8 +291,8 @@ public class MusicControllerFragment extends Fragment implements MusicCallback ,
     }
 
     public void updateTrackOffline(int index, ArrayList<Track> tracks) {
-        like.setVisibility(View.GONE);
-        unlike.setVisibility(View.VISIBLE);
+        /*like.setVisibility(View.GONE);
+        unlike.setVisibility(View.VISIBLE);*/
         TrackManager.getInstance(getContext()).isLiked(this, tracks.get(index).getId());
         MusicPlayBackManager.getInstance().setMList(tracks);
         Track track = MusicPlayBackManager.getInstance().getMList().get(index);
@@ -320,8 +324,8 @@ public class MusicControllerFragment extends Fragment implements MusicCallback ,
     public void updateTrack(int index) {
         Track track = MusicPlayBackManager.getInstance().getMList().get(index);
 
-        like.setVisibility(View.GONE);
-        unlike.setVisibility(View.VISIBLE);
+        /*like.setVisibility(View.GONE);
+        unlike.setVisibility(View.VISIBLE);*/
         TrackManager.getInstance(getContext()).isLiked(this, track.getId());
 
         tvAuthor.setText(track.getUserLogin());
@@ -459,13 +463,13 @@ public class MusicControllerFragment extends Fragment implements MusicCallback ,
 
     @Override
     public void onLikeReceived(Like like) {
-        if(like.getLiked()){
+        /*if(like.getLiked()){
             this.like.setVisibility(View.VISIBLE);
             unlike.setVisibility(View.GONE);
         }else{
             this.like.setVisibility(View.GONE);
             unlike.setVisibility(View.VISIBLE);
-        }
+        }*/
     }
 
     @Override
@@ -496,5 +500,36 @@ public class MusicControllerFragment extends Fragment implements MusicCallback ,
     @Override
     public void onFailure(Throwable throwable) {
 
+    }
+
+    public void myMenuClicked(View v) {
+        PopupMenu popup = new PopupMenu(getContext(), v);
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.music_menu, popup.getMenu());
+        popup.show();
+    }
+
+    public void showMenu(View v) {
+        PopupMenu popup = new PopupMenu(getContext(), v);
+
+        // This activity implements OnMenuItemClickListener
+        popup.setOnMenuItemClickListener(this);
+        popup.inflate(R.menu.music_menu);
+        popup.show();
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.like:
+                if (MusicPlayBackManager.getInstance().getMList() != null && MusicPlayBackManager.getInstance().getMList().size() > 0)
+                    TrackManager.getInstance(getContext()).like(this, MusicPlayBackManager.getInstance().getMList().get(MusicPlayBackManager.getInstance().getCurrentTrack()).getId());
+                return true;
+            case R.id.download:
+                SongViewActivity.getInstance().downloadSong(MusicPlayBackManager.getInstance().getMList().get(MusicPlayBackManager.getInstance().getCurrentTrack()));
+                return true;
+            default:
+                return false;
+        }
     }
 }

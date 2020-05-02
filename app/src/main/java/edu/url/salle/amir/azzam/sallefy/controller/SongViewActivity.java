@@ -15,6 +15,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.gauravk.audiovisualizer.visualizer.BarVisualizer;
@@ -30,6 +31,7 @@ import edu.url.salle.amir.azzam.sallefy.R;
 import edu.url.salle.amir.azzam.sallefy.controller.music.MusicPlayBackManager;
 import edu.url.salle.amir.azzam.sallefy.model.Like;
 import edu.url.salle.amir.azzam.sallefy.model.Track;
+import edu.url.salle.amir.azzam.sallefy.model.TrackRealm;
 import edu.url.salle.amir.azzam.sallefy.restapi.callback.TrackCallback;
 import edu.url.salle.amir.azzam.sallefy.restapi.manager.TrackManager;
 import edu.url.salle.amir.azzam.sallefy.utils.RealmManager;
@@ -41,6 +43,8 @@ public class SongViewActivity extends AppCompatActivity implements TrackCallback
     private static final String PLAY_VIEW = "play_view";
     private static final String TAG = "DynamicPlaybackActivity";
 
+    private static SongViewActivity songViewActivity;
+
     private TextView tvTitle;
     private TextView tvAuthor;
     private ImageView ivPicture;
@@ -50,6 +54,7 @@ public class SongViewActivity extends AppCompatActivity implements TrackCallback
     private ImageButton btnForward;
     private SeekBar mSeekBar;
 
+    private boolean downloaded;
     private Button like;
     private Button unlike;
 
@@ -62,6 +67,11 @@ public class SongViewActivity extends AppCompatActivity implements TrackCallback
     private BarVisualizer mVisualizer;
 
 
+    public static SongViewActivity getInstance(){
+        if (songViewActivity == null)
+            songViewActivity = new SongViewActivity();
+        return songViewActivity;
+    }
 
 
 
@@ -227,58 +237,81 @@ public class SongViewActivity extends AppCompatActivity implements TrackCallback
             }
         });
 
+        checkDownload();
 
     }
 
-    private void downloadSong(Track t) {
-        DownloadManager downloadmanager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
-        Uri uri = Uri.parse(t.getUrl());
+    private boolean checkDownload(){
+        Track t = MusicPlayBackManager.getInstance().getMList().get(MusicPlayBackManager.getInstance().getCurrentTrack());
 
-        DownloadManager.Request request = new DownloadManager.Request(uri);
-        String name = t.getName();
-        name = name.replace(' ', '_');
-        request.setTitle(name);
-        request.setDescription("Downloading");
-        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-        request.setVisibleInDownloadsUi(true);
-        //request.setDestinationUri(Uri.parse(Environment
-         //       .getExternalStorageDirectory().toString()+ "/Sallefy/"+name +".mp3"));
-        //request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS,"Sallefy/"+name +".mp3");
-        // request.setDestinationInExternalPublicDir(String.valueOf(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)),"Sallefy/"+name +".mp3");
+        for (TrackRealm track :
+                RealmManager.getInstance(getApplicationContext()).getSongs()) {
+            if(track.getId().equals(t.getId())){
+                downloaded = true;
+                download.setVisibility(View.VISIBLE);
+                unDownload.setVisibility(View.GONE);
+                return true;
+            }
+        }
+        downloaded = false;
+        download.setVisibility(View.GONE);
+        unDownload.setVisibility(View.VISIBLE);
+        return false;
+    }
+    public void downloadSong(Track t) {
+        if (!downloaded) {
+            DownloadManager downloadmanager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+            Uri uri = Uri.parse(t.getUrl());
+
+            DownloadManager.Request request = new DownloadManager.Request(uri);
+            String name = t.getName();
+            name = name.replace(' ', '_');
+            request.setTitle(name);
+            request.setDescription("Downloading");
+            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+            request.setVisibleInDownloadsUi(true);
+            //request.setDestinationUri(Uri.parse(Environment
+            //       .getExternalStorageDirectory().toString()+ "/Sallefy/"+name +".mp3"));
+            //request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS,"Sallefy/"+name +".mp3");
+            // request.setDestinationInExternalPublicDir(String.valueOf(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)),"Sallefy/"+name +".mp3");
         /*File f = new File(String.valueOf(getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_MUSIC)));
         if (!f.exists()){
             f.mkdir();
         }*/
-        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_MUSIC,"Sallefy/"+ name +".mp3");
+            request.setDestinationInExternalPublicDir(Environment.DIRECTORY_MUSIC, "Sallefy/" + name + ".mp3");
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                == PackageManager.PERMISSION_GRANTED) {
-            // Permission is granted
-            downloadmanager.enqueue(request);
-            //t.setUrl(Environment.DIRECTORY_DOWNLOADS+"/Sallefy/"+name +".mp3");
-            //t.setUrl(String.valueOf(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS))+"/Sallefy/"+name +".mp3");
-            t.setUrl((Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC )) +"/Sallefy/"+ name +".mp3");
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED) {
+                // Permission is granted
+                downloadmanager.enqueue(request);
+                //t.setUrl(Environment.DIRECTORY_DOWNLOADS+"/Sallefy/"+name +".mp3");
+                //t.setUrl(String.valueOf(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS))+"/Sallefy/"+name +".mp3");
+                t.setUrl((Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC)) + "/Sallefy/" + name + ".mp3");
 
-            RealmManager.getInstance(getApplicationContext()).add(t);
-            unDownload.setVisibility(View.GONE);
-            download.setVisibility(View.VISIBLE);
-        }else{
-            // Permission is not granted
-            // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
+                RealmManager.getInstance(getApplicationContext()).add(t);
+                unDownload.setVisibility(View.GONE);
+                download.setVisibility(View.VISIBLE);
             } else {
-                // No explanation needed; request the permission
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 2);
+                // Permission is not granted
+                // Should we show an explanation?
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    // Show an explanation to the user *asynchronously* -- don't block
+                    // this thread waiting for the user's response! After the user
+                    // sees the explanation, try again to request the permission.
+                } else {
+                    // No explanation needed; request the permission
+                    ActivityCompat.requestPermissions(this,
+                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 2);
 
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
+                    // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                    // app-defined int constant. The callback method gets the
+                    // result of the request.
+                }
             }
+        }
+        else {
+            Toast.makeText(getApplicationContext(),"Song already downloaded", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -369,6 +402,7 @@ public class SongViewActivity extends AppCompatActivity implements TrackCallback
 
         btnPlayStop.setImageResource(R.drawable.ic_pause_circle_filled_black_24dp);
         btnPlayStop.setTag(STOP_VIEW);
+        checkDownload();
         updateSeekBar();
     }
 

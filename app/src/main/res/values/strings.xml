@@ -77,4 +77,7 @@
     <string name="uploaded_songs">Uploaded Songs</string>
     <string name="uploaded_playlists">Uploaded playlists</string>
     <string name="downloaded_songs">Downloaded Songs</string>
+    <string name="menu">menu</string>
+    <string name="like">like</string>
+    <string name="download">download</string>
 </resources>

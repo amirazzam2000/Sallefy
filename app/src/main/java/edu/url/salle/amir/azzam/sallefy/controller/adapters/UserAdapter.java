@@ -67,6 +67,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
         }else{
             holder.tvUsername.setText("User_Name");
+
+            holder.tvUsername.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+            holder.tvUsername.setSingleLine(true);
+            holder.tvUsername.setMarqueeRepeatLimit(-1);
+            holder.tvUsername.setSelected(true);
+
             Glide.with(mContext)
                 .asBitmap()
                 .placeholder(R.drawable.ic_person_black_24dp)

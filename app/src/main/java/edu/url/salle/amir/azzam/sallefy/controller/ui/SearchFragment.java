@@ -1,5 +1,6 @@
 package edu.url.salle.amir.azzam.sallefy.controller.ui;
 
+import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -12,6 +13,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +33,7 @@ public class SearchFragment extends Fragment implements SearchCallback {
 
     private EditText searchBar;
     private String searchText;
+    private ScrollView scrollView;
     /*
     private ImageButton mGenreRock;
     private ImageButton mGenreJazz;
@@ -56,6 +59,7 @@ public class SearchFragment extends Fragment implements SearchCallback {
     }
 
     private void initViews(View v) {
+        scrollView = v.findViewById(R.id.scroll);
         v.setFocusableInTouchMode(true);
         v.requestFocus();
         v.setOnKeyListener( new View.OnKeyListener()
@@ -75,6 +79,7 @@ public class SearchFragment extends Fragment implements SearchCallback {
         searchBar.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                scrollView.smoothScrollTo(1000,1000);
                 if (actionId == EditorInfo.IME_ACTION_SEARCH ||
                         actionId == EditorInfo.IME_ACTION_DONE ||
                         event != null &&
@@ -94,6 +99,16 @@ public class SearchFragment extends Fragment implements SearchCallback {
                 }
                 return false; // pass on to other listeners.
             }
+        });
+
+
+        searchBar.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                scrollView.smoothScrollTo(700,700);
+
+            }
+
         });
 
 
