@@ -242,20 +242,23 @@ public class SongViewActivity extends AppCompatActivity implements TrackCallback
     }
 
     private boolean checkDownload(){
-        Track t = MusicPlayBackManager.getInstance().getMList().get(MusicPlayBackManager.getInstance().getCurrentTrack());
+        if (MusicPlayBackManager.getInstance().getMList() != null &&
+                MusicPlayBackManager.getInstance().getMList().size() > 0 ) {
+            Track t = MusicPlayBackManager.getInstance().getMList().get(MusicPlayBackManager.getInstance().getCurrentTrack());
 
-        for (TrackRealm track :
-                RealmManager.getInstance(getApplicationContext()).getSongs()) {
-            if(track.getId().equals(t.getId())){
-                downloaded = true;
-                download.setVisibility(View.VISIBLE);
-                unDownload.setVisibility(View.GONE);
-                return true;
+            for (TrackRealm track :
+                    RealmManager.getInstance(getApplicationContext()).getSongs()) {
+                if (track.getId().equals(t.getId())) {
+                    downloaded = true;
+                    download.setVisibility(View.VISIBLE);
+                    unDownload.setVisibility(View.GONE);
+                    return true;
+                }
             }
+            downloaded = false;
+            download.setVisibility(View.GONE);
+            unDownload.setVisibility(View.VISIBLE);
         }
-        downloaded = false;
-        download.setVisibility(View.GONE);
-        unDownload.setVisibility(View.VISIBLE);
         return false;
     }
     public void downloadSong(Track t) {
