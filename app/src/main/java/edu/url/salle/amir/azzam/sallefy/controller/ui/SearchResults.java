@@ -7,13 +7,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,7 +22,6 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import edu.url.salle.amir.azzam.sallefy.R;
-import edu.url.salle.amir.azzam.sallefy.controller.adapters.TrackListAdapter;
 import edu.url.salle.amir.azzam.sallefy.controller.adapters.TrackListAdapterVertical;
 import edu.url.salle.amir.azzam.sallefy.controller.adapters.TrackListAdapterVerticalPlaylist;
 import edu.url.salle.amir.azzam.sallefy.controller.adapters.TrackListAdapterVerticalUser;
@@ -35,9 +33,7 @@ import edu.url.salle.amir.azzam.sallefy.model.TrackRealm;
 import edu.url.salle.amir.azzam.sallefy.model.User;
 import edu.url.salle.amir.azzam.sallefy.model.UserToken;
 import edu.url.salle.amir.azzam.sallefy.restapi.callback.PlaylistCallback;
-import edu.url.salle.amir.azzam.sallefy.restapi.callback.TrackCallback;
 import edu.url.salle.amir.azzam.sallefy.restapi.callback.UserCallback;
-import retrofit2.http.PUT;
 
 
 public class SearchResults extends Fragment implements TrackListCallback, PlaylistCallback , UserCallback {
@@ -51,6 +47,9 @@ public class SearchResults extends Fragment implements TrackListCallback, Playli
     private TextView playlist;
     private TextView user;
     private TextView search;
+
+
+    private Button songMore, playlistMore , usersMore;
 
     private Track[] aux10Tracks;
     private Playlist[] aux10Playlist;
@@ -82,9 +81,14 @@ public class SearchResults extends Fragment implements TrackListCallback, Playli
     private void initView(View v) {
 
         song = v.findViewById(R.id.song);
-        playlist = v.findViewById(R.id.playlist);
+        playlist = v.findViewById(R.id.users);
         user = v.findViewById(R.id.users);
         search = v.findViewById(R.id.Search);
+
+        songMore = v.findViewById(R.id.songMore);
+        usersMore = v.findViewById(R.id.userMore);
+        playlistMore = v.findViewById(R.id.playlistMore);
+
 
         search.setText("search results for \""+searchString +"\":");
 
@@ -160,7 +164,40 @@ public class SearchResults extends Fragment implements TrackListCallback, Playli
             }
         } );
 
+        songMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = new showMore((ArrayList<Track>) searchResults.getFoundSongs(),new ArrayList<>(),new ArrayList<>());
+                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.nav_host_fragment, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
 
+        playlistMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = new showMore(new ArrayList<>(),(ArrayList<Playlist>) searchResults.getFoundPlaylists(),new ArrayList<>());
+                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.nav_host_fragment, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
+        usersMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = new showMore(new ArrayList<>(),new ArrayList<>(), (ArrayList<User>) searchResults.getFoundUsers());
+                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.nav_host_fragment, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
     }
 
     @Override

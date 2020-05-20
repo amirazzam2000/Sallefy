@@ -196,6 +196,7 @@ public class UploadPlaylistActivity extends AppCompatActivity implements TrackCa
     }
 
     private void getData() {
+
         TrackManager.getInstance(this).getAllTracks(this);
     }
 
