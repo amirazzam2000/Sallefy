@@ -47,7 +47,7 @@
                 android:selectAllOnFocus="true"
                 tools:ignore="MissingConstraints" />
 
-            <TextView
+            <!-- <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
@@ -134,7 +134,7 @@
                     app:layout_constraintHorizontal_bias="0.948"
                     app:layout_constraintStart_toStartOf="parent"
                     tools:layout_editor_absoluteY="16dp" />
-            </LinearLayout>
+            </LinearLayout> -->
 
             <TextView
                 android:layout_width="match_parent"

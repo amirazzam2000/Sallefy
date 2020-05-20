@@ -39,48 +39,13 @@
                     android:background="@drawable/ic_person_black_24dp"
                     android:contentDescription="@string/users" />
 
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:background="@drawable/gradient_black" />
 
 
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    android:layout_gravity="bottom"
-                    android:layout_marginBottom="0dp"
-                    android:shadowColor="#000000"
-                    android:shadowDx="10"
-                    android:shadowDy="10"
-                    android:shadowRadius="20"
-                    android:text="@string/match_percentage"
-                    android:textAlignment="center"
 
-                    android:textColor="@color/colorWhite"
-                    android:textSize="10sp"
-                    android:textStyle="italic"
-                    tools:ignore="RtlCompat,SmallSp" />
 
-                <TextView
-                    android:id="@+id/matchPercentage"
-                    android:layout_width="match_parent"
-                    android:layout_height="31dp"
-                    android:layout_gravity="bottom"
-                    android:layout_marginBottom="0dp"
-                    android:shadowColor="#000000"
-                    android:shadowDx="10"
-                    android:shadowDy="10"
-                    android:shadowRadius="20"
-                    android:text="@string/x"
-                    android:textAlignment="center"
 
-                    android:textColor="@color/colorWhite"
-                    android:textSize="10sp"
-                    android:textStyle="italic"
-                    tools:ignore="RtlCompat,SmallSp" />
+
 
             </androidx.cardview.widget.CardView>
 
