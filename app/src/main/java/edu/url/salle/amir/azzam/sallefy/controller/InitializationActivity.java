@@ -98,6 +98,16 @@ public class InitializationActivity extends AppCompatActivity implements UserCal
     }
 
     @Override
+    public void onFollowersUserReceived() {
+
+    }
+
+    @Override
+    public void onFollowingUsersReceived() {
+
+    }
+
+    @Override
     public void onFailure(Throwable throwable) {
 
     }

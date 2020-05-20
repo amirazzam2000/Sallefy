@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -53,18 +54,20 @@ public class ProfileFragment extends Fragment implements UserCallback, TrackList
     private Button addSongs;
     private Button addPlaylist;
 
-    private Button btnFollow;
-    private Button btnFollowing;
-
     private ArrayList<Track> mUser;
     private ArrayList<Track> mMySongs;
     private ArrayList<Track> mMyPlaylists;
     private ArrayList<Track> mLikedSongs;
     private ArrayList<Track> mLikedPlaylist;
 
+    private ArrayList<User> mFollowers;
+    private ArrayList<User> mFollowing;
 
     TextView tvFollowing;
     TextView tvFollowers;
+
+    TextView tvButtonFollowers;
+    TextView tvButtonFollowing;
 
     //Queues for getting the songs
     private ConcurrentLinkedQueue<ArrayList<Track>> requestQ;
@@ -141,9 +144,11 @@ public class ProfileFragment extends Fragment implements UserCallback, TrackList
         tvFollowers = (TextView) v.findViewById(R.id.textView9);
         tvFollowing = (TextView) v.findViewById(R.id.textView10);
 
+        tvButtonFollowers = (TextView) v.findViewById(R.id.followers);
+        tvButtonFollowing = (TextView) v.findViewById(R.id.following);
+
         addSongs = (Button) v.findViewById(R.id.addSongs);
         addPlaylist = (Button) v.findViewById(R.id.addPlaylists);
-
 
         addSongs.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -161,6 +166,19 @@ public class ProfileFragment extends Fragment implements UserCallback, TrackList
                 Intent i = new Intent(getActivity(), UploadPlaylistActivity.class);
                 startActivity(i);
                 ((Activity) getActivity()).overridePendingTransition(0, 0);
+
+            }
+        });
+
+        tvButtonFollowers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = new FollowingFragment();
+                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.nav_host_fragment, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
 
             }
         });
@@ -204,11 +222,19 @@ public class ProfileFragment extends Fragment implements UserCallback, TrackList
         PlaylistManager.getInstance(getActivity()).getPlaylistsByUser(login,this);
         PlaylistManager.getInstance(getActivity()).getFollowingPlaylists(this);
 
+        UserManager.getInstance(getContext()).getFollowers(this);
+        UserManager.getInstance(getContext()).getFollowing(this);
+
         mMySongs = new ArrayList<>();
         mMyPlaylists = new ArrayList<>();
 
         mLikedSongs = new ArrayList<>();
         mLikedPlaylist = new ArrayList<>();
+
+        mFollowers = new ArrayList<>();
+        mFollowing = new ArrayList<>();
+
+        //get the followers and the following
     }
 
     @Override
@@ -247,6 +273,16 @@ public class ProfileFragment extends Fragment implements UserCallback, TrackList
 
     @Override
     public void onUserSelected(User user) {
+
+    }
+
+    @Override
+    public void onFollowersUserReceived() {
+
+    }
+
+    @Override
+    public void onFollowingUsersReceived() {
 
     }
 

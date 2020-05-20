@@ -85,8 +85,6 @@ public class UserManager {
         });
     }
 
-
-
     public synchronized void getUserData (String login, final UserCallback userCallback) {
         userToken = Session.getInstance(mContext).getUserToken();
         Call<User> call = mService.getUserById(login, "Bearer " + userToken.getIdToken());
@@ -187,5 +185,53 @@ public class UserManager {
         });
     }
 
+
+    public synchronized void getFollowers (final UserCallback userCallback) {
+        userToken = Session.getInstance(mContext).getUserToken();
+        Call<User> call = mService.getFollowers("Bearer " + userToken.getIdToken());
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                int code = response.code();
+                if (response.isSuccessful()) {
+                    userCallback.onFollowersUserReceived();
+
+                } else {
+                    Log.d(TAG, "Error Not Successful: " + code);
+                    userCallback.onFailure(new Throwable("ERROR " + code + ", " + response.raw().message()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                Log.d(TAG, "Error Failure: " + t.getStackTrace());
+                userCallback.onFailure(new Throwable("ERROR " + t.getStackTrace()));
+            }
+        });
+    }
+
+    public synchronized void getFollowing (final UserCallback userCallback) {
+        userToken = Session.getInstance(mContext).getUserToken();
+        Call<User> call = mService.getFollowing("Bearer " + userToken.getIdToken());
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                int code = response.code();
+                if (response.isSuccessful()) {
+                    userCallback.onFollowingUsersReceived();
+
+                } else {
+                    Log.d(TAG, "Error Not Successful: " + code);
+                    userCallback.onFailure(new Throwable("ERROR " + code + ", " + response.raw().message()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                Log.d(TAG, "Error Failure: " + t.getStackTrace());
+                userCallback.onFailure(new Throwable("ERROR " + t.getStackTrace()));
+            }
+        });
+    }
 
 }

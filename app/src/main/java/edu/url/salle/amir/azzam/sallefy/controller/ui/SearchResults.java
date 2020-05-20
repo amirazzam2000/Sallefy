@@ -296,4 +296,14 @@ public class SearchResults extends Fragment implements TrackListCallback, Playli
         t.commit();
     }
 
+    @Override
+    public void onFollowersUserReceived() {
+
+    }
+
+    @Override
+    public void onFollowingUsersReceived() {
+
+    }
+
 }

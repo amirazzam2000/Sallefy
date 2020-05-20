@@ -74,6 +74,7 @@ public class SearchFragment extends Fragment implements SearchCallback {
                 return false;
             }
         } );
+
         SearchCallback searchCallback = this;
         searchBar = (EditText) v.findViewById(R.id.search_bar);
         searchBar.setOnEditorActionListener(new TextView.OnEditorActionListener() {

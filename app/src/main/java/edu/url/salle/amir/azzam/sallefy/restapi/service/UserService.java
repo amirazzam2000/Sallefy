@@ -29,4 +29,11 @@ public interface UserService {
     @PUT("users/{login}/follow")
     Call<User> follow(@Header("Authorization") String token, @Path("login") String login);
 
+    @GET("me/followers")
+    Call<User> getFollowers(@Header("Authorization") String token);
+
+    @GET("me/followers")
+    Call<User> getFollowing(@Header("Authorization") String token);
+
+
 }

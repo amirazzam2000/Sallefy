@@ -183,6 +183,16 @@ public class SignUpActivity extends AppCompatActivity implements UserCallback {
     }
 
     @Override
+    public void onFollowersUserReceived() {
+
+    }
+
+    @Override
+    public void onFollowingUsersReceived() {
+
+    }
+
+    @Override
     public void onFailure(Throwable throwable) {
 
     }

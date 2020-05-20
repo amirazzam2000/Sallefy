@@ -14,4 +14,6 @@ public interface UserCallback extends FailureCallback {
     void onUserInfoReceived(User userData);
     void onUserFollowed(boolean value);
     void onUserSelected(User user);
+    void onFollowersUserReceived();
+    void onFollowingUsersReceived();
 }
