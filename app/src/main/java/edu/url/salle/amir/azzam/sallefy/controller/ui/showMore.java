@@ -45,11 +45,7 @@ public class showMore extends Fragment implements TrackCallback, PlaylistCallbac
         showMore.tracks = tracks;
         showMore.playlists = playlists;
         showMore.users = users;
-
     }
-
-
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -254,5 +250,15 @@ public class showMore extends Fragment implements TrackCallback, PlaylistCallbac
         FragmentTransaction t = this.getFragmentManager().beginTransaction();
         t.replace(R.id.nav_host_fragment, fragment);
         t.commit();
+    }
+
+    @Override
+    public void onFollowersUserReceived(List<User> followers) {
+
+    }
+
+    @Override
+    public void onFollowingUsersReceived(List<User> following) {
+
     }
 }

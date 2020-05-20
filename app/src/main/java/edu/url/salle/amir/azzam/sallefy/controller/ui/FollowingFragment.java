@@ -3,46 +3,50 @@ package edu.url.salle.amir.azzam.sallefy.controller.ui;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import edu.url.salle.amir.azzam.sallefy.R;
+import edu.url.salle.amir.azzam.sallefy.controller.adapters.TrackListAdapterVertical;
+import edu.url.salle.amir.azzam.sallefy.controller.adapters.TrackListAdapterVerticalPlaylist;
+import edu.url.salle.amir.azzam.sallefy.controller.adapters.TrackListAdapterVerticalUser;
+import edu.url.salle.amir.azzam.sallefy.model.User;
+import edu.url.salle.amir.azzam.sallefy.model.UserToken;
+import edu.url.salle.amir.azzam.sallefy.restapi.callback.UserCallback;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link FollowingFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FollowingFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+public class FollowingFragment extends Fragment implements UserCallback {
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private final ArrayList<User> users;
+    private RecyclerView mRecyclerView;
 
-    public FollowingFragment() {
+    public FollowingFragment(ArrayList<User> users) {
         // Required empty public constructor
+        this.users = users;
     }
 
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment FollowingFragment.
      */
-    // TODO: Rename and change types and number of parameters
-    public static FollowingFragment newInstance(String param1, String param2) {
-        FollowingFragment fragment = new FollowingFragment();
+
+    public static FollowingFragment newInstance(ArrayList<User> users) {
+        FollowingFragment fragment = new FollowingFragment(users);
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -50,16 +54,76 @@ public class FollowingFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_following, container, false);
+        View root = inflater.inflate(R.layout.fragment_following, container, false);
+        initView(root);
+        return root;
+    }
+    private void initView(View v) {
+        mRecyclerView = (RecyclerView) v.findViewById(R.id.userList);
+        LinearLayoutManager managerP2 = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
+        mRecyclerView.setLayoutManager(managerP2);
+
+        if (users.size() >= 1){
+            TrackListAdapterVerticalUser adapter = new TrackListAdapterVerticalUser(this, getActivity(), users);
+            mRecyclerView.setAdapter(adapter);
+        }
+    }
+
+    @Override
+    public void onLoginSuccess(UserToken userToken) {
+
+    }
+
+    @Override
+    public void onLoginFailure(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onRegisterSuccess() {
+
+    }
+
+    @Override
+    public void onRegisterFailure(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onUserInfoReceived(User userData) {
+
+    }
+
+    @Override
+    public void onUserFollowed(boolean value) {
+
+    }
+
+    @Override
+    public void onUserSelected(User user) {
+        OtherProfileViewFragment fragment = new OtherProfileViewFragment(user);
+        FragmentTransaction t = this.getFragmentManager().beginTransaction();
+        t.replace(R.id.nav_host_fragment, fragment);
+        t.commit();
+    }
+
+    @Override
+    public void onFollowersUserReceived(List<User> followers) {
+
+    }
+
+    @Override
+    public void onFollowingUsersReceived(List<User> following) {
+
+    }
+
+    @Override
+    public void onFailure(Throwable throwable) {
+
     }
 }

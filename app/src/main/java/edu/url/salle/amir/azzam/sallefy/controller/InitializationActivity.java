@@ -15,6 +15,8 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class InitializationActivity extends AppCompatActivity implements UserCallback {
 
@@ -98,12 +100,12 @@ public class InitializationActivity extends AppCompatActivity implements UserCal
     }
 
     @Override
-    public void onFollowersUserReceived() {
+    public void onFollowersUserReceived(List<User> followers) {
 
     }
 
     @Override
-    public void onFollowingUsersReceived() {
+    public void onFollowingUsersReceived(List<User> following) {
 
     }
 

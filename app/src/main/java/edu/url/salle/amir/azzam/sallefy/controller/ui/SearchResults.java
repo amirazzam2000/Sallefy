@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -334,12 +335,12 @@ public class SearchResults extends Fragment implements TrackListCallback, Playli
     }
 
     @Override
-    public void onFollowersUserReceived() {
+    public void onFollowersUserReceived(List<User> followers) {
 
     }
 
     @Override
-    public void onFollowingUsersReceived() {
+    public void onFollowingUsersReceived(List<User> following) {
 
     }
 

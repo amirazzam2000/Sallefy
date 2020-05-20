@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import java.util.List;
 import java.util.Objects;
 
 public class SignUpActivity extends AppCompatActivity implements UserCallback {
@@ -183,12 +184,12 @@ public class SignUpActivity extends AppCompatActivity implements UserCallback {
     }
 
     @Override
-    public void onFollowersUserReceived() {
+    public void onFollowersUserReceived(List<User> followers) {
 
     }
 
     @Override
-    public void onFollowingUsersReceived() {
+    public void onFollowingUsersReceived(List<User> following) {
 
     }
 

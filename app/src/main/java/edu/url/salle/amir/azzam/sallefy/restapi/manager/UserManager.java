@@ -5,6 +5,8 @@ import android.os.Build;
 import android.util.Log;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.RequiresApi;
 import edu.url.salle.amir.azzam.sallefy.model.Playlist;
@@ -188,13 +190,13 @@ public class UserManager {
 
     public synchronized void getFollowers (final UserCallback userCallback) {
         userToken = Session.getInstance(mContext).getUserToken();
-        Call<User> call = mService.getFollowers("Bearer " + userToken.getIdToken());
-        call.enqueue(new Callback<User>() {
+        Call<List<User>> call = mService.getFollowers("Bearer " + userToken.getIdToken());
+        call.enqueue(new Callback<List<User>>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
+            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
                 int code = response.code();
                 if (response.isSuccessful()) {
-                    userCallback.onFollowersUserReceived();
+                    userCallback.onFollowersUserReceived((ArrayList<User>) response.body());
 
                 } else {
                     Log.d(TAG, "Error Not Successful: " + code);
@@ -203,7 +205,7 @@ public class UserManager {
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
+            public void onFailure(Call<List<User>> call, Throwable t) {
                 Log.d(TAG, "Error Failure: " + t.getStackTrace());
                 userCallback.onFailure(new Throwable("ERROR " + t.getStackTrace()));
             }
@@ -212,13 +214,13 @@ public class UserManager {
 
     public synchronized void getFollowing (final UserCallback userCallback) {
         userToken = Session.getInstance(mContext).getUserToken();
-        Call<User> call = mService.getFollowing("Bearer " + userToken.getIdToken());
-        call.enqueue(new Callback<User>() {
+        Call<List<User>> call = mService.getFollowing("Bearer " + userToken.getIdToken());
+        call.enqueue(new Callback<List<User>>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
+            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
                 int code = response.code();
                 if (response.isSuccessful()) {
-                    userCallback.onFollowingUsersReceived();
+                    userCallback.onFollowingUsersReceived((ArrayList<User>) response.body());
 
                 } else {
                     Log.d(TAG, "Error Not Successful: " + code);
@@ -227,7 +229,7 @@ public class UserManager {
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
+            public void onFailure(Call<List<User>> call, Throwable t) {
                 Log.d(TAG, "Error Failure: " + t.getStackTrace());
                 userCallback.onFailure(new Throwable("ERROR " + t.getStackTrace()));
             }

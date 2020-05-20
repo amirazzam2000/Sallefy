@@ -235,12 +235,12 @@ public class OtherProfileViewFragment extends Fragment  implements UserCallback,
     }
 
     @Override
-    public void onFollowersUserReceived() {
+    public void onFollowersUserReceived(List<User> followers) {
 
     }
 
     @Override
-    public void onFollowingUsersReceived() {
+    public void onFollowingUsersReceived(List<User> following) {
 
     }
 

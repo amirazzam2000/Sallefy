@@ -1,5 +1,7 @@
 package edu.url.salle.amir.azzam.sallefy.restapi.callback;
 
+import java.util.List;
+
 import edu.url.salle.amir.azzam.sallefy.model.User;
 import edu.url.salle.amir.azzam.sallefy.model.UserToken;
 import edu.url.salle.amir.azzam.sallefy.restapi.callback.FailureCallback;
@@ -14,6 +16,6 @@ public interface UserCallback extends FailureCallback {
     void onUserInfoReceived(User userData);
     void onUserFollowed(boolean value);
     void onUserSelected(User user);
-    void onFollowersUserReceived();
-    void onFollowingUsersReceived();
+    void onFollowersUserReceived(List<User> followers);
+    void onFollowingUsersReceived(List<User> following);
 }

@@ -173,13 +173,24 @@ public class ProfileFragment extends Fragment implements UserCallback, TrackList
         tvButtonFollowers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Fragment fragment = new FollowingFragment();
+                Fragment fragment = new FollowingFragment(mFollowers);
                 FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.nav_host_fragment, fragment);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
+            }
+        });
 
+        tvButtonFollowing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = new FollowingFragment(mFollowing);
+                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.nav_host_fragment, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
         });
 
@@ -277,13 +288,13 @@ public class ProfileFragment extends Fragment implements UserCallback, TrackList
     }
 
     @Override
-    public void onFollowersUserReceived() {
-
+    public void onFollowersUserReceived(List<User> followers) {
+        mFollowers = (ArrayList<User>) followers;
     }
 
     @Override
-    public void onFollowingUsersReceived() {
-
+    public void onFollowingUsersReceived(List<User> following) {
+        mFollowing = (ArrayList<User>) following;
     }
 
     @Override
