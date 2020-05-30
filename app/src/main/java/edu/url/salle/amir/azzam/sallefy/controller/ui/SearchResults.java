@@ -78,11 +78,11 @@ public class SearchResults extends Fragment implements TrackListCallback, Playli
         return root;
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint({"SetTextI18n", "CutPasteId"})
     private void initView(View v) {
 
         song = v.findViewById(R.id.song);
-        playlist = v.findViewById(R.id.users);
+        playlist = v.findViewById(R.id.playlist);
         user = v.findViewById(R.id.users);
         search = v.findViewById(R.id.Search);
 
@@ -110,6 +110,7 @@ public class SearchResults extends Fragment implements TrackListCallback, Playli
         mRecyclerVieSongs.setAdapter(adapter);
         if( searchResults.getFoundSongs().size() == 0){
             song.setVisibility(View.GONE);
+            songMore.setVisibility(View.GONE);
         }
 
         mRecyclerViePlaylist = (RecyclerView) v.findViewById(R.id.dynamic_recyclerViewPlayList);
@@ -128,6 +129,7 @@ public class SearchResults extends Fragment implements TrackListCallback, Playli
         mRecyclerViePlaylist.setAdapter(adapterPlaylist);
         if( searchResults.getFoundPlaylists().size() == 0){
             playlist.setVisibility(View.GONE);
+            playlistMore.setVisibility(View.GONE);
         }
 
 
@@ -147,6 +149,7 @@ public class SearchResults extends Fragment implements TrackListCallback, Playli
         mRecyclerVieUsers.setAdapter(adapterUser);
         if( searchResults.getFoundUsers().size() == 0){
             user.setVisibility(View.GONE);
+            usersMore.setVisibility(View.GONE);
         }
 
 

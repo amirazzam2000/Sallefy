@@ -131,13 +131,12 @@
                 android:id="@+id/userMore"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="200dp"
                 android:background="@android:color/transparent"
                 android:text="@string/show_more" />
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="200dp"/>
+                android:layout_height="300dp"/>
 
 
         </LinearLayout>

@@ -8,12 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.chootdev.blurimg.BlurImage;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -24,7 +22,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import edu.url.salle.amir.azzam.sallefy.R;
-import edu.url.salle.amir.azzam.sallefy.controller.MusicViewActivity;
 import edu.url.salle.amir.azzam.sallefy.controller.adapters.TrackListAdapterVertical;
 import edu.url.salle.amir.azzam.sallefy.controller.callbacks.TrackListCallback;
 import edu.url.salle.amir.azzam.sallefy.model.Playlist;
@@ -32,7 +29,6 @@ import edu.url.salle.amir.azzam.sallefy.model.Track;
 import edu.url.salle.amir.azzam.sallefy.model.TrackRealm;
 import edu.url.salle.amir.azzam.sallefy.restapi.callback.PlaylistCallback;
 import edu.url.salle.amir.azzam.sallefy.restapi.manager.PlaylistManager;
-import edu.url.salle.amir.azzam.sallefy.restapi.manager.SongViewManger;
 import edu.url.salle.amir.azzam.sallefy.utils.PreferenceUtils;
 
 public class PlaylistFragment extends Fragment implements PlaylistCallback, TrackListCallback {

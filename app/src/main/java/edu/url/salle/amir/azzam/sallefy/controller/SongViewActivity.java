@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -172,6 +173,10 @@ public class SongViewActivity extends AppCompatActivity implements TrackCallback
             Track track = MusicPlayBackManager.getInstance().getMList().get(MusicPlayBackManager.getInstance().getCurrentTrack());
             tvAuthor.setText(track.getUserLogin());
             tvTitle.setText(track.getName());
+            tvTitle.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+            tvTitle.setSingleLine(true);
+            tvTitle.setMarqueeRepeatLimit(-1);
+            tvTitle.setSelected(true);
 
             if (track.getThumbnail() != null) {
                 Glide.with((getApplicationContext()))
@@ -386,6 +391,10 @@ public class SongViewActivity extends AppCompatActivity implements TrackCallback
 
         tvAuthor.setText(track.getUserLogin());
         tvTitle.setText(track.getName());
+        tvTitle.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+        tvTitle.setSingleLine(true);
+        tvTitle.setMarqueeRepeatLimit(-1);
+        tvTitle.setSelected(true);
 
         if (track.getThumbnail() != null) {
             Glide.with((getApplicationContext()))

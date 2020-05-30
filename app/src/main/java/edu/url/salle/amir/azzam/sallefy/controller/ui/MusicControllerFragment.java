@@ -10,6 +10,7 @@ import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -268,6 +269,10 @@ public class MusicControllerFragment extends Fragment implements MusicCallback ,
         MusicPlayBackManager.getInstance().setCurrentTrack(index);
         tvAuthor.setText(track.getUserLogin());
         tvTitle.setText(track.getName());
+        tvTitle.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+        tvTitle.setSingleLine(true);
+        tvTitle.setMarqueeRepeatLimit(-1);
+        tvTitle.setSelected(true);
 
         if (track.getThumbnail() != null) {
             Glide.with(getContext())
@@ -299,6 +304,10 @@ public class MusicControllerFragment extends Fragment implements MusicCallback ,
         MusicPlayBackManager.getInstance().setCurrentTrack(index);
         tvAuthor.setText(track.getUserLogin());
         tvTitle.setText(track.getName());
+        tvTitle.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+        tvTitle.setSingleLine(true);
+        tvTitle.setMarqueeRepeatLimit(-1);
+        tvTitle.setSelected(true);
 
         if (track.getThumbnail() != null) {
             Glide.with(getContext())
@@ -330,6 +339,10 @@ public class MusicControllerFragment extends Fragment implements MusicCallback ,
 
         tvAuthor.setText(track.getUserLogin());
         tvTitle.setText(track.getName());
+        tvTitle.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+        tvTitle.setSingleLine(true);
+        tvTitle.setMarqueeRepeatLimit(-1);
+        tvTitle.setSelected(true);
 
         if (track.getThumbnail() != null) {
             Glide.with(getContext())
@@ -385,6 +398,10 @@ public class MusicControllerFragment extends Fragment implements MusicCallback ,
         if (track != null) {
             tvAuthor.setText(track.getUserLogin());
             tvTitle.setText(track.getName());
+            tvTitle.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+            tvTitle.setSingleLine(true);
+            tvTitle.setMarqueeRepeatLimit(-1);
+            tvTitle.setSelected(true);
             if (track.getThumbnail() != null) {
                 Glide.with(getContext())
                         .asBitmap()

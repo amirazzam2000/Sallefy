@@ -7,6 +7,8 @@ import edu.url.salle.amir.azzam.sallefy.model.User;
 import edu.url.salle.amir.azzam.sallefy.model.UserToken;
 import edu.url.salle.amir.azzam.sallefy.restapi.callback.UserCallback;
 import edu.url.salle.amir.azzam.sallefy.restapi.manager.UserManager;
+import edu.url.salle.amir.azzam.sallefy.utils.PreferenceUtils;
+import edu.url.salle.amir.azzam.sallefy.utils.Session;
 
 import android.content.Intent;
 import android.os.Build;
@@ -146,8 +148,16 @@ public class SignUpActivity extends AppCompatActivity implements UserCallback {
 
     @Override
     public void onLoginSuccess(UserToken userToken) {
-        Intent i = new Intent(getApplicationContext(), HomePageActivity.class);
-        startActivity(i);
+        Session.getInstance(getApplicationContext())
+                .setUserToken(userToken);
+        PreferenceUtils.saveUser(this, username.getText().toString());
+        PreferenceUtils.savePassword(this, password.getText().toString());
+
+        UserManager.getInstance(this).getUserData(username.getText().toString(), this);
+
+        //Intent intent = new Intent(getApplicationContext(), HomePageActivity.class);
+        Intent intent = new Intent(getApplicationContext(), HomePageActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -170,7 +180,14 @@ public class SignUpActivity extends AppCompatActivity implements UserCallback {
 
     @Override
     public void onUserInfoReceived(User userData) {
+        Session.getInstance(getApplicationContext())
+                .setUser(userData);
+        //Intent intent= new Intent();
+        System.out.println("i'm here");
+        //Intent intent = new Intent();
+        //setResult(Constants.NETWORK.LOGIN_OK,intent);
 
+        finish();
     }
 
     @Override

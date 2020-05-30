@@ -32,7 +32,7 @@ public interface UserService {
     @GET("me/followers")
     Call<List<User>> getFollowers(@Header("Authorization") String token);
 
-    @GET("me/followers")
+    @GET("me/followings")
     Call<List<User>> getFollowing(@Header("Authorization") String token);
 
 
